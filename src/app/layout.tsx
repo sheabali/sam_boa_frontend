@@ -10,8 +10,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Insightify",
-  description: "Transform Voice, Images, and Videos into Text",
+  title: "Starter kit",
+  description: "starter kit for nextjs with redux with persist",
 };
 
 export default function RootLayout({
