@@ -7,7 +7,7 @@ import { HiEye, HiEyeOff } from "react-icons/hi"; // React Icons
 interface MyFormInputProps {
   type?: string; // Input type, defaults to "text"
   name: string; // Field name for react-hook-form
-  label: string; // Label text
+  label?: string; // Label text
   onValueChange?: (value: string) => void; // Optional callback for value changes
   required?: boolean; // Optional required validation, default is true
   className?: string; // Custom className for input container
