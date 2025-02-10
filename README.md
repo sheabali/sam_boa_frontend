@@ -80,3 +80,10 @@ To run this project, you will need to add the following environment variables to
 
 `NEXT_PUBLIC_BASE_URL` = `http://localhost:5000/api/v1`
 
+
+## Contributing
+
+ Contributions are always welcome!
+
+ Note: This starter in under development so there may have bug or any issues. if you find something irrelevant kindly contact with the developer.
+
