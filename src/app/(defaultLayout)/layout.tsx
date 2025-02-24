@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Insightify",
-  description: "Transform Voice, Images, and Videos into Text",
+  title: "",
+  description: "",
 };
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
