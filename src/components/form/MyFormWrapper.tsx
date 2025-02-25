@@ -6,26 +6,30 @@ import { cn } from "@/lib/utils";
 
 interface MyFormWrapperProps {
   onSubmit: (data: any) => void;
+  isReset?: boolean;
   className?: string;
   children: React.ReactNode;
   defaultValues?: any;
   resolver?: import("react-hook-form").Resolver<any, any>;
   setFormState?: (data: any) => void; // Optional state setter function
+  externalErrors?: { [key: string]: string };
 }
 
 const MyFormWrapper = ({
   onSubmit,
+  isReset,
   className,
   children,
   defaultValues,
   resolver,
   setFormState, // Optional setter function
+  externalErrors, // API errors
 }: MyFormWrapperProps) => {
   const methods = useForm({
     defaultValues,
     resolver,
   });
-  const { handleSubmit, reset, control } = methods;
+  const { handleSubmit, reset, control, setError } = methods;
 
   // Watch the entire form state
   const formValues = useWatch({ control });
@@ -36,6 +40,15 @@ const MyFormWrapper = ({
     }
   }, [defaultValues, reset]);
 
+  // Apply external API errors to form fields
+  useEffect(() => {
+    if (externalErrors) {
+      Object.entries(externalErrors).forEach(([key, message]) => {
+        setError(key, { type: "server", message });
+      });
+    }
+  }, [externalErrors, setError]);
+
   // Update external state on change
   useEffect(() => {
     if (setFormState) {
@@ -43,9 +56,14 @@ const MyFormWrapper = ({
     }
   }, [formValues, setFormState]);
 
+  useEffect(() => {
+    if (isReset) {
+      reset();
+    }
+  }, [isReset, reset]);
+
   const submit = (data: any) => {
     onSubmit(data);
-    reset();
   };
 
   return (

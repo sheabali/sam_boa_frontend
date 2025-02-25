@@ -80,18 +80,24 @@ const MyFormInput = ({
         render={({ field, fieldState: { error } }) => (
           <div className="relative">
             {type === "textarea" ? (
-              <textarea
-                {...field}
-                id={name}
-                placeholder={placeholder}
-                rows={rows || 3} // Default to 3 rows if not provided
-                className={cn(
-                  "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2",
-                  error ? "border-red-500" : "border-gray-300",
-                  inputClassName
-                )}
-                value={field.value ?? ""} // Ensures controlled component
-              />
+              <div
+                className={`p-[1px] bg-gradient-to-br from-primary/50 to-[#E39090]/50 rounded-lg w-full bg-primary`}
+              >
+                <div className="bg-background rounded-lg">
+                  <textarea
+                    {...field}
+                    id={name}
+                    placeholder={placeholder}
+                    rows={rows || 3} // Default to 3 rows if not provided
+                    className={cn(
+                      "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2",
+                      error ? "border-red-500" : "border-gray-300",
+                      inputClassName
+                    )}
+                    value={field.value ?? ""} // Ensures controlled component
+                  />
+                </div>
+              </div>
             ) : type === "radio" && radioOptions ? (
               <div className={cn("flex flex-col gap-2", radioGroupClassName)}>
                 {radioOptions?.map((option) => (
@@ -107,7 +113,7 @@ const MyFormInput = ({
                       type="radio"
                       value={option.value}
                       checked={field.value === option.value}
-                      className={cn("form-radio", radioInputClassName)}
+                      className={cn("form-radio ", radioInputClassName)}
                     />
                     <div className={cn("flex gap-2", radioItemClassName)}>
                       {option?.image && (
@@ -125,24 +131,30 @@ const MyFormInput = ({
                 ))}
               </div>
             ) : (
-              <input
-                {...field}
-                id={name}
-                placeholder={placeholder}
-                type={
-                  type === "password"
-                    ? isPasswordVisible
-                      ? "text"
-                      : "password"
-                    : type
-                }
-                className={cn(
-                  "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2",
-                  error ? "border-red-500" : "border-gray-300",
-                  inputClassName
-                )}
-                value={field.value ?? ""} // Ensures controlled component
-              />
+              <div
+                className={`p-[1px] bg-gradient-to-br from-primary/50 to-[#E39090]/50 rounded-lg w-full`}
+              >
+                <div className="bg-background rounded-lg">
+                  <input
+                    {...field}
+                    id={name}
+                    placeholder={placeholder}
+                    type={
+                      type === "password"
+                        ? isPasswordVisible
+                          ? "text"
+                          : "password"
+                        : type
+                    }
+                    className={cn(
+                      "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 ring-primary",
+                      error ? "border-red-500" : "border-gray-300",
+                      inputClassName
+                    )}
+                    value={field.value ?? ""} // Ensures controlled component
+                  />
+                </div>
+              </div>
             )}
             {type === "password" && (
               <button
