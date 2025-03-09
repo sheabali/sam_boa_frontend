@@ -80,9 +80,7 @@ const MyFormInput = ({
         render={({ field, fieldState: { error } }) => (
           <div className="relative">
             {type === "textarea" ? (
-              <div
-                className={`p-[1px] bg-gradient-to-br from-primary/50 to-[#E39090]/50 rounded-lg w-full bg-primary`}
-              >
+              <div className={`p-[1px]  rounded-lg w-full`}>
                 <div className="bg-background rounded-lg">
                   <textarea
                     {...field}
@@ -104,7 +102,7 @@ const MyFormInput = ({
                   <label
                     key={option.value}
                     className={cn(
-                      "flex items-center gap-2",
+                      "flex items-center gap-2 accent-primary",
                       radioLabelClassName
                     )}
                   >
@@ -125,55 +123,51 @@ const MyFormInput = ({
                           className={cn("w-6 h-6", radioImageClassName)}
                         />
                       )}
-                      <div>{option.label}</div>
+                      <div className="text-nowrap">{option.label}</div>
                     </div>
                   </label>
                 ))}
               </div>
             ) : (
-              <div
-                className={`p-[1px] bg-gradient-to-br from-primary/50 to-[#E39090]/50 rounded-lg w-full`}
-              >
-                <div className="bg-background rounded-lg">
-                  <input
-                    {...field}
-                    id={name}
-                    placeholder={placeholder}
-                    type={
-                      type === "password"
-                        ? isPasswordVisible
-                          ? "text"
-                          : "password"
-                        : type
-                    }
-                    className={cn(
-                      "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 ring-primary",
-                      error ? "border-red-500" : "border-gray-300",
-                      inputClassName
+              <div className={`p-[1px]  rounded-lg w-full relative`}>
+                <input
+                  {...field}
+                  id={name}
+                  placeholder={placeholder}
+                  type={
+                    type === "password"
+                      ? isPasswordVisible
+                        ? "text"
+                        : "password"
+                      : type
+                  }
+                  className={cn(
+                    "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ring-primary",
+                    error ? "border-red-500 focus:ring-0" : "border-gray-300",
+                    inputClassName
+                  )}
+                  value={field.value ?? ""} // Ensures controlled component
+                />
+                {type === "password" && (
+                  <button
+                    type="button"
+                    onClick={() => setIsPasswordVisible((prev) => !prev)}
+                    className="absolute right-3 top-2/4 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {isPasswordVisible ? (
+                      <HiEyeOff size={20} />
+                    ) : (
+                      <HiEye size={20} />
                     )}
-                    value={field.value ?? ""} // Ensures controlled component
-                  />
-                </div>
+                  </button>
+                )}
               </div>
             )}
-            {type === "password" && (
-              <button
-                type="button"
-                onClick={() => setIsPasswordVisible((prev) => !prev)}
-                className="absolute right-3 top-1/3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-                {isPasswordVisible ? (
-                  <HiEyeOff size={20} />
-                ) : (
-                  <HiEye size={20} />
-                )}
-              </button>
-            )}
-            <div className="h-4 my-1">
-              {error && (
+            {error && (
+              <div className="h-4 my-1 w-full">
                 <small className="text-red-500 text-xs">{error.message}</small>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         )}
       />

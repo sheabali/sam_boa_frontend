@@ -11,15 +11,19 @@ interface MyFormCheckboxProps {
   className?: string; // Custom className for input container
   labelClassName?: string; // Custom className for label
   checkboxClassName?: string; // Custom className for checkbox
+  highlightText?: string; // Optional highlight text for checkbox label
+  highlightLink?: string; // Optional highlight text for checkbox label
+  highlightTextClass?: string; // Optional highlight text for checkbox label
+  children?: React.ReactNode; // Optional additional children
 }
 
 const MyFormCheckbox = ({
   name,
-  consentText,
   onValueChange,
   required = false,
   className,
   checkboxClassName,
+  children,
 }: MyFormCheckboxProps) => {
   const { control, getValues } = useFormContext();
   const inputValue = useWatch({ control, name }) ?? false; // Ensures no undefined value
@@ -44,17 +48,12 @@ const MyFormCheckbox = ({
               id={name}
               type="checkbox"
               className={cn(
-                "h-4 w-4 border rounded-md focus:ring-2",
+                "h-4 w-4 border rounded-md accent-primary focus:ring-2",
                 error ? "border-red-500" : "border-gray-300",
                 checkboxClassName
               )}
             />
-            {consentText && (
-              <span
-                className="ml-2 text-sm"
-                dangerouslySetInnerHTML={{ __html: consentText }}
-              ></span>
-            )}
+            {children}
             <div className="h-4 my-1">
               {error && (
                 <small className="text-red-500 text-xs">{error.message}</small>

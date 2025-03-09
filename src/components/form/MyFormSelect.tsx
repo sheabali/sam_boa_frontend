@@ -6,6 +6,7 @@ import React, { useState } from "react";
 
 interface MyFormSelectProps {
   name: string;
+  defaultName?: string; // Default selected option value (Optional)
   label?: string;
   options: { label: string; value: string; icon?: React.ReactNode }[];
   required?: boolean;
@@ -15,10 +16,12 @@ interface MyFormSelectProps {
   setSelectedState?: (value: string | number) => void;
   upIcon?: React.ReactNode; // Custom Up Icon (Optional)
   downIcon?: React.ReactNode; // Custom Down Icon (Optional)
+  attributes?: React.SelectHTMLAttributes<HTMLSelectElement>; // Additional attributes for the select element (Optional)
 }
 
 const MyFormSelect = ({
   name,
+  defaultName,
   label,
   options,
   required = true,
@@ -28,12 +31,14 @@ const MyFormSelect = ({
   setSelectedState,
   upIcon = <FaChevronUp />, // Default Up Icon
   downIcon = <FaChevronDown />, // Default Down Icon
+  attributes,
 }: MyFormSelectProps) => {
   const { control } = useFormContext();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
 
   return (
-    <div className={cn("relative flex flex-col gap-1 w-full", className)}>
+    <div className={cn("relative flex flex-col gap-1 w-full ", className)}>
       {label && (
         <label
           htmlFor={name}
@@ -58,23 +63,30 @@ const MyFormSelect = ({
               onChange={(e) => {
                 const newValue = e.target.value;
                 onChange(newValue);
+                setSelectedValue(newValue);
                 if (setSelectedState) setSelectedState(newValue);
                 setIsOpen(false); // Fix: Close dropdown immediately after selection
               }}
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
               className={cn(
-                "w-full text-primary px-4 py-2 border rounded-md focus:outline-none focus:ring-2 appearance-none",
-                "transition-all ease-in-out ",
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ring-primary appearance-none",
+                "transition-all ease-in-out cursor-pointer disabled:cursor-not-allowed",
                 error ? "border-danger" : "border-gray-300",
-                selectClassName
+                selectClassName,
+                selectedValue ? `text-primary` : "text-gray-400" // Change text color based on selection
               )}
+              {...attributes}
             >
               <option className="text-primary" value="" disabled>
-                Select an option
+                Select {defaultName || ""}
               </option>
               {options?.map(({ label, value }) => (
-                <option className="text-primary" key={value} value={value}>
+                <option
+                  className="text-primary hover:bg-primary checked:bg-primary checked:text-white"
+                  key={value}
+                  value={value}
+                >
                   {label}
                 </option>
               ))}
