@@ -83,7 +83,7 @@ const MyFileUpload = ({
               {files.map((file: File, index: number) => (
                 <div
                   key={index}
-                  className="relative flex items-center gap-2 p-2 border rounded-md bg-white shadow-sm"
+                  className="relative flex items-center gap-2 p-2 border rounded-md bg-white shadow-xs"
                 >
                   {file.type.startsWith("image/") ? (
                     <Image

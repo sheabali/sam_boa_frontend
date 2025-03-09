@@ -44,7 +44,7 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={`flex justify-between w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ring-primary ${
+                className={`flex justify-between w-full px-4 py-2 border rounded-md focus:outline-hidden focus:ring-2 ring-primary ${
                   error ? "border-red-500 focus:ring-0" : "border-gray-300"
                 } ${inputClassName}`}
               >

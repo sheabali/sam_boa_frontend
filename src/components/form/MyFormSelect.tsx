@@ -70,7 +70,7 @@ const MyFormSelect = ({
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
               className={cn(
-                "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ring-primary appearance-none",
+                "w-full px-4 py-2 border rounded-md focus:outline-hidden focus:ring-2 ring-primary appearance-none",
                 "transition-all ease-in-out cursor-pointer disabled:cursor-not-allowed",
                 error ? "border-danger" : "border-gray-300",
                 selectClassName,
