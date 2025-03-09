@@ -1,22 +1,25 @@
-@import 'tailwindcss';
-
+@import "tailwindcss";
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: #7c45f9;
-  --color-secondary: #102f22;
-  --color-success: #102f22;
-  --color-info: #d9f4f9;
-  --color-warning: #fae4d0;
-  --color-danger: #d7191c;
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+@theme {
+  /* Light Theme */
+  --color-background: #F5F7FA;
+  --color-foreground: #1A1A1A;
+  --color-primary: #2563EB;
+  --color-secondary: #1E40AF;
+  --color-success: #22C55E;
+  --color-info: #90e0ef;
+  --color-warning: #FACC15;
+  --color-danger: #d7191c;
+}
+
+@utility flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @utility container {
@@ -30,14 +33,6 @@
   }
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
@@ -48,4 +43,5 @@
   }
 }
 
-@layer base {}
+@layer base {
+}

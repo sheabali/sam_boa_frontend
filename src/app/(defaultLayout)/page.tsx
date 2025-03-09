@@ -1,6 +1,6 @@
 const CommonLayoutHomePage = () => {
   return (
-    <div className="container">
+    <div className="">
       <h1>Home Page</h1>
     </div>
   );
