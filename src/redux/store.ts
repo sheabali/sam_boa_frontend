@@ -9,7 +9,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import baseApi from "./api/baseApi";
+import { baseApi } from "./api/baseApi";
 import rootReducer from "./features/rootReducer";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
