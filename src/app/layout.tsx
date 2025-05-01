@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import ReduxProvider from "@/redux/provider/ReduxProvider";
+import NextAuthSessionProvider from "@/lib/NextAuthSessionProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -23,7 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased`}>
         <Toaster position="bottom-right" richColors />
-        <ReduxProvider>{children}</ReduxProvider>
+        <NextAuthSessionProvider>
+          <ReduxProvider>{children}</ReduxProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

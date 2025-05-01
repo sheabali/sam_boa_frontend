@@ -29,7 +29,7 @@ export default function DashboardLayout({
       </Sheet>
 
       {/* Desktop Nav */}
-      <div className="hidden lg:block fixed inset-y-0 bg-[#ffffff] text-black left-0 w-64  bg-card">
+      <div className="hidden lg:block fixed inset-y-0 bg-white text-black left-0 w-64  bg-card">
         <Sidebar />
       </div>
 

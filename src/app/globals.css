@@ -48,3 +48,49 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+
+/* Remove the banner at top of the page */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+body .skiptranslate {
+  display: none !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+.VIpgJd-ZVi9od-ORHb-OEVmcd.skiptranslate {
+  visibility: hidden !important;
+  height: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+/*  Custom upload styles and hover */
+.ant-upload-wrapper :hover.ant-upload-drag {
+  border-color: var(--color-primary) !important;
+}
+
+/* Custom pagination styles */
+.custom-pagination .ant-pagination-item-active {
+  border-color: var(--color-primary) !important;
+}
+.custom-pagination .ant-pagination-item-active a {
+  color: var(--color-primary) !important;
+}
+
+.custom-pagination .ant-pagination-item:hover {
+  background-color: var(--color-primary) !important;
+}
+
+.custom-pagination .ant-pagination-item:hover a {
+  color: white !important;
+}
+
+.custom-spinner .ant-spin-dot {
+  color: var(--color-primary) !important;
+}

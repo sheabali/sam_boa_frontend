@@ -15,21 +15,41 @@ if (!baseUrl) {
   throw new Error("Environment variable NEXT_PUBLIC_BASE_URL is not set");
 }
 
-export const baseApi = createApi({
-  reducerPath: "baseApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+const baseQueryWithAuth: ReturnType<typeof fetchBaseQuery> = async (
+  args,
+  api,
+  extraOptions
+) => {
+  const rawBaseQuery = fetchBaseQuery({
+    baseUrl,
     prepareHeaders: (headers, { getState }) => {
-      const state = getState() as RootState;
-      const token = state?.auth?.token;
-
+      const token = (getState() as RootState).auth?.token;
       if (token) {
         headers.set("Authorization", `${token}`);
       }
-
       return headers;
     },
-  }),
+  });
+
+  const result = await rawBaseQuery(args, api, extraOptions);
+
+  if (
+    result.error &&
+    (result.error.status === 401 || result.error.status === 403)
+  ) {
+    api.dispatch(logout());
+    // Redirect to login page
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+  }
+
+  return result;
+};
+
+export const baseApi = createApi({
+  reducerPath: "baseApi",
+  baseQuery: baseQueryWithAuth,
   tagTypes: ["User"],
   endpoints: (builder) => ({}),
 });
@@ -37,7 +57,7 @@ export const baseApi = createApi({
 //* for refresh token use this following setup of base api
 //* Change the refresh api url (if needed)
 //* change the error structure (if needed)
-//* change the token name if your getting accessToken named then change it according to your data.
+//* change the token name if you are not getting token as a accessToken named then change it according to your data.
 //* if you want you can handle other status code (if needed), currently only 401 handled.
 
 // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

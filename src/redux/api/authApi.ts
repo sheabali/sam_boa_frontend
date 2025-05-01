@@ -11,26 +11,55 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["User"],
     }),
     register: builder.mutation({
-      query: (data) => ({
+      query: (credentials) => ({
         url: "/users/register",
         method: "POST",
-        body: data,
+        body: credentials,
       }),
       invalidatesTags: ["User"],
     }),
     socialAuth: builder.mutation({
-      query: (data) => ({
+      query: (credentials) => ({
         url: "/auth/social-login",
         method: "POST",
-        body: data,
+        body: credentials,
       }),
       invalidatesTags: ["User"],
     }),
-    sendOtp: builder.mutation({
+    forgotPassword: builder.mutation({
       query: (email) => ({
         url: "/auth/forgot-password",
         method: "POST",
         body: email,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    resendOtp: builder.mutation({
+      query: (email) => ({
+        url: "/auth/resend-otp",
+        method: "POST",
+        body: email,
+      }),
+    }),
+    verifyOtp: builder.mutation({
+      query: (data) => ({
+        url: "/auth/verify-otp",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/change-password",
+        method: "POST",
+        body: data,
       }),
     }),
     getMe: builder.query({
@@ -39,20 +68,6 @@ export const authApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["User"],
-    }),
-    verifyOtp: builder.mutation({
-      query: (data: { email: string; otp: string }) => ({
-        url: "/auth/verify-otp",
-        method: "POST",
-        body: data,
-      }),
-    }),
-    resetPassword: builder.mutation({
-      query: (data: { password: string }) => ({
-        url: "/auth/reset-password",
-        method: "POST",
-        body: data,
-      }),
     }),
     updateUser: builder.mutation({
       query: (data) => ({
@@ -68,10 +83,12 @@ export const authApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation,
   useRegisterMutation,
-  useGetMeQuery,
-  useSendOtpMutation,
+  useSocialAuthMutation,
+  useForgotPasswordMutation,
+  useResendOtpMutation,
   useVerifyOtpMutation,
   useResetPasswordMutation,
+  useChangePasswordMutation,
+  useGetMeQuery,
   useUpdateUserMutation,
-  useSocialAuthMutation,
 } = authApi;
