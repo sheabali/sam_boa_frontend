@@ -16,10 +16,16 @@
   --color-danger: #d7191c;
 }
 
-@utility flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@theme dark {
+  /* Dark Theme */
+  --color-background: #1A1A1A;
+  --color-foreground: #F5F7FA;
+  --color-primary: #2563EB;
+  --color-secondary: #1E40AF;
+  --color-success: #22C55E;
+  --color-info: #90e0ef;
+  --color-warning: #FACC15;
+  --color-danger: #d7191c;
 }
 
 @utility container {
@@ -41,7 +47,4 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
-}
-
-@layer base {
 }
