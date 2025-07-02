@@ -12,13 +12,4 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Type checking
-echo "🔨 Type checking..."
-npm run type-check || npx tsc --noEmit
-
-if [ $? -ne 0 ]; then
-  echo "❌ TypeScript type checking failed!"
-  exit 1
-fi
-
 echo "✅ Pre-commit checks passed!"

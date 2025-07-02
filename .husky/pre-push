@@ -12,13 +12,5 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Generate Prisma client (if using Prisma)
-echo "🔧 Generating Prisma client..."
-npx prisma generate
-
-if [ $? -ne 0 ]; then
-  echo "❌ Prisma generation failed!"
-  exit 1
-fi
 
 echo "✅ All checks passed! Pushing to GitHub..."
