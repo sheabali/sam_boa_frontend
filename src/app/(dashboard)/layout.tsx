@@ -13,6 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const [open, setOpen] = useState(false);
+  const khaBuildError = true
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile Nav */}
