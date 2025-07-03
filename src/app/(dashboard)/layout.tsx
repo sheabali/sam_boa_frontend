@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import type React from "react";
 import Header from "@/components/shared/Header";
@@ -14,8 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const [open, setOpen] = useState(false);
-  const khaBuildError: any = 10;
-  console.log(khaBuildError);  
+
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile Nav */}
