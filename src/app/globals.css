@@ -3,11 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Light Theme */
 @theme {
-  /* Light Theme */
   --color-background: #f5f7fa;
   --color-foreground: #1a1a1a;
-  --color-primary: #2563eb;
+  --color-primary: #22c55e;
   --color-secondary: #1e40af;
   --color-success: #22c55e;
   --color-info: #90e0ef;
@@ -15,11 +15,11 @@
   --color-danger: #d7191c;
 }
 
+/* Dark Theme */
 @theme dark {
-  /* Dark Theme */
   --color-background: #1a1a1a;
   --color-foreground: #f5f7fa;
-  --color-primary: #2563eb;
+  --color-primary: #22c55e;
   --color-secondary: #1e40af;
   --color-success: #22c55e;
   --color-info: #90e0ef;
@@ -48,12 +48,14 @@
   }
 }
 
-/* all button will be pointer default */
+/***************** all button will be pointer default  **********************/
+
 button {
   cursor: pointer;
 }
 
-/* Global Scroll customize scroll  */
+/********************* Global Scroll customize scroll  **********************/
+
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -77,6 +79,8 @@ button {
   background: var(--color-primary);
 }
 
+/********************* Google Translate  ************************************/
+
 /* Remove the banner at top of the page */
 body {
   top: 0 !important;
@@ -97,6 +101,8 @@ body .skiptranslate {
   position: absolute !important;
   top: 0 !important;
 }
+
+/********************* Ant Design Customization  ****************************/
 
 /*  Custom upload styles and hover */
 .ant-upload-wrapper :hover.ant-upload-drag {
@@ -121,4 +127,39 @@ body .skiptranslate {
 
 .custom-spinner .ant-spin-dot {
   color: var(--color-primary) !important;
+}
+
+@layer base {
+  :root {
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+  }
+
+  .dark {
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: var(--color-primary);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.439 0 0);
+  }
+}
+
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }

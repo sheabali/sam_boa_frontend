@@ -4,6 +4,8 @@ import { jwtDecode } from "jwt-decode";
 interface DecodedToken {
   exp: number;
   iat: number;
+  role: string;
+  id: string;
   [key: string]: unknown;
 }
 
