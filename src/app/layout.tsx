@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
-import ReduxProvider from "@/redux/provider/ReduxProvider";
 import NextAuthSessionProvider from "@/lib/NextAuthSessionProvider";
+import ReduxProvider from "@/redux/ReduxProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
