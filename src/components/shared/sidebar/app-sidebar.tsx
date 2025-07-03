@@ -19,6 +19,7 @@ import {
 import Image from "next/image";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
+import Link from "next/link";
 
 const data = {
   user: {
@@ -94,7 +95,10 @@ export default function AppSidebar({ role, ...props }: AppSidebarProps) {
       {...props}
     >
       <SidebarHeader>
-        <div className="flex items-center w-full max-h-40 justify-center">
+        <Link
+          href={"/"}
+          className="flex items-center w-full max-h-40 justify-center"
+        >
           <Image
             src={Logo.src}
             alt="Logo"
@@ -102,7 +106,7 @@ export default function AppSidebar({ role, ...props }: AppSidebarProps) {
             height={300}
             className="size-auto "
           />
-        </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={sidebarData?.navMain} />
