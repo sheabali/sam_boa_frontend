@@ -1,97 +1,133 @@
 "use client";
 
 import logo from "@/assets/logo.png";
+import Logo from "@/components/shared/logo/Logo";
 import { Button } from "@/components/ui/button";
-
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { RiGlobalLine } from "react-icons/ri";
 
 export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const router = useRouter();
 
-  const handleRegisterBtn = () => {
-    router.push("/register");
-  };
-
-  const handleSignInBtn = () => {
-    router.push("/login");
-  };
+  const handleRegisterBtn = () => router.push("/register");
+  const handleSignInBtn = () => router.push("/login");
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b-2 py-4">
-        <div className="container flex items-center justify-between">
+      <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b shadow-sm">
+        <div className="container mx-auto flex items-center justify-between py-4 px-4 lg:px-0">
           {/* Logo */}
-          <div>
-            <Link href="/">
-              <Image width={150} height={100} src={logo} alt="logo" />
-            </Link>
+          <Logo />
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-6 font-medium">
+            <Link href="/">Home</Link>
+            <Link href="/explore">Explore</Link>
+            <Link href="/about">About Us</Link>
+            <Link href="/seller">Become a Seller</Link>
           </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-5 font-medium">
-            <span className="flex items-center gap-1">
-              <RiGlobalLine size={20} />
-              <p>English</p>
-            </span>
-            <Link href="/">List your property</Link>
-            <Link href="/">Support</Link>
-            <div className="space-x-5">
-              <Button variant="outline" onClick={handleSignInBtn}>
-                Sign In
-              </Button>
-              <Button variant="secondary" onClick={handleRegisterBtn}>
-                Register
-              </Button>
+          {/* Desktop Right Side */}
+          <div className="hidden lg:flex items-center space-x-5">
+            {/* Search */}
+            <div className="relative w-[246px]">
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+              <Input
+                placeholder="Search"
+                className="w-full h-[48px] rounded-3xl pl-10"
+              />
             </div>
+            <Button onClick={handleRegisterBtn}>Sign Up</Button>
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="lg:hidden">
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden flex items-center gap-4">
             <button onClick={() => setSidebarOpen(true)}>
-              <FaBars size={24} />
+              <FaBars size={22} />
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Sidebar for Mobile */}
+      {/* Sidebar - Mobile Menu */}
       <div
-        className={`fixed top-0 left-0 z-50 w-full bg-white shadow-md transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 z-50 h-full w-72 bg-white shadow-md transform transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
+        {/* Sidebar Header */}
         <div className="flex justify-between items-center px-4 py-3 border-b">
-          <Image width={150} height={100} src={logo} alt="logo" />
+          <Image width={120} height={50} src={logo} alt="logo" />
           <button onClick={() => setSidebarOpen(false)}>
             <IoMdClose size={24} />
           </button>
         </div>
 
-        <div className="flex flex-col gap-4 p-4 font-medium">
-          <div className="flex-center gap-4 py-4">
-            <span className="flex items-center gap-1">
-              <RiGlobalLine size={20} />
-              <p>English</p>
-            </span>
-            <Link href="/">List your property</Link>
-            <Link href="/">Support</Link>
+        {/* Sidebar Links */}
+        <div className="flex flex-col gap-5 p-4 font-medium">
+          <Link href="/" onClick={() => setSidebarOpen(false)}>
+            Home
+          </Link>
+          <Link href="/explore" onClick={() => setSidebarOpen(false)}>
+            Explore
+          </Link>
+          <Link href="/about" onClick={() => setSidebarOpen(false)}>
+            About Us
+          </Link>
+          <Link href="/seller" onClick={() => setSidebarOpen(false)}>
+            Become a Seller
+          </Link>
+
+          {/* Mobile Search & Buttons */}
+          <div className="pt-4 border-t mt-4">
+            <div className="relative w-full mb-4">
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+              <Input
+                placeholder="Search"
+                className="w-full h-[44px] rounded-3xl pl-10"
+              />
+            </div>
+            <Button
+              variant="outline"
+              onClick={handleSignInBtn}
+              className="w-full mb-2"
+            >
+              Sign In
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={handleRegisterBtn}
+              className="w-full"
+            >
+              Register
+            </Button>
           </div>
-          <Button variant="outline" onClick={handleSignInBtn}>
-            Sign In
-          </Button>
-          <Button variant="secondary" onClick={handleRegisterBtn}>
-            Register
-          </Button>
         </div>
       </div>
+
+      {/* Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Add space below nav to avoid overlap */}
+      <div className="h-[72px] lg:h-[80px]" />
     </>
   );
 }

@@ -7,9 +7,9 @@
 @theme {
   --color-background: #f5f7fa;
   --color-foreground: #1a1a1a;
-  --color-primary: #22c55e;
+  --color-primary: #790222;
   --color-secondary: #1e40af;
-  --color-success: #22c55e;
+  --color-success: #790222;
   --color-info: #90e0ef;
   --color-warning: #facc15;
   --color-danger: #d7191c;
@@ -19,9 +19,9 @@
 @theme dark {
   --color-background: #1a1a1a;
   --color-foreground: #f5f7fa;
-  --color-primary: #22c55e;
+  --color-primary: #790222;
   --color-secondary: #1e40af;
-  --color-success: #22c55e;
+  --color-success: #790222;
   --color-info: #90e0ef;
   --color-warning: #facc15;
   --color-danger: #d7191c;
@@ -85,6 +85,7 @@ button {
 body {
   top: 0 !important;
   position: static !important;
+  font-family: "Bricolage Grotesque", sans-serif;
 }
 
 body .skiptranslate {
