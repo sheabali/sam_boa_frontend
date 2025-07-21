@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+
+import Button from "@/components/ui/button";
 import { Home } from "lucide-react";
 
 export default function NotFound() {
@@ -20,7 +21,7 @@ export default function NotFound() {
           src="https://lottie.host/embed/9a0ea178-1368-4057-a575-e8c6e921499a/FzDqBHrNXn.lottie"
         ></iframe>
 
-        <Button asChild className="mt-8">
+        <Button className="mt-8">
           <Link href="/">
             <Home className="mr-2 h-4 w-4" />
             Back to Home
