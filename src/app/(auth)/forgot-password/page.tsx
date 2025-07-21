@@ -77,7 +77,7 @@ export default function ResetPassword() {
               <Link href="/forgot-password/otp">
                 <Button
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 rounded-lg  font-medium transition-colors"
+                  className="w-full rounded-lg  font-medium transition-colors"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? <PageLoading /> : "Send OTP"}

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -95,6 +96,14 @@ export default function LoginPage() {
               </div>
             </div>
 
+            <div>
+              <Link href="/forgot-password">
+                <p className="text-sm text-red-800 hover:text-red-900 font-medium underline text-right">
+                  Forgot password?
+                </p>
+              </Link>
+            </div>
+
             <Button
               type="submit"
               className="w-full bg-red-800 hover:bg-red-900 rounded-3xl text-white   font-medium transition-colors"
@@ -114,7 +123,7 @@ export default function LoginPage() {
             <Button
               type="button"
               variant="outline"
-              className="w-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-700  rounded-3xl   font-medium transition-colors flex items-center justify-center gap-2"
+              className="w-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-700  rounded-3xl px-4  font-medium transition-colors flex items-center justify-center gap-2"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -138,17 +147,16 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="text-center mt-6">
-            <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{" "}
-              <a
-                href="#"
-                className="text-red-800 hover:text-red-900 font-medium underline"
-              >
-                Sign up for free
-              </a>
-            </p>
-          </div>
+          <Link href="/register">
+            <div className="text-center mt-6">
+              <p className="text-sm text-gray-600">
+                Don&apos;t have an account?{" "}
+                <span className="text-red-800 hover:text-red-900 font-medium underline">
+                  Sign up for free
+                </span>
+              </p>
+            </div>
+          </Link>
         </Card>
       </div>
     </div>

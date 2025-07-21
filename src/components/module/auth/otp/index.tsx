@@ -93,7 +93,7 @@ export default function Otp() {
     if (fromPage === "login") {
       router.push("/");
     } else {
-      router.push("/register/account-type/otp/service-provider");
+      router.push("/forgot-password/otp/change-password");
     }
   };
 

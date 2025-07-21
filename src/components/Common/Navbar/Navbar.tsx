@@ -48,15 +48,24 @@ export default function Navbar() {
                 className="w-full h-[48px] rounded-3xl pl-10"
               />
             </div>
-            <Link href="/register">
-              <Button
-                type="submit"
-                className=" bg-primary hover:bg-primary/90 rounded-3xl font-medium transition-colors"
-              >
-                {" "}
-                Sign up
-              </Button>
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href="/login">
+                <Button
+                  type="submit"
+                  className=" bg-primary hover:bg-primary/90 rounded-3xl font-medium transition-colors"
+                >
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button
+                  type="submit"
+                  className=" bg-primary hover:bg-primary/90 rounded-3xl font-medium transition-colors"
+                >
+                  Sign up
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
