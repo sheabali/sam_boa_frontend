@@ -102,7 +102,7 @@ export default function Otp() {
   }, []);
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4">
+    <div className="min-h-screen relative flex items-center justify-center">
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -163,7 +163,7 @@ export default function Otp() {
                   </motion.p>
                 )}
               </div>
-              <div className="text-center text-base text-gray-500">
+              <div>
                 Didn’t get a code?{" "}
                 <Link
                   href="/"
@@ -172,7 +172,7 @@ export default function Otp() {
                   Click to resend
                 </Link>
               </div>
-              <div className="flex justify-center gap-6">
+              <div className="flex justify-between items-center gap-4">
                 <motion.button
                   type="submit"
                   disabled={isSubmitting || otpValues.some((v) => !v)}
@@ -183,7 +183,7 @@ export default function Otp() {
                   {isSubmitting ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    "Continue"
+                    "Verify OTP"
                   )}
                 </motion.button>
                 <motion.button

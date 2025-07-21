@@ -1,7 +1,9 @@
+import VibeOnboarding from "@/components/module/auth/register";
+
 export default function RegisterPage() {
   return (
     <div>
-      <h1>Register</h1>
+      <VibeOnboarding />
     </div>
   );
 }
