@@ -1,11 +1,16 @@
 "use client";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import React, { useState } from "react";
-import { useFormContext, Controller } from "react-hook-form";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { HiCalendar } from "react-icons/hi";
+import { Controller, useFormContext } from "react-hook-form";
+
 import dayjs from "dayjs";
+import { HiCalendar } from "react-icons/hi";
+import Button from "../ui/button";
 
 interface MyDatePickerProps {
   name: string;
@@ -33,7 +38,11 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({
 
   return (
     <div className={`flex flex-col gap-1 w-full ${className}`}>
-      {label && <label className={`text-sm font-medium ${labelClassName}`}>{label}</label>}
+      {label && (
+        <label className={`text-sm font-medium ${labelClassName}`}>
+          {label}
+        </label>
+      )}
 
       <Controller
         name={name}
@@ -48,7 +57,9 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({
                   error ? "border-red-500 focus:ring-0" : "border-gray-300"
                 } ${inputClassName}`}
               >
-                {field.value ? dayjs(field.value).format("YYYY-MM-DD") : placeholder}
+                {field.value
+                  ? dayjs(field.value).format("YYYY-MM-DD")
+                  : placeholder}
                 <HiCalendar className="ml-auto" size={20} />
               </Button>
             </PopoverTrigger>
@@ -58,9 +69,13 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({
               <input
                 type="date"
                 className="w-full border p-2 rounded-md"
-                value={field.value ? dayjs(field.value).format("YYYY-MM-DD") : ""}
+                value={
+                  field.value ? dayjs(field.value).format("YYYY-MM-DD") : ""
+                }
                 onChange={(e) => {
-                  const selectedDate = e.target.value ? new Date(e.target.value) : null;
+                  const selectedDate = e.target.value
+                    ? new Date(e.target.value)
+                    : null;
                   field.onChange(selectedDate);
                   setIsOpen(false);
                   if (onValueChange) onValueChange(selectedDate);

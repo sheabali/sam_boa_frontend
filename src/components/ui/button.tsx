@@ -1,11 +1,13 @@
 "use client";
 
+import React from "react";
+
 type Variant = "primary" | "outline" | "secondary";
 type Size = "sm" | "md" | "lg";
 
 type ButtonProps = {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit" | "reset";
   variant?: Variant;
   size?: Size;
