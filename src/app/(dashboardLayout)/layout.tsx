@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 "use client";
 import AppSidebar from "@/components/shared/sidebar/app-sidebar";
 import {
@@ -24,7 +25,7 @@ export default function DashboardLayout({
       <SidebarInset>
         <header className="flex h-16 b shrink-0  items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
+            <SidebarTrigger className="-ml-1" children={undefined} />
           </div>
         </header>
         <div className="p-4 pt-0 bg-[#F1F5F9] min-h-screen">{children}</div>
