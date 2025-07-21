@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Lottie from "lottie-react";
 import loadingAnimation from "@/components/lottieAnimations/loading-animation.json";
+import Lottie from "lottie-react";
+import { useEffect, useState } from "react";
 
 export default function PageLoading() {
   const [loadingText, setLoadingText] = useState("Loading");

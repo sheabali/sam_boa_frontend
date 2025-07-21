@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -97,7 +97,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-red-800 hover:bg-red-900 rounded-3xl text-white py-2 px-4  font-medium transition-colors"
+              className="w-full bg-red-800 hover:bg-red-900 rounded-3xl text-white   font-medium transition-colors"
             >
               Log in
             </Button>
@@ -114,7 +114,7 @@ export default function LoginPage() {
             <Button
               type="button"
               variant="outline"
-              className="w-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 py-2 px-4 rounded-md font-medium transition-colors flex items-center justify-center gap-2"
+              className="w-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-700  rounded-3xl   font-medium transition-colors flex items-center justify-center gap-2"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path

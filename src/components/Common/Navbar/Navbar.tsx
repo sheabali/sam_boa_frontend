@@ -2,7 +2,8 @@
 
 import logo from "@/assets/logo.png";
 import Logo from "@/components/shared/logo/Logo";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
+
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Image from "next/image";
@@ -47,7 +48,13 @@ export default function Navbar() {
                 className="w-full h-[48px] rounded-3xl pl-10"
               />
             </div>
-            <Button onClick={handleRegisterBtn}>Sign Up</Button>
+            <Button
+              type="submit"
+              className=" bg-primary hover:bg-primary/90 rounded-3xl font-medium transition-colors"
+            >
+              {" "}
+              Sign up
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
