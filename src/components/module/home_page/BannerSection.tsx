@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function BannerSection() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-gradient-to-br from-[#ffdcb7] via-[#fff5f1] to-[#ffe2d4]">
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           {/* Left Content */}
@@ -43,16 +43,22 @@ export default function BannerSection() {
 
             {/* Social Proof */}
             <div className="flex items-center justify-center lg:justify-start gap-4 pt-4">
+              <div>
+                <Image
+                  src="/Rectangle 499.png"
+                  alt="Social Proof"
+                  width={100}
+                  height={100}
+                  className="rounded-lg object-cover"
+                />
+              </div>
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4, 5].map((num) => (
                   <Avatar
                     key={num}
                     className="w-10 h-10 border-2 border-white bg-white"
                   >
-                    <AvatarImage
-                      src={`/placeholder.svg?height=40&width=40`}
-                      alt={`User ${num}`}
-                    />
+                    <AvatarImage src={`/Ellipse 4.png`} alt={`User ${num}`} />
                     <AvatarFallback>U{num}</AvatarFallback>
                   </Avatar>
                 ))}
@@ -65,7 +71,7 @@ export default function BannerSection() {
           </div>
 
           {/* Right Content - Hero Images */}
-          <div className="w-full ">
+          <div className="w-full">
             <div className="grid grid-cols-2 gap-4 sm:gap-6 items-end">
               <div className="col-span-1">
                 <Image
@@ -77,7 +83,7 @@ export default function BannerSection() {
                   priority
                 />
               </div>
-              <div className="col-span-1 ">
+              <div className="col-span-1">
                 <Image
                   src="/image5.png"
                   alt="Fashion Model 2"

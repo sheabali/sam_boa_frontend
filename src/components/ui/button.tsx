@@ -21,6 +21,7 @@ export default function Button({
   type = "button",
   variant = "primary",
   size = "md",
+
   disabled = false,
   className,
 }: ButtonProps) {
