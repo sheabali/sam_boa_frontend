@@ -17,9 +17,9 @@ import {
   Users,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import Link from "next/link";
 
 const data = {
   user: {
