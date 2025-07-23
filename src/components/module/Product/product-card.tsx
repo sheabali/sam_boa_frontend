@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import Button from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Eye, Heart } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: {
@@ -22,52 +24,46 @@ export default function ProductCard({
   isFavorite,
   onToggleFavorite,
 }: ProductCardProps) {
+  const router = useRouter();
+
   return (
-    <Card className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-sm bg-white border-0 shadow-sm overflow-hidden">
+    <Card
+      key={product.id}
+      className="group overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow"
+    >
       <CardContent className="p-0">
         {/* Image Section */}
-        <div className="relative bg-gray-800 p-6 rounded-2xl">
-          {/* Top Icons */}
-          <div className="absolute left-4 right-4 flex justify-between items-center z-10">
-            <button
-              onClick={onToggleFavorite}
-              className="w-10 h-10 bg-black/20 rounded-full flex items-center justify-center backdrop-blur-sm"
-            >
-              <Heart
-                className="w-5 h-5"
-                stroke="white"
-                fill={isFavorite ? "white" : "none"}
-              />
+        <div className="relative bg-gray-900 aspect-square overflow-hidden">
+          <Image
+            src={product.image || "/placeholder.svg"}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          {/* Overlay */}
+          <div className="absolute top-3 left-3 right-3 flex justify-between items-center">
+            <button className="p-2 bg-black/20 hover:bg-black/40 rounded-full transition-colors">
+              <Heart className="w-4 h-4 text-white" />
             </button>
-            <div className="flex items-center gap-1 text-white text-sm font-medium">
-              <Eye className="w-4 h-4" />
-              <span>{product?.views ?? 0}</span>
+            <div className="flex items-center gap-1 bg-black/20 px-2 py-1 rounded-full">
+              <Eye className="w-3 h-3 text-white" />
+              <span className="text-xs text-white">{product.views ?? 0}</span>
             </div>
-          </div>
-
-          {/* Product Image */}
-          <div className="mt-10 flex flex-col items-center justify-center w-full h-64 sm:h-72 md:h-80 lg:h-64">
-            <Image
-              src={product?.image}
-              alt={product?.name}
-              width={240}
-              height={60}
-              priority
-            />
           </div>
         </div>
 
-        {/* Product Details */}
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 text-center min-h-[120px]">
-          <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-            {product?.name}
+        {/* Info Section */}
+        <div className="p-4 bg-white">
+          <h3 className="font-medium text-gray-900 mb-2 text-sm truncate">
+            {product.name}
           </h3>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900">
-            ₵{product?.price}
+          <p className="text-lg font-semibold text-gray-900 mb-3">
+            ${product.price}
           </p>
           <Button
             variant="outline"
-            className="w-full border-red-600 text-red-600 hover:bg-red-50 hover:text-red-700 font-medium bg-transparent"
+            className="w-full text-sm border-red-600 not-visited: hover:bg-gray-50 bg-transparent"
+            onClick={() => router.push(`/products/${product.id}`)}
           >
             View Details
           </Button>
@@ -76,3 +72,76 @@ export default function ProductCard({
     </Card>
   );
 }
+
+// // components/ProductGrid.tsx
+// ("use client");
+
+// import { useRouter } from "next/navigation";
+
+// interface Product {
+//   id: string | number;
+//   name: string;
+//   image: string;
+//   price: string | number;
+//   views?: number;
+// }
+
+// interface ProductGridProps {
+//   products: Product[];
+// }
+
+// export default function ProductGrid({ products }: ProductGridProps) {
+//   const router = useRouter();
+
+//   return (
+//     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 transition-all duration-300">
+//       {products.map((product) => (
+//         <Card
+//           key={product.id}
+//           className="group overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow"
+//         >
+//           <CardContent className="p-0">
+//             {/* Image Section */}
+//             <div className="relative bg-gray-900 aspect-square overflow-hidden">
+//               <Image
+//                 src={product.image || "/placeholder.svg"}
+//                 alt={product.name}
+//                 fill
+//                 className="object-cover group-hover:scale-105 transition-transform duration-300"
+//               />
+//               {/* Overlay */}
+//               <div className="absolute top-3 left-3 right-3 flex justify-between items-center">
+//                 <button className="p-2 bg-black/20 hover:bg-black/40 rounded-full transition-colors">
+//                   <Heart className="w-4 h-4 text-white" />
+//                 </button>
+//                 <div className="flex items-center gap-1 bg-black/20 px-2 py-1 rounded-full">
+//                   <Eye className="w-3 h-3 text-white" />
+//                   <span className="text-xs text-white">
+//                     {product.views ?? 0}
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Info Section */}
+//             <div className="p-4 bg-white">
+//               <h3 className="font-medium text-gray-900 mb-2 text-sm truncate">
+//                 {product.name}
+//               </h3>
+//               <p className="text-lg font-semibold text-gray-900 mb-3">
+//                 ${product.price}
+//               </p>
+//               <Button
+//                 variant="outline"
+//                 className="w-full text-sm hover:bg-gray-50 bg-transparent"
+//                 onClick={() => router.push(`/products/${product.id}`)}
+//               >
+//                 View Details
+//               </Button>
+//             </div>
+//           </CardContent>
+//         </Card>
+//       ))}
+//     </div>
+//   );
+// }
