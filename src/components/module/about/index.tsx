@@ -1,3 +1,4 @@
+import Button from "@/components/ui/button";
 import Image from "next/image";
 import AboutSection from "./AboutSection";
 
@@ -102,7 +103,21 @@ export default function About() {
           </div>
         </div>
       </div>
-      <AboutSection />
+      <div>
+        <AboutSection />
+      </div>
+      <div className="container mx-auto px-4 py-16 md:py-24 text-center">
+        <h1 className="text-4xl md:text-xl lg:text-[40px] font-bold text-gray-900 leading-tight mb-6">
+          Join the Movement. Dress Loudly. Deal Freely.
+        </h1>
+        <p className="text-gray-600 text-lg md:text-[24px] leading-relaxed mb-4">
+          Welcome to Vine — where fashion doesn’t just follow trends… It sets
+          them.
+        </p>
+        <Button className="bg-red-800 hover:bg-red-900 mt-4 text-white px-8 py-3 rounded-full text-base font-medium">
+          Start Selling
+        </Button>
+      </div>
     </div>
   );
 }
