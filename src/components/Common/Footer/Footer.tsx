@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   FaFacebookF,
   FaInstagram,
@@ -63,14 +64,14 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Need Help?</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:underline">
+                <a href="/contact" className="hover:underline">
                   Contact
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
+                <Link href="/FAQ" className="hover:underline">
                   FAQ
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
