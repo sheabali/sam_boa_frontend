@@ -4,6 +4,7 @@
 import Button from "@/components/ui/button";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Users } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const sellers = [
@@ -124,42 +125,44 @@ export default function TopSellersCarousel() {
                 className="flex-shrink-0"
                 style={{ width: `${100 / sellers.length}%` }}
               >
-                <div className="relative rounded-2xl overflow-hidden aspect-[3/4] group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl bg-gray-900">
-                  {/* Background Image */}
-                  <Image
-                    src={seller.image || "/placeholder.svg"}
-                    alt={seller.name}
-                    fill
-                    className="object-cover"
-                  />
+                <Link href={`/seller_profile/${seller.handle}`}>
+                  <div className="relative rounded-2xl overflow-hidden aspect-[3/4] group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl bg-gray-900">
+                    {/* Background Image */}
+                    <Image
+                      src={seller.image || "/placeholder.svg"}
+                      alt={seller.name}
+                      fill
+                      className="object-cover"
+                    />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                  {/* Arrow Icon */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <ArrowUpRight className="w-4 h-4 text-white" />
+                    {/* Arrow Icon */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        <ArrowUpRight className="w-4 h-4 text-white" />
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Content */}
-                  <div className="absolute  bottom-0 left-0 right-0 p-6 text-white bg-transparent">
-                    <h3 className="font-semibold text-xl mb-2">
-                      {seller.name}
-                    </h3>
-                    <p className="text-white/80 text-sm mb-3">
-                      {seller.handle}
-                    </p>
-                    <div className="flex items-center gap-2 text-white/90">
-                      <Users className="w-4 h-4" />
-                      <span className="text-sm">{seller.followers}</span>
+                    {/* Content */}
+                    <div className="absolute  bottom-0 left-0 right-0 p-6 text-white bg-transparent">
+                      <h3 className="font-semibold text-xl mb-2">
+                        {seller.name}
+                      </h3>
+                      <p className="text-white/80 text-sm mb-3">
+                        {seller.handle}
+                      </p>
+                      <div className="flex items-center gap-2 text-white/90">
+                        <Users className="w-4 h-4" />
+                        <span className="text-sm">{seller.followers}</span>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

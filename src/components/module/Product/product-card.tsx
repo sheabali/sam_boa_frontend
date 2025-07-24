@@ -33,7 +33,7 @@ export default function ProductCard({
     >
       <CardContent className="p-0">
         {/* Image Section */}
-        <div className="relative bg-gray-900 aspect-square overflow-hidden">
+        <div className="relative bg-[#222] aspect-square overflow-hidden">
           <Image
             src={product.image || "/placeholder.svg"}
             alt={product.name}
@@ -62,7 +62,7 @@ export default function ProductCard({
           </p>
           <Button
             variant="outline"
-            className="w-full text-sm border-red-600 not-visited: hover:bg-gray-50 bg-transparent"
+            className="w-full text-sm border-primary hover:text-white not-visited: hover:bg-gray-50 bg-transparent"
             onClick={() => router.push(`/products/${product.id}`)}
           >
             View Details

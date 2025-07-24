@@ -1,5 +1,6 @@
 import Explore from "@/components/module/explore";
 import DynamicBanner from "@/components/shared/DynamicBanner";
+import SearchManagement from "@/components/shared/searchBar/SearchManagement";
 
 const page = () => {
   return (
@@ -8,6 +9,8 @@ const page = () => {
         title="Explore All Products"
         subtitle="Explore the hottest styles, limited editions, and pre-loved fashion in real-time auctions."
       />
+
+      <SearchManagement />
 
       <div className="mt-10">
         <h2 className="text-[60px] font-semibold text-center mb-4">Mens</h2>

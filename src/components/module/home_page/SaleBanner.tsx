@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function SaleBanner() {
   return (
-    <div className="min-h-screen bg-gray-100 lg:mt-[150px]">
+    <div className=" bg-gray-100 lg:mt-[150px]">
       {/* Main Banner Section */}
       <div className="relative bg-gradient-to-bl from-red-500 via-[#a82b2b] to-[#ec4141] bg-clip-border overflow-hidden">
         <div className="container mx-auto px-6 py-16 lg:py-32">

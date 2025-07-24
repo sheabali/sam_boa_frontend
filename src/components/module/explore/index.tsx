@@ -18,7 +18,7 @@ const Explore = () => {
       <SaleBanner />
       {/* Woman section */}
       <div className="container">
-        <div>
+        <div className="text-center text-6xl font-semibold mt-40 mb-16">
           <h1>Womens</h1>
         </div>
         <WomensApparel />
