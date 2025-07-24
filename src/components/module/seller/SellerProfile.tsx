@@ -1,12 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import Button from "@/components/ui/button";
-import {
-  MessageCircle,
-  MessageSquare,
-  MoreHorizontal,
-  UserPlus,
-} from "lucide-react";
+import { MessageCircle, MessageSquare, UserPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ProductCard from "../Product/product-card";
@@ -154,12 +149,14 @@ export default function SallerProfilePage() {
             >
               <MessageSquare />
             </Button>
-            <Button
-              variant="outline"
-              className="border-primary text-primary hover:text-white hover:text-primary-foreground rounded-full bg-transparent"
-            >
-              <MoreHorizontal className="w-5 h-5" />
-            </Button>
+            <Link href={`/report/${1}`}>
+              <Button
+                variant="outline"
+                className="border-primary text-primary hover:text-white hover:text-primary-foreground rounded-full bg-transparent"
+              >
+                Report
+              </Button>
+            </Link>
           </div>
         </div>
 
