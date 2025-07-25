@@ -42,12 +42,17 @@ const data = {
         icon: ShoppingCart,
       },
       {
+        title: "Messages",
+        url: "/user/dashboard/messages",
+        icon: ShoppingCart,
+      },
+      {
         title: "Change Password",
         url: "/user/dashboard/change_password",
         icon: FileLock2,
       },
       {
-        title: "Your Profile",
+        title: "Profile Settings",
         url: "/user/dashboard/profile_settings",
         icon: User,
       },
