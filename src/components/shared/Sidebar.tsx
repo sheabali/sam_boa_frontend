@@ -1,9 +1,8 @@
-import logo from "@/assets/logo.png";
-import Image from "next/image";
 import Link from "next/link";
 import { MdOutlineDashboard } from "react-icons/md";
 import Button from "../ui/button";
 import NavLink from "./NavLink";
+import Logo from "./logo/Logo";
 
 const navLinks = [
   { icon: <MdOutlineDashboard />, href: "/dashboard", label: "Dashboard" },
@@ -14,13 +13,7 @@ function Sidebar() {
     <div className="flex px-5 flex-col h-full bg-white">
       <div className="px-6 pb-6 pt-4">
         <Link href="/" className="flex items-center gap-2">
-          <Image
-            height={1000}
-            width={1000}
-            src={logo}
-            alt="Logo"
-            className="h-full w-full"
-          />
+          <Logo />
           {/* <span className="font-semibold">Admin Panel</span> */}
         </Link>
       </div>

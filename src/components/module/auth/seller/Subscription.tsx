@@ -43,9 +43,9 @@ export default function SubscriptionPlans() {
   };
 
   return (
-    <section className="container py-16 bg-white text-black">
-      <h2 className="text-3xl font-bold text-center mb-10">Subscription</h2>
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-8 px-4">
+    <section className="container py-16 bg-white mt-16 mb-[100px] text-black">
+      <h2 className="text-5xl font-semibold text-center mb-10">Subscription</h2>
+      <div className="flex flex-col lg:flex-row items-center mb-18 justify-center gap-8 px-4">
         {plans.map((plan, index) => (
           <div
             key={index}

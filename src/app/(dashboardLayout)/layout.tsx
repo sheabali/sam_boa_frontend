@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-children-prop */
 "use client";
 import AppSidebar from "@/components/shared/sidebar/app-sidebar";
@@ -16,7 +17,8 @@ export default function DashboardLayout({
 }) {
   const token = useAppSelector((state) => state.auth.token);
   const decodedToken = useDecodedToken(token);
-  const role = decodedToken?.role || "ADMIN";
+  // const role = decodedToken?.role || "ADMIN";
+  const role = "user";
 
   return (
     <SidebarProvider>

@@ -1,6 +1,5 @@
 "use client";
 
-import Logo from "@/assets/logo.png";
 import {
   Sidebar,
   SidebarContent,
@@ -9,15 +8,17 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import {
+  FileText,
   HandCoins,
   Home,
   InfoIcon,
   LayoutDashboard,
+  ShoppingCart,
   User,
   Users,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "../logo/Logo";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
@@ -28,6 +29,16 @@ const data = {
         title: "Dashboard",
         url: "/user/dashboard",
         icon: LayoutDashboard,
+      },
+      {
+        title: "Order History",
+        url: "/user/dashboard/order/order_history",
+        icon: FileText,
+      },
+      {
+        title: "Wishlist",
+        url: "/user/dashboard/wishlist",
+        icon: ShoppingCart,
       },
       {
         title: "Your Profile",
@@ -99,14 +110,16 @@ export default function AppSidebar({ role, ...props }: AppSidebarProps) {
           href={"/"}
           className="flex items-center w-full max-h-40 justify-center"
         >
-          <Image
-            src={Logo.src}
-            alt="Logo"
-            width={300}
-            height={300}
-            className="size-auto "
-          />
+          <Logo />
         </Link>
+        <div className="mt-7 mb-[30px]">
+          <h2 className="text-[#424655] text-2xl lg:text-3xl text-center font-semibold">
+            Dashboard
+          </h2>
+          <p className="text-[#424655] text-2xl lg:text-base text-center font-semibold">
+            Hi, Sam. Welcome back!
+          </p>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={sidebarData?.navMain} />
