@@ -8,6 +8,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import {
+  FileLock2,
   FileText,
   HandCoins,
   Home,
@@ -41,8 +42,13 @@ const data = {
         icon: ShoppingCart,
       },
       {
+        title: "Change Password",
+        url: "/user/dashboard/change_password",
+        icon: FileLock2,
+      },
+      {
         title: "Your Profile",
-        url: "/user/dashboard/profile",
+        url: "/user/dashboard/profile_settings",
         icon: User,
       },
       {
