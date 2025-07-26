@@ -9,6 +9,8 @@ import Link from "next/link";
 import ReviewsSection from "../../Reviews";
 
 export default function DSallerProfilePage() {
+  const userId = "1231";
+
   const products = [
     {
       id: 1,
@@ -72,13 +74,15 @@ export default function DSallerProfilePage() {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
-            <Button
-              variant="outline"
-              className=" text-primary-foreground hover:text-white rounded-2xl mx-4 py-2 flex items-center"
-            >
-              <SquarePen className="w-4 h-4 mr-2" />
-              Edit Profile
-            </Button>
+            <Link href={`/seller/dashboard/seller_profile/${userId}`}>
+              <Button
+                variant="outline"
+                className=" text-primary-foreground hover:text-white rounded-2xl mx-4 py-2 flex items-center"
+              >
+                <SquarePen className="w-4 h-4 mr-2" />
+                Edit Profile
+              </Button>
+            </Link>
           </div>
         </div>
 
