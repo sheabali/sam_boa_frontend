@@ -63,6 +63,41 @@ const data = {
       },
     ],
   },
+  seller: {
+    navMain: [
+      {
+        title: "Dashboard",
+        url: "/user/dashboard",
+        icon: LayoutDashboard,
+      },
+      {
+        title: "My Products",
+        url: "/seller/dashboard/my_products",
+        icon: FileText,
+      },
+
+      {
+        title: "Messages",
+        url: "/user/dashboard/messages",
+        icon: ShoppingCart,
+      },
+      {
+        title: "Change Password",
+        url: "/user/dashboard/change_password",
+        icon: FileLock2,
+      },
+      {
+        title: "Profile Settings",
+        url: "/user/dashboard/profile_settings",
+        icon: User,
+      },
+      {
+        title: "Go Back To Home",
+        url: "/",
+        icon: Home,
+      },
+    ],
+  },
   admin: {
     navMain: [
       {
