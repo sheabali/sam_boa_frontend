@@ -99,15 +99,16 @@ const data = {
         icon: Rss,
       },
       {
-        title: "Change Password",
-        url: "/user/dashboard/change_password",
-        icon: FileLock2,
-      },
-      {
         title: "Profile Settings",
-        url: "/user/dashboard/profile_settings",
+        url: "/seller/dashboard/seller_profile",
         icon: User,
       },
+      {
+        title: "Change Password",
+        url: "/seller/dashboard/change_password",
+        icon: FileLock2,
+      },
+
       {
         title: "Go Back To Home",
         url: "/",
