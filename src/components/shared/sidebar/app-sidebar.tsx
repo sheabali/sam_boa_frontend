@@ -119,27 +119,26 @@ const data = {
   admin: {
     navMain: [
       {
-        title: "Dashboard",
+        title: "Dashboard Overview",
         url: "/admin/dashboard",
         icon: LayoutDashboard,
         isActive: true,
       },
       {
-        title: "Users",
-        url: "/user/dashboard/users",
+        title: "Seller Request",
+        url: "/admin/dashboard/seller_request",
         icon: HandCoins,
-        items: [
-          {
-            title: "Users",
-            url: "/user/dashboard/estimates",
-            icon: Users,
-          },
-          {
-            title: "Pending Users",
-            url: "/user/dashboard/pending-users",
-            icon: InfoIcon,
-          },
-        ],
+        items: [],
+      },
+      {
+        title: "List",
+        url: "/admin/dashboard/list",
+        icon: Users,
+      },
+      {
+        title: "Reports",
+        url: "/admin/dashboard/reports",
+        icon: InfoIcon,
       },
       {
         title: "Your Profile",
