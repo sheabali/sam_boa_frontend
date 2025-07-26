@@ -75,6 +75,11 @@ const data = {
         url: "/seller/dashboard/my_products",
         icon: FileText,
       },
+      {
+        title: "Offers",
+        url: "/seller/dashboard/offers",
+        icon: HandCoins,
+      },
 
       {
         title: "Messages",
