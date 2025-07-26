@@ -1,3 +1,5 @@
+"use client";
+
 import Offers from "@/components/module/seller/dashboard/offers";
 
 const page = () => {

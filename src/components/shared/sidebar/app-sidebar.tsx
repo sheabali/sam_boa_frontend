@@ -14,6 +14,8 @@ import {
   Home,
   InfoIcon,
   LayoutDashboard,
+  MessagesSquare,
+  Rss,
   ShoppingCart,
   User,
   Users,
@@ -80,11 +82,21 @@ const data = {
         url: "/seller/dashboard/offers",
         icon: HandCoins,
       },
-
       {
         title: "Messages",
-        url: "/user/dashboard/messages",
-        icon: ShoppingCart,
+        url: "/seller/dashboard/messages",
+        icon: MessagesSquare,
+      },
+      {
+        title: "Product Status",
+        url: "/seller/dashboard/product_status",
+        icon: MessagesSquare,
+      },
+
+      {
+        title: "Followers and Followings",
+        url: "/seller/dashboard/followers_and_followings",
+        icon: Rss,
       },
       {
         title: "Change Password",
