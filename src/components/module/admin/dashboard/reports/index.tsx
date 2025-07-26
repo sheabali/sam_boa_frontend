@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
 
 import { Card } from "@/components/ui/card";
+import Link from "next/link";
 
 interface Report {
   id: string;
@@ -15,7 +16,7 @@ interface Report {
 const reports: Report[] = [
   {
     id: "1",
-    avatarSrc: "/placeholder.svg?height=40&width=40",
+    avatarSrc: "https://i.ibb.co/ycvbKsQV/Rectangle-23854.png",
     name: "Anna Rossiuer",
     description: "report to atc_shops.",
     date: "05 Jan 2024",
@@ -23,7 +24,7 @@ const reports: Report[] = [
   },
   {
     id: "2",
-    avatarSrc: "/placeholder.svg?height=40&width=40",
+    avatarSrc: "https://i.ibb.co/Rkp8d1qq/Rectangle-23854-1.png",
     name: "Anna Rossiuer",
     description: "report to atc_shops.",
     date: "05 Jan 2024",
@@ -31,7 +32,7 @@ const reports: Report[] = [
   },
   {
     id: "3",
-    avatarSrc: "/placeholder.svg?height=40&width=40",
+    avatarSrc: "https://i.ibb.co/mVjzdhHW/Rectangle-23852.png",
     name: "Anna Rossiuer",
     description: "report to atc_shops.",
     date: "05 Jan 2024",
@@ -39,7 +40,7 @@ const reports: Report[] = [
   },
   {
     id: "4",
-    avatarSrc: "/placeholder.svg?height=40&width=40",
+    avatarSrc: "https://i.ibb.co/mVjzdhHW/Rectangle-23852.png",
     name: "Anna Rossiuer",
     description: "report to atc_shops.",
     date: "05 Jan 2024",
@@ -47,7 +48,7 @@ const reports: Report[] = [
   },
   {
     id: "5",
-    avatarSrc: "/placeholder.svg?height=40&width=40",
+    avatarSrc: "https://i.ibb.co/Rkp8d1qq/Rectangle-23854-1.png",
     name: "Anna Rossiuer",
     description: "report to atc_shops.",
     date: "05 Jan 2024",
@@ -55,7 +56,7 @@ const reports: Report[] = [
   },
   {
     id: "6",
-    avatarSrc: "/placeholder.svg?height=40&width=40",
+    avatarSrc: "https://i.ibb.co/ycvbKsQV/Rectangle-23854.png",
     name: "Anna Rossiuer",
     description: "report to atc_shops.",
     date: "05 Jan 2024",
@@ -78,32 +79,38 @@ export default function ReportsPage() {
 
 function ReportCard({ report }: { report: Report }) {
   return (
-    <Card className="flex items-center justify-between p-4 rounded-lg shadow-sm border border-gray-200 bg-white">
-      <div className="flex items-center gap-4">
-        <Avatar className="w-10 h-10">
-          <AvatarImage
-            src={report.avatarSrc || "/placeholder.svg"}
-            alt={report.name}
-          />
-          <AvatarFallback>{report.name.charAt(0)}</AvatarFallback>
-        </Avatar>
-        <div className="grid gap-0.5">
-          <div className="flex items-baseline gap-1 text-sm">
-            <span className="font-semibold">{report.name}</span>
-            <span className="text-gray-600">{report.description}</span>
-          </div>
-          <div className="text-xs text-gray-500">
-            <span>{report.date}</span>
-            <span className="ml-1">{report.time}</span>
+    <Card className=" p-10 rounded-lg shadow-sm">
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex items-center  gap-4">
+          <Avatar className="w-10 h-10">
+            <AvatarImage
+              src={report.avatarSrc || "/placeholder.svg"}
+              alt={report.name}
+            />
+            <AvatarFallback>{report.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div className="grid gap-0.5">
+            <div className="flex items-baseline gap-1 text-sm">
+              <span className="font-semibold">{report.name}</span>
+              <span className="text-gray-600">{report.description}</span>
+            </div>
+            <div className="text-xs text-gray-500">
+              <span>{report.date}</span>
+              <span className="ml-1">{report.time}</span>
+            </div>
           </div>
         </div>
+
+        <Link href={`/admin/dashboard/reports/${report.id}`}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-primary text-primary hover:text-white"
+          >
+            View Report
+          </Button>
+        </Link>
       </div>
-      <Button
-        variant="outline"
-        className="border-red-400 text-red-600 hover:bg-red-50 hover:border-red-500 hover:text-red-700 bg-transparent"
-      >
-        View Report
-      </Button>
     </Card>
   );
 }

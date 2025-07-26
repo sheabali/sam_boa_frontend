@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
+import Link from "next/link";
 
 export default function SellerRequests() {
   const sellerRequests = [
@@ -41,8 +42,8 @@ export default function SellerRequests() {
   ];
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-2xl space-y-6">
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 p-10 sm:p-6 lg:p-8">
+      <div className="container  w-full  space-y-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
           Seller Requests
         </h1>
@@ -55,7 +56,7 @@ export default function SellerRequests() {
               <div className="flex items-center space-x-4">
                 <Avatar className="w-14 h-14">
                   <AvatarImage
-                    src={`/placeholder.svg?height=56&width=56&query=${encodeURIComponent(
+                    src={`https://i.ibb.co/Rkp8d1qq/Rectangle-23854-1.png=${encodeURIComponent(
                       request.avatarQuery
                     )}`}
                     alt={`${request.name}'s avatar`}
@@ -74,12 +75,15 @@ export default function SellerRequests() {
                   </span>
                 </div>
               </div>
-              <Button
-                variant="outline"
-                className="border-[#8B0000] text-[#8B0000] hover:bg-[#8B0000] hover:text-white transition-colors duration-200 bg-transparent"
-              >
-                View Application
-              </Button>
+              <Link href={`/admin/dashboard/seller_request/${request.id}`}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-[#8B0000] hover:bg-[#8B0000] border-primary hover:text-white transition-colors duration-200 bg-transparent"
+                >
+                  View Application
+                </Button>
+              </Link>
             </div>
           ))}
         </div>
