@@ -156,6 +156,11 @@ const data = {
         icon: User,
       },
       {
+        title: "Promo & Banners",
+        url: "/admin/dashboard/promo_banners",
+        icon: User,
+      },
+      {
         title: "Go Back To Home",
         url: "/",
         icon: Home,
