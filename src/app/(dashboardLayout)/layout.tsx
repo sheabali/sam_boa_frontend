@@ -19,7 +19,7 @@ export default function DashboardLayout({
   const token = useAppSelector((state) => state.auth.token);
   const decodedToken = useDecodedToken(token);
   // const role = decodedToken?.role || "ADMIN";
-  const role = "user";
+  const role = "seller";
 
   return (
     <SidebarProvider>

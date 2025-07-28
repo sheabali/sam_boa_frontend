@@ -25,6 +25,7 @@ import { sizes } from "@/constants/sizeData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Camera, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -178,7 +179,9 @@ export default function UpdateProductForm() {
       <div className="container mx-auto bg-white rounded-lg shadow-sm">
         <div className="flex items-center p-4 sm:p-6 border-b">
           <Button size="sm" className="p-0 mr-3" aria-label="Go back">
-            <ArrowLeft className="h-5 w-5" />
+            <Link href="/seller/dashboard/my_products">
+              <ArrowLeft className="h-5 w-5" />
+            </Link>
           </Button>
           <h1 className="text-lg font-semibold">Edit Products</h1>
         </div>

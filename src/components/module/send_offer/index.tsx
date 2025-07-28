@@ -34,24 +34,25 @@ export default function SendOffer() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-7xl mx-auto my-[150px] bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="grid md:grid-cols-2 gap-8 p-6">
+    <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto mt-8 sm:mt-12 lg:mt-16 bg-white rounded-lg shadow-sm overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 p-4 sm:p-6">
           {/* Left side - Images */}
           <div className="space-y-4">
             {/* Main image */}
             <div className="relative aspect-square bg-gray-900 rounded-lg overflow-hidden">
               <Image
-                src={productImages[selectedImage]}
+                src={productImages[selectedImage] || "/placeholder.svg"}
                 alt="Nike Dunk Low"
                 width={500}
                 height={500}
                 className="w-full h-full object-cover"
+                priority
               />
             </div>
 
             {/* Thumbnail images */}
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-2 sm:gap-3">
               {productImages.slice(0, 4).map((image, index) => (
                 <button
                   key={index}
@@ -63,7 +64,7 @@ export default function SendOffer() {
                   }`}
                 >
                   <Image
-                    src={image}
+                    src={image || "/placeholder.svg"}
                     alt={`Nike Dunk Low view ${index + 1}`}
                     width={120}
                     height={120}
@@ -75,68 +76,82 @@ export default function SendOffer() {
           </div>
 
           {/* Right side - Product info */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <div className="flex items-start justify-between">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 Nike Dunk Low
               </h1>
               <Link href="/">
                 <Image
                   src="/Frame.svg"
                   alt="Nike Dunk Low"
-                  width={50}
-                  height={50}
-                  className="w-8 h-8 rounded-full"
+                  width={32}
+                  height={32}
+                  className="w-6 h-6 sm:w-8 sm:h-8 rounded-full"
                 />
               </Link>
             </div>
 
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Lorem ipsum dolor sit amet consectetur. Tortor egestas dignissim
               dictumst phasellus. Mi morbi dapibus enim vulputate ultrices
               morbi. Amet sollicitudin ultrices ipsum justo fringilla mattis.
             </p>
 
             <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">#Vintage</Badge>
-              <Badge variant="secondary">#Trouser</Badge>
-              <Badge variant="secondary">#Bluepant</Badge>
-              <Badge variant="secondary">#Specialpant</Badge>
+              <Badge variant="secondary" className="text-xs sm:text-sm">
+                #Vintage
+              </Badge>
+              <Badge variant="secondary" className="text-xs sm:text-sm">
+                #Trouser
+              </Badge>
+              <Badge variant="secondary" className="text-xs sm:text-sm">
+                #Bluepant
+              </Badge>
+              <Badge variant="secondary" className="text-xs sm:text-sm">
+                #Specialpant
+              </Badge>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-3">Seller</h3>
-              <div className="flex items-center justify-between">
+              <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3">
+                Seller
+              </h3>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center">
                     <Image
                       src="https://i.ibb.co/mVjzdhHW/Rectangle-23852.png"
-                      alt="Nike Dunk Low"
-                      width={50}
-                      height={50}
-                      className="w-8 h-8 rounded-full"
+                      alt="Seller profile"
+                      width={40}
+                      height={40}
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
                     />
                   </div>
                   <div>
-                    <p className="font-medium">Andre Sophia</p>
-                    <p className="text-sm text-gray-500">@sophia_fashion</p>
+                    <p className="font-medium text-sm sm:text-base">
+                      Andre Sophia
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      @sophia_fashion
+                    </p>
                   </div>
                 </div>
                 <Link href={`/seller_profile/1`}>
                   <div className="flex items-center gap-2">
-                    <Button className=" text-white">
-                      <User className="h-4 w-4 mr-2" />
+                    <Button className="text-white text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2">
+                      <User className="h-4 w-4 mr-1 sm:mr-2" />
                       Follow
                     </Button>
                     <Button
                       variant="outline"
-                      className=" hover:text-white"
+                      className="hover:text-white text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
                       size="sm"
                     >
-                      <MessageCircle className="h-4 w-4 " />
+                      <MessageCircle className="h-4 w-4" />
                     </Button>
                     <Button
-                      className="hover:text-white"
+                      className="hover:text-white text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
                       variant="outline"
                       size="sm"
                     >
@@ -148,18 +163,20 @@ export default function SendOffer() {
             </div>
 
             <div className="text-center">
-              <div className="inline-block border-2 border-gray-300 rounded-lg px-6 py-3">
-                <span className="text-2xl font-bold">₵70.00</span>
+              <div className="inline-block border-2 border-gray-300 rounded-lg px-4 sm:px-6 py-2 sm:py-3">
+                <span className="text-xl sm:text-2xl font-bold">₵70.00</span>
               </div>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-3">Available Colors</h3>
-              <div className="flex gap-3">
+              <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3">
+                Available Colors
+              </h3>
+              <div className="flex gap-2 sm:gap-3">
                 {colors.map((color, index) => (
                   <button
                     key={index}
-                    className={`w-8 h-8 rounded-full border-2 transition-colors ${
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 transition-colors ${
                       color.color
                     } ${index === 0 ? "border-gray-900" : "border-gray-300"}`}
                     title={color.name}
@@ -168,7 +185,7 @@ export default function SendOffer() {
               </div>
             </div>
 
-            <div className="space-y-2 text-sm">
+            <div className="space-y-2 text-xs sm:text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Size:</span>
                 <span className="font-medium">UK 8</span>
@@ -182,33 +199,40 @@ export default function SendOffer() {
                 <span className="font-medium">Used - Fair</span>
               </div>
             </div>
-            <div className="flex justify-end mt-32">
+
+            <div className="flex justify-end mt-8 sm:mt-12">
               <Image
                 src="/Group.svg"
                 alt="Nike Dunk Low"
-                width={50}
-                height={50}
-                className="w-16 h-16 rounded-full"
+                width={48}
+                height={48}
+                className="w-12 h-12 sm:w-16 sm:h-16 rounded-full"
               />
             </div>
           </div>
         </div>
-        <div className="space-y-4 w-full px-4 my-10">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
-            Make an offer
+
+        <div className="space-y-4 w-full px-4 sm:px-6 py-6 sm:py-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 text-center">
+            Make an Offer
           </h2>
-          <form onSubmit={handleOfferSubmit} className="space-y-4">
-            <div className=" gap-4">
+          <form
+            onSubmit={handleOfferSubmit}
+            className="space-y-4 max-w-md mx-auto"
+          >
+            <div className="space-y-3">
               <input
                 type="number"
                 value={offerPrice}
                 onChange={(e) => setOfferPrice(e.target.value)}
                 placeholder="₵224.00"
-                className="w-full p-2 border border-gray-300 rounded-3xl text-center"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded-3xl text-center text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                min="0"
+                step="0.01"
               />
               <Button
                 type="submit"
-                className="w-full bg-maroon-700 mt-3 text-white py-3 rounded-3xl"
+                className="w-full bg-maroon-700 text-white py-2 sm:py-3 rounded-3xl text-sm sm:text-base hover:bg-maroon-800"
               >
                 Send Offer
               </Button>

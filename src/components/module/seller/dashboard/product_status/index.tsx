@@ -3,7 +3,6 @@
 
 import { Badge } from "@/components/ui/badge";
 import Button from "@/components/ui/button";
-
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -71,24 +70,28 @@ const getStatusBadge = (status: string) => {
   switch (status) {
     case "in-transit":
       return (
-        <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+        <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 text-xs sm:text-sm">
           In transit
         </Badge>
       );
     case "confirmed":
       return (
-        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+        <Badge className="bg-green-100 text-green-800 hover:bg-green-100 text-xs sm:text-sm">
           Confirmed
         </Badge>
       );
     case "received":
       return (
-        <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">
+        <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100 text-xs sm:text-sm">
           Received
         </Badge>
       );
     default:
-      return <Badge variant="secondary">{status}</Badge>;
+      return (
+        <Badge variant="secondary" className="text-xs sm:text-sm">
+          {status}
+        </Badge>
+      );
   }
 };
 
@@ -99,14 +102,17 @@ const getActionButton = (
 ) => {
   if (status === "received") {
     return (
-      <Button className="bg-red-800 hover:bg-red-900 text-white" size="sm">
+      <Button
+        className="bg-red-800 hover:bg-red-900 text-white text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4"
+        size="sm"
+      >
         See Review
       </Button>
     );
   }
   return (
     <Button
-      className="bg-red-800 hover:bg-red-900 text-white"
+      className="bg-red-800 hover:bg-red-900 text-white text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4"
       size="sm"
       onClick={() => onUpdateClick(productId)}
     >
@@ -117,7 +123,6 @@ const getActionButton = (
 
 export default function ProductStatusPage() {
   const router = useRouter();
-
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
@@ -128,60 +133,54 @@ export default function ProductStatusPage() {
     router.push(`/seller/dashboard/product_status/${productId}`);
   };
 
-  //   const handleCloseModal = () => {
-  //     setSelectedProductId(null);
-  //   };
-
-  //   const selectedProduct = products.find((p) => p.id === selectedProductId);
-
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="container mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 sm:mb-8">
           Product Status
         </h1>
 
         <div className="space-y-4">
           {products.map((product) => (
-            <Card key={product.id} className="bg-white">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+            <Card key={product.id} className="bg-white w-full">
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden shrink-0">
                       <Image
                         src={product.image || "/placeholder.svg"}
                         alt={product.name}
                         width={80}
                         height={80}
-                        className="object-cover"
+                        className="object-cover w-full h-full"
                       />
                     </div>
 
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="font-semibold text-gray-900">
+                    <div className="flex-1 mt-4 sm:mt-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2">
+                        <h3 className="font-semibold text-base sm:text-lg text-gray-900">
                           {product.name}
                         </h3>
                         {getStatusBadge(product.status)}
                       </div>
 
-                      <div className="space-y-1">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm text-gray-600">
+                      <div className="space-y-2 text-xs sm:text-sm">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-gray-600">
                             Available Colors
                           </span>
                           <div className="flex space-x-1">
                             {product.availableColors.map((color, index) => (
                               <div
                                 key={index}
-                                className="w-4 h-4 rounded-full border border-gray-300"
+                                className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-gray-300"
                                 style={{ backgroundColor: color }}
                               />
                             ))}
                           </div>
                         </div>
 
-                        <div className="flex space-x-4 text-sm text-gray-600">
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-gray-600">
                           <span>
                             Size:{" "}
                             <span className="font-medium">{product.size}</span>
@@ -194,7 +193,7 @@ export default function ProductStatusPage() {
                           </span>
                         </div>
 
-                        <div className="text-sm text-gray-600">
+                        <div className="text-gray-600">
                           Condition:{" "}
                           <span className="font-medium">
                             {product.condition}
@@ -204,7 +203,7 @@ export default function ProductStatusPage() {
                     </div>
                   </div>
 
-                  <div className="ml-4">
+                  <div className="flex justify-end sm:ml-4">
                     {getActionButton(
                       product.status,
                       product.id,

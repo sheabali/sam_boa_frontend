@@ -220,12 +220,14 @@ export default function Component() {
               <Button className="flex-1 text-white py-2 sm:py-3 text-xs sm:text-sm">
                 Accept price
               </Button>
-              <Button
-                variant="outline"
-                className="text-black hover:text-white flex-1 py-2 sm:py-3 text-xs sm:text-sm"
-              >
-                Make offer
-              </Button>
+              <Link href={`/send_offer/${1}`}>
+                <Button
+                  variant="outline"
+                  className="text-black hover:text-white flex-1 py-2 sm:py-3 text-xs sm:text-sm"
+                >
+                  Make offer
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

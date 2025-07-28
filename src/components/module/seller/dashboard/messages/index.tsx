@@ -463,14 +463,15 @@ export default function MessagesPage() {
                 onChange={handleImageSelected}
                 className="hidden"
               />
-              <Button onClick={handleImageUploadClick} type="button">
-                <ImageIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+              <Button size="sm" onClick={handleImageUploadClick} type="button">
+                <ImageIcon className="h-5 w-5 " />
               </Button>
               <Button
+                size="sm"
                 type="button"
                 onClick={() => alert("File upload not implemented yet!")}
               >
-                <Paperclip className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <Paperclip className="h-5 w-5" />
               </Button>
               <Input
                 placeholder="Type message here..."
@@ -479,6 +480,7 @@ export default function MessagesPage() {
                 onChange={(e) => setNewMessage(e.target.value)}
               />
               <Button
+                size="sm"
                 type="submit"
                 className="rounded-full bg-primary hover:bg-red-700"
               >

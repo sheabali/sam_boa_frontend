@@ -1,3 +1,10 @@
+// Updated ProductsPage.tsx with responsive design using Tailwind CSS
+// - Adjusted container padding and margins for smaller screens
+// - Made TabsList stack vertically on mobile for better usability
+// - Optimized font sizes and button sizes for touch interactions
+// - Ensured ProductCard components (assumed to be responsive) are spaced appropriately
+// - Used Tailwind's responsive utilities (sm:, md:, lg:) for adaptive layouts
+
 "use client";
 
 import Button from "@/components/ui/button";
@@ -57,53 +64,55 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">My products</h1>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 bg-gray-50 min-h-screen">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6">
+        My products
+      </h1>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 bg-transparent border-b border-gray-200 rounded-none h-auto p-0">
+        <TabsList className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 bg-transparent border-b border-gray-200 rounded-none h-auto p-0 mb-4 sm:mb-6">
           <TabsTrigger
             value="all"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none pb-3"
+            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             All Products
           </TabsTrigger>
           <TabsTrigger
             value="unsold"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none pb-3"
+            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             Unsold Products
           </TabsTrigger>
           <TabsTrigger
             value="sold"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none pb-3"
+            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             Sold Products
           </TabsTrigger>
           <TabsTrigger
             value="draft"
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none pb-3"
+            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             Draft Items
           </TabsTrigger>
         </TabsList>
 
-        <div className="mt-6">
+        <div className="mt-4 sm:mt-6">
           {activeTab === "all" && (
-            <div className="mb-4">
+            <div className="mb-4 sm:mb-6">
               <Button
                 variant="outline"
                 onClick={handleCreateNew}
-                className="flex items-center gap-2 bg-transparent"
+                className="flex items-center gap-2 bg-transparent text-sm sm:text-base py-2 sm:py-2.5 px-4 sm:px-6"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                 Create New
               </Button>
             </div>
           )}
 
           <TabsContent value="all" className="mt-0">
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
               {getFilteredProducts("all").map((product) => (
                 <ProductCard
                   key={product.id}
@@ -119,7 +128,7 @@ export default function ProductsPage() {
           </TabsContent>
 
           <TabsContent value="unsold" className="mt-0">
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
               {getFilteredProducts("unsold").map((product) => (
                 <ProductCard
                   key={product.id}
@@ -135,7 +144,7 @@ export default function ProductsPage() {
           </TabsContent>
 
           <TabsContent value="sold" className="mt-0">
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
               {getFilteredProducts("sold").map((product) => (
                 <ProductCard
                   key={product.id}
@@ -151,7 +160,7 @@ export default function ProductsPage() {
           </TabsContent>
 
           <TabsContent value="draft" className="mt-0">
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
               {getFilteredProducts("draft").map((product) => (
                 <ProductCard
                   key={product.id}
