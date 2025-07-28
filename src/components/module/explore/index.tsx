@@ -19,7 +19,7 @@ const Explore = () => {
       {/* Woman section */}
       <div className="container">
         <div className="text-center text-6xl font-semibold mt-40 mb-16">
-          <h1 className="text-4xl lg:text-[60px]">Womens</h1>
+          <h1 className="text-3xl lg:text-[60px]">Womens</h1>
         </div>
         <WomensApparel />
         <WBottoms />

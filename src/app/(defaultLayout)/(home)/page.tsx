@@ -10,16 +10,14 @@ import VineWorks from "@/components/module/home_page/VineWorks";
 const HomePage = () => {
   return (
     <div>
-      <h1>
-        <BannerSection />
-        <TopSellers />
-        <TrendingProducts />
-        <Suggested />
-        <AllProductsPage />
-        <VineWorks />
-        <SaleBanner />
-        <TestimonialsCarousel />
-      </h1>
+      <BannerSection />
+      <TopSellers />
+      <TrendingProducts />
+      <Suggested />
+      <AllProductsPage />
+      <VineWorks />
+      <SaleBanner />
+      <TestimonialsCarousel />
     </div>
   );
 };
