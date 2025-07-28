@@ -1,5 +1,6 @@
 import Button from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import AboutSection from "./AboutSection";
 
 export default function About() {
@@ -114,9 +115,11 @@ export default function About() {
           Welcome to Vine — where fashion doesn’t just follow trends… It sets
           them.
         </p>
-        <Button className="bg-red-800 hover:bg-red-900 mt-4 text-white px-8 py-3 rounded-full text-base font-medium">
-          Start Selling
-        </Button>
+        <Link href="/seller">
+          <Button className="bg-red-800 hover:bg-red-900 mt-4 text-white px-8 py-3 rounded-full text-base font-medium">
+            Start Selling
+          </Button>
+        </Link>
       </div>
     </div>
   );

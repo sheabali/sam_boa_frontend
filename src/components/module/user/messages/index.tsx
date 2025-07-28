@@ -463,10 +463,11 @@ export default function DashboardMessagesPage() {
                 onChange={handleImageSelected}
                 className="hidden"
               />
-              <Button onClick={handleImageUploadClick} type="button">
+              <Button size="sm" onClick={handleImageUploadClick} type="button">
                 <ImageIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
               </Button>
               <Button
+                size="sm"
                 type="button"
                 onClick={() => alert("File upload not implemented yet!")}
               >
@@ -478,10 +479,7 @@ export default function DashboardMessagesPage() {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
               />
-              <Button
-                type="submit"
-                className="rounded-full bg-primary hover:bg-red-700"
-              >
+              <Button size="sm" type="submit" className="rounded-full ">
                 <Send className="h-5 w-5 text-white" />
               </Button>
             </form>

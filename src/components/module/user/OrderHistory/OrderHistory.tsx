@@ -65,33 +65,41 @@ export default function OrderHistoryPage() {
   };
 
   return (
-    <div className="container px-4 py-8 md:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold mb-6">Order History</h1>
-      <p className="text-lg text-gray-600 mb-6">Recent Orders</p>
+    <div className="container mx-auto px-4 py-6 sm:py-8 md:px-6 lg:px-8">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
+        Order History
+      </h1>
+      <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6">
+        Recent Orders
+      </p>
 
       <div className="space-y-4">
         {orders.map((order) => (
-          <Card key={order.id} className="bg-[#F4F4F4]">
-            <div className="flex justify-between items-center py-5 px-9">
-              <div>
-                <p className="text-2xl font-semibold">
-                  {order.productName}
+          <Card key={order.id} className="bg-[#F4F4F4] w-full">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 sm:p-6 lg:p-9 gap-4 sm:gap-0">
+              <div className="space-y-2">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <p className="text-lg sm:text-xl lg:text-2xl font-semibold">
+                    {order.productName}
+                  </p>
                   <span
-                    className={`ml-4 px-3 py-1 rounded-full text-sm font-medium ${getStatusStyle(
+                    className={`px-2 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusStyle(
                       order.status
                     )}`}
                   >
                     {formatStatusText(order.status)}
                   </span>
+                </div>
+                <p className="text-gray-600 text-sm sm:text-base lg:text-lg">
+                  {order.sellerName}
                 </p>
-                <p className="text-gray-600 text-[18px]">{order.sellerName}</p>
-                <p className="text-gray-600 text-[18px] mt-2">
+                <p className="text-gray-600 text-sm sm:text-base lg:text-lg">
                   Order date: {order.orderDate}
                 </p>
               </div>
-              <div>
+              <div className="self-start sm:self-center">
                 <Link href={getActionLink(order.action, order.id)}>
-                  <Button className="bg-primary text-white hover:bg-primary/90">
+                  <Button className="bg-primary text-white hover:bg-primary/90 text-sm sm:text-base px-4 py-2 w-full sm:w-auto">
                     {order.action}
                   </Button>
                 </Link>

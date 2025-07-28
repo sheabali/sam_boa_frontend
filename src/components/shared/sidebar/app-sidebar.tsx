@@ -28,11 +28,11 @@ import { NavUser } from "./nav-user";
 const data = {
   user: {
     navMain: [
-      {
-        title: "Dashboard",
-        url: "/user/dashboard",
-        icon: LayoutDashboard,
-      },
+      // {
+      //   title: "Dashboard",
+      //   url: "/user/dashboard",
+      //   icon: LayoutDashboard,
+      // },
       {
         title: "Order History",
         url: "/user/dashboard/order/order_history",

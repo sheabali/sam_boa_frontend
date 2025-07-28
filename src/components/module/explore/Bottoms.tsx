@@ -98,7 +98,9 @@ export default function Bottoms() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Bottoms</h1>
+          <h1 className="text-3xl lg:text-4xl  font-bold text-gray-900 mb-4">
+            Bottoms
+          </h1>
           <p className="text-lg text-gray-600">
             From casual to statement pieces.
           </p>

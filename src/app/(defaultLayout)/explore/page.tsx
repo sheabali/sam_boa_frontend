@@ -13,7 +13,9 @@ const page = () => {
       <SearchManagement />
 
       <div className="mt-10">
-        <h2 className="text-[60px] font-semibold text-center mb-4">Mens</h2>
+        <h2 className="text-4xl lg:text-[60px] font-semibold text-center mb-4">
+          Mens
+        </h2>
         <Explore />
       </div>
     </div>

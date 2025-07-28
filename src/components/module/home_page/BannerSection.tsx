@@ -7,18 +7,18 @@ import Image from "next/image";
 export default function BannerSection() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#ffdcb7] via-[#fff5f1] to-[#ffe2d4]">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           {/* Left Content */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-10 text-center lg:text-left">
             <div className="space-y-4">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
                 Style has a new <br className="hidden sm:block" />
                 Marketplace -{" "}
                 <span className="text-red-800 inline-block">VINE</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 max-w-md sm:max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 Discover Fashion You Love. Bid With Confidence. Sell With Ease.
                 Join A Community of Bold Buyers And Creative Sellers.
               </p>
@@ -42,13 +42,13 @@ export default function BannerSection() {
             </div>
 
             {/* Social Proof */}
-            <div className="flex items-center justify-center lg:justify-start gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-6">
               <div>
                 <Image
                   src="/Rectangle 499.png"
                   alt="Social Proof"
-                  width={100}
-                  height={100}
+                  width={80}
+                  height={80}
                   className="rounded-lg object-cover"
                 />
               </div>
@@ -56,16 +56,20 @@ export default function BannerSection() {
                 {[1, 2, 3, 4, 5].map((num) => (
                   <Avatar
                     key={num}
-                    className="w-10 h-10 border-2 border-white bg-white"
+                    className="w-9 h-9 border-2 border-white bg-white"
                   >
                     <AvatarImage src={`/Ellipse 4.png`} alt={`User ${num}`} />
                     <AvatarFallback>U{num}</AvatarFallback>
                   </Avatar>
                 ))}
               </div>
-              <div className="text-sm">
-                <div className="font-semibold text-gray-900">24K+</div>
-                <div className="text-gray-600">Active Users</div>
+              <div className="text-center sm:text-left">
+                <div className="font-semibold text-gray-900 text-sm sm:text-base">
+                  24K+
+                </div>
+                <div className="text-gray-600 text-xs sm:text-sm">
+                  Active Users
+                </div>
               </div>
             </div>
           </div>

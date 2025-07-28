@@ -19,6 +19,7 @@ import { regions } from "@/constants/regions";
 import { Label } from "@radix-ui/react-label";
 import { Copy } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface FormData {
   email: string;
@@ -37,7 +38,7 @@ interface FormData {
   category: string;
   selectedBrands: string[];
   interests: string[];
-  phone?: string; // for Controller phone field
+  phone?: string;
   facebook: string;
   instagram: string;
   twitter: string;
@@ -55,10 +56,8 @@ const steps = [
 export default function VibeOnboarding() {
   const [currentStep, setCurrentStep] = useState(0);
   const [copiedField, setCopiedField] = useState("");
-
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  console.log("Selected Image:", selectedImage);
 
   const handleCopy = (value: string, field: string) => {
     if (!value) return;
@@ -67,7 +66,6 @@ export default function VibeOnboarding() {
     setTimeout(() => setCopiedField(""), 2000);
   };
 
-  // Initialize react-hook-form
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       email: "",
@@ -93,9 +91,6 @@ export default function VibeOnboarding() {
     },
   });
 
-  // If you want to track form data locally:
-  // You can watch fields with watch() or handle them via useForm
-
   const onSubmit = (data: FormData) => {
     const finalData = {
       ...data,
@@ -108,7 +103,6 @@ export default function VibeOnboarding() {
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
     } else {
-      // Trigger react-hook-form submit
       handleSubmit(onSubmit)();
     }
   };
@@ -117,34 +111,37 @@ export default function VibeOnboarding() {
     switch (steps[currentStep]) {
       case "apply_as_seller":
         return (
-          <div className="space-y-6">
-            <h1 className="text-[32px] font-bold text-center text-gray-900">
+          <div className="space-y-6 px-4 sm:px-6">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
               Apply as a Seller
             </h1>
-
             <div className="space-y-4">
               <div>
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name" className="text-sm sm:text-base">
+                  Name
+                </Label>
                 <Input
                   id="name"
                   placeholder="Enter your name"
                   {...control.register("name", { required: true })}
-                  className="py-[20px] px-6 rounded-2xl mt-1"
+                  className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
                 />
               </div>
-
               <div>
-                <Label htmlFor="shopName">Shop Name</Label>
+                <Label htmlFor="shopName" className="text-sm sm:text-base">
+                  Shop Name
+                </Label>
                 <Input
                   id="shopName"
                   placeholder="Enter your shop name"
                   {...control.register("shopName", { required: true })}
-                  className="py-[20px] px-6 rounded-2xl mt-1"
+                  className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
                 />
               </div>
-
               <div>
-                <Label htmlFor="mobileNumber">Phone Number</Label>
+                <Label htmlFor="mobileNumber" className="text-sm sm:text-base">
+                  Phone Number
+                </Label>
                 <Controller
                   name="mobileNumber"
                   control={control}
@@ -156,49 +153,49 @@ export default function VibeOnboarding() {
                       value={field.value}
                       onChange={field.onChange}
                       containerClass="!w-full"
-                      inputClass="!w-full !h-[48px] !text-sm !rounded-2xl !pl-12 py-6 !border-gray-300"
-                      buttonClass="!h-[48px] !rounded-l-2xl !border-r-0 !border-gray-300"
+                      inputClass="!w-full !h-10 sm:!h-12 !text-sm sm:!text-base !rounded-2xl !pl-12 !py-3 sm:!py-4 !border-gray-300"
+                      buttonClass="!h-10 sm:!h-12 !rounded-l-2xl !border-r-0 !border-gray-300"
                     />
                   )}
                 />
               </div>
-
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-sm sm:text-base">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   placeholder="Enter your email"
                   {...control.register("email", { required: true })}
-                  className="py-[20px] px-6 rounded-2xl mt-1"
+                  className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
                 />
               </div>
             </div>
-
             <Button
               onClick={handleNext}
-              className="w-full bg-red-800 hover:bg-red-900"
+              className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
             >
               Continue
             </Button>
           </div>
         );
-
       case "seller_address":
         return (
-          <div className="space-y-6">
-            <h1 className="text-[32px] font-bold text-center text-gray-900">
+          <div className="space-y-6 px-4 sm:px-6">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
               Seller Address
             </h1>
-
             <div className="space-y-4">
               <div>
-                <Label htmlFor="regions">Region</Label>
+                <Label htmlFor="regions" className="text-sm sm:text-base">
+                  Region
+                </Label>
                 <Controller
                   name="regions"
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-6 mt-2 rounded-2xl">
+                      <SelectTrigger className="w-full py-3 sm:py-4 mt-2 rounded-2xl text-sm sm:text-base">
                         <SelectValue placeholder="Select Region" />
                       </SelectTrigger>
                       <SelectContent>
@@ -212,15 +209,16 @@ export default function VibeOnboarding() {
                   )}
                 />
               </div>
-
               <div>
-                <Label htmlFor="city">City / Town</Label>
+                <Label htmlFor="city" className="text-sm sm:text-base">
+                  City / Town
+                </Label>
                 <Controller
                   name="city"
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-6 mt-2 rounded-2xl">
+                      <SelectTrigger className="w-full py-3 sm:py-4 mt-2 rounded-2xl text-sm sm:text-base">
                         <SelectValue placeholder="Select City or Town" />
                       </SelectTrigger>
                       <SelectContent>
@@ -234,9 +232,10 @@ export default function VibeOnboarding() {
                   )}
                 />
               </div>
-
               <div>
-                <Label htmlFor="area">Area</Label>
+                <Label htmlFor="area" className="text-sm sm:text-base">
+                  Area
+                </Label>
                 <Controller
                   name="area"
                   control={control}
@@ -244,19 +243,15 @@ export default function VibeOnboarding() {
                     <Input
                       {...field}
                       placeholder="Enter your area"
-                      className="py-[20px] px-6 rounded-2xl mt-1"
+                      className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
                     />
                   )}
                 />
               </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-sm font-medium text-gray-700"
-                >
+              <div>
+                <Label htmlFor="phoneNumber" className="text-sm sm:text-base">
                   Phone<span className="text-red-500">*</span>
-                </label>
+                </Label>
                 <Controller
                   name="phone"
                   control={control}
@@ -267,16 +262,17 @@ export default function VibeOnboarding() {
                       country="us"
                       inputProps={{ id: "phoneNumber" }}
                       containerClass="!w-full"
-                      inputClass="!w-full !h-10 !text-sm !rounded-lg !pl-12 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
-                      buttonClass="!h-10 !rounded-l-lg !border-r-0 !border-gray-300 hover:!border-primary focus:!border-primary"
+                      inputClass="!w-full !h-10 sm:!h-12 !text-sm sm:!text-base !rounded-2xl !pl-12 !py-3 sm:!py-4 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
+                      buttonClass="!h-10 sm:!h-12 !rounded-l-2xl !border-r-0 !border-gray-300 hover:!border-primary focus:!border-primary"
                       placeholder="Phone number"
                     />
                   )}
                 />
               </div>
-
               <div>
-                <Label htmlFor="aEmail">Email</Label>
+                <Label htmlFor="aEmail" className="text-sm sm:text-base">
+                  Email
+                </Label>
                 <Controller
                   name="aEmail"
                   control={control}
@@ -284,16 +280,15 @@ export default function VibeOnboarding() {
                     <Input
                       {...field}
                       placeholder="Enter your email"
-                      className="py-[20px] px-6 rounded-2xl mt-1"
+                      className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
                     />
                   )}
                 />
               </div>
             </div>
-
             <Button
               onClick={handleNext}
-              className="w-full bg-red-800 hover:bg-red-900"
+              className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
             >
               {currentStep === steps.length - 1 ? "Submit" : "Continue"}
             </Button>
@@ -301,15 +296,15 @@ export default function VibeOnboarding() {
         );
       case "social_links":
         return (
-          <div className="space-y-6 p-6 max-w-md mx-auto bg-white rounded-xl shadow-md">
-            <h1 className="text-[32px] font-bold text-center text-gray-900">
-              Apply as a Seller
+          <div className="space-y-6 px-4 sm:px-6 max-w-md mx-auto bg-white rounded-xl shadow-md sm:shadow-lg">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
+              Social Links
             </h1>
-
             <div className="space-y-4">
-              {/* Facebook */}
               <div>
-                <Label htmlFor="facebook">Add Social Link (Facebook)</Label>
+                <Label htmlFor="facebook" className="text-sm sm:text-base">
+                  Add Social Link (Facebook)
+                </Label>
                 <div className="relative">
                   <Controller
                     name="facebook"
@@ -319,7 +314,7 @@ export default function VibeOnboarding() {
                         <Input
                           {...field}
                           placeholder="URL"
-                          className="mt-1 py-[20px] px-6 rounded-2xl pr-12"
+                          className="mt-1 py-3 sm:py-4 px-4 sm:px-6 rounded-2xl pr-12 text-sm sm:text-base"
                         />
                         <button
                           type="button"
@@ -338,10 +333,10 @@ export default function VibeOnboarding() {
                   />
                 </div>
               </div>
-
-              {/* Instagram */}
               <div>
-                <Label htmlFor="instagram">Add Social Link (Instagram)</Label>
+                <Label htmlFor="instagram" className="text-sm sm:text-base">
+                  Add Social Link (Instagram)
+                </Label>
                 <div className="relative">
                   <Controller
                     name="instagram"
@@ -351,7 +346,7 @@ export default function VibeOnboarding() {
                         <Input
                           {...field}
                           placeholder="URL"
-                          className="mt-1 py-[20px] px-6 rounded-2xl pr-12"
+                          className="mt-1 py-3 sm:py-4 px-4 sm:px-6 rounded-2xl pr-12 text-sm sm:text-base"
                         />
                         <button
                           type="button"
@@ -370,10 +365,10 @@ export default function VibeOnboarding() {
                   />
                 </div>
               </div>
-
-              {/* Twitter */}
               <div>
-                <Label htmlFor="twitter">Add Social Link (Twitter)</Label>
+                <Label htmlFor="twitter" className="text-sm sm:text-base">
+                  Add Social Link (Twitter)
+                </Label>
                 <div className="relative">
                   <Controller
                     name="twitter"
@@ -383,7 +378,7 @@ export default function VibeOnboarding() {
                         <Input
                           {...field}
                           placeholder="URL"
-                          className="mt-1 py-[20px] px-6 rounded-2xl pr-12"
+                          className="mt-1 py-3 sm:py-4 px-4 sm:px-6 rounded-2xl pr-12 text-sm sm:text-base"
                         />
                         <button
                           type="button"
@@ -402,10 +397,10 @@ export default function VibeOnboarding() {
                   />
                 </div>
               </div>
-
-              {/* Snapchat */}
               <div>
-                <Label htmlFor="snapchat">Add Social Link (Snapchat)</Label>
+                <Label htmlFor="snapchat" className="text-sm sm:text-base">
+                  Add Social Link (Snapchat)
+                </Label>
                 <div className="relative">
                   <Controller
                     name="snapchat"
@@ -415,7 +410,7 @@ export default function VibeOnboarding() {
                         <Input
                           {...field}
                           placeholder="URL"
-                          className="mt-1 py-[20px] px-6 rounded-2xl pr-12"
+                          className="mt-1 py-3 sm:py-4 px-4 sm:px-6 rounded-2xl pr-12 text-sm sm:text-base"
                         />
                         <button
                           type="button"
@@ -434,37 +429,35 @@ export default function VibeOnboarding() {
                   />
                 </div>
               </div>
-
               <Button
                 onClick={handleNext}
-                className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-2xl"
+                className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
               >
                 Continue
               </Button>
             </div>
           </div>
         );
-
       case "upload_profile_picture":
         return (
-          <div className="space-y-6 text-center">
-            <h1 className="text-[32px] font-bold text-gray-900">
+          <div className="space-y-6 px-4 sm:px-6 text-center">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
               Upload a Profile Picture
             </h1>
-            <div className="w-full border-2 border-dashed border-gray-300 rounded-xl py-12 px-4 flex flex-col items-center bg-gray-100">
+            <div className="w-full border-2 border-dashed border-gray-300 rounded-xl py-8 sm:py-12 px-4 flex flex-col items-center bg-gray-100">
               {imagePreview ? (
                 <Image
                   src={imagePreview}
                   alt="Preview"
-                  className="w-40 h-40 object-cover rounded-full mb-4"
-                  width={40}
-                  height={40}
+                  className="w-24 sm:w-32 lg:w-40 h-24 sm:h-32 lg:h-40 object-cover rounded-full mb-4"
+                  width={160}
+                  height={160}
                 />
               ) : (
                 <>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-16 w-16 text-gray-500 mb-4"
+                    className="h-12 sm:h-16 w-12 sm:w-16 text-gray-500 mb-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -476,10 +469,11 @@ export default function VibeOnboarding() {
                       d="M7 16l-4-4m0 0l4-4m-4 4h18"
                     />
                   </svg>
-                  <p className="text-gray-600 mb-2">Upload a Profile Picture</p>
+                  <p className="text-gray-600 mb-2 text-sm sm:text-base">
+                    Upload a Profile Picture
+                  </p>
                 </>
               )}
-
               <input
                 type="file"
                 accept="image/*"
@@ -494,51 +488,54 @@ export default function VibeOnboarding() {
                 className="hidden"
               />
               <label htmlFor="upload">
-                <div className="bg-red-800 text-white px-6 py-2 rounded-full inline-block cursor-pointer hover:bg-red-900">
+                <div className="bg-red-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full inline-block cursor-pointer hover:bg-red-900 text-sm sm:text-base">
                   Upload file
                 </div>
               </label>
             </div>
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
+              <Link href="/subscription">
+                <button
+                  type="button"
+                  className="bg-red-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base"
+                  onClick={handleNext}
+                >
+                  Update
+                </button>
+              </Link>
 
-            <div className="flex justify-between items-center mt-6">
-              <button
-                type="button"
-                className="bg-red-800 text-white px-8 py-3 rounded-full"
-                onClick={handleNext}
-              >
-                Update
-              </button>
-              <button
-                type="button"
-                className="text-red-800 font-semibold"
-                onClick={handleNext}
-              >
-                Skip
-              </button>
+              <Link href="/subscription">
+                <button
+                  type="button"
+                  className="text-red-800 font-semibold text-sm sm:text-base"
+                  onClick={handleNext}
+                >
+                  Skip
+                </button>
+              </Link>
             </div>
           </div>
         );
-
       default:
         return null;
     }
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side Image */}
-      <div className="hidden lg:flex lg:w-1/2 relative">
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      <div className="lg:w-1/2 relative h-[350px] lg:h-auto">
         <Image
           src="/Frame 2147227838.svg"
           alt="VIBE Fashion"
           fill
-          className="object-cover"
+          className="object-cover lg:object-contain"
         />
       </div>
-
-      {/* Right Side Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <form className="w-full max-w-md" onSubmit={handleSubmit(onSubmit)}>
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <form
+          className="w-full max-w-md sm:max-w-lg"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {renderStep()}
         </form>
       </div>
