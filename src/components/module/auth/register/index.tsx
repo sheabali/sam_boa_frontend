@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Badge } from "@/components/ui/badge";
 import Button from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import "react-phone-input-2/lib/style.css";
-
 import {
   Select,
   SelectContent,
@@ -15,49 +11,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ghanaCities } from "@/constants/cityData";
+import { regions } from "@/constants/regions";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { z } from "zod";
 
-interface FormData {
-  // Login/Registration
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  mobileNumber: string;
-  mobileMoneyName: string;
-  city: string;
+// Define form data schema with Zod
+const formSchema = z.object({
+  email: z.string().email("Invalid email").min(1, "Email is required"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .min(1, "Password is required"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  mobileNumber: z.string().min(1, "Mobile number is required"),
+  mobileMoneyName: z.string().min(1, "Mobile money name is required"),
+  city: z.string().min(1, "City is required"),
+  region: z.string().min(1, "Region is required"),
+  area: z.string().min(1, "Area is required"),
+  shoeSize: z.string().min(1, "Shoe size is required"),
+  topSize: z.string().min(1, "Top size is required"),
+  trouserSize: z.string().min(1, "Trouser size is required"),
+  category: z.string().min(1, "Category is required"),
+  selectedBrands: z.array(z.string()).min(1, "Select at least one brand"),
+  interests: z.array(z.string()).min(1, "Select at least one interest"),
+});
 
-  // Sizes
-  shoeSize: string;
-  topSize: string;
-  trouserSize: string;
+// Infer TypeScript type from Zod schema
+type FormData = z.infer<typeof formSchema>;
 
-  // Category
-  category: string;
-
-  // Brands
-  selectedBrands: string[];
-
-  // Interests
-  interests: string[];
-}
-
+// Define steps
 const steps = [
   "category",
   "interests",
   "brands",
   "sizes",
   "register",
-  //   "login",
-  //   "forgot-password",
+  "address",
+  "make_account",
 ];
 
+// Define categories
 const categories = [
   {
     id: "mensware",
@@ -76,6 +80,7 @@ const categories = [
   },
 ];
 
+// Define interests
 const interests = [
   {
     id: "streetwear",
@@ -109,6 +114,7 @@ const interests = [
   },
 ];
 
+// Define suggested brands
 const suggestedBrands = [
   "Vans",
   "Tommy Hilfiger",
@@ -122,74 +128,110 @@ const suggestedBrands = [
 ];
 
 export default function VibeOnboarding() {
-  const { control } = useForm();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    mobileNumber: "",
-    mobileMoneyName: "",
-    city: "",
-    shoeSize: "",
-    topSize: "",
-    trouserSize: "",
-    category: "",
-    selectedBrands: [],
-    interests: [],
+  const router = useRouter();
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      mobileNumber: "",
+      mobileMoneyName: "",
+      city: "",
+      region: "",
+      area: "",
+      shoeSize: "",
+      topSize: "",
+      trouserSize: "",
+      category: "",
+      selectedBrands: [],
+      interests: [],
+    },
   });
 
-  const updateFormData = (field: keyof FormData, value: any) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Watch form values for debugging
+  const formData = watch();
+  console.log("Current Form Data:", JSON.stringify(formData, null, 2));
 
   const toggleBrand = (brand: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      selectedBrands: prev.selectedBrands.includes(brand)
-        ? prev.selectedBrands.filter((b) => b !== brand)
-        : [...prev.selectedBrands, brand],
-    }));
+    const currentBrands = formData.selectedBrands;
+    setValue(
+      "selectedBrands",
+      currentBrands.includes(brand)
+        ? currentBrands.filter((b) => b !== brand)
+        : [...currentBrands, brand],
+      { shouldValidate: true }
+    );
   };
 
   const toggleInterest = (interest: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      interests: prev.interests.includes(interest)
-        ? prev.interests.filter((i) => i !== interest)
-        : [...prev.interests, interest],
-    }));
+    const currentInterests = formData.interests;
+    setValue(
+      "interests",
+      currentInterests.includes(interest)
+        ? currentInterests.filter((i) => i !== interest)
+        : [...currentInterests, interest],
+      { shouldValidate: true }
+    );
   };
 
   const handleNext = () => {
+    console.log("Current Step:", currentStep, "Total Steps:", steps.length);
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      handleSubmit();
+      console.log("Triggering form submission");
+      handleSubmit(onSubmit)();
     }
   };
 
-  const handleSubmit = async () => {
+  const onSubmit = async (data: FormData) => {
+    console.log(
+      "onSubmit triggered with data:",
+      data,
+      JSON.stringify(data, null, 2)
+    );
+    router.push("/");
     try {
-      // Simulate API call
+      // Validate data structure
+      if (!data || Object.keys(data).length === 0) {
+        console.error("Form data is empty or undefined");
+        alert("Form data is empty. Please fill out all required fields.");
+        return;
+      }
+
+      console.log("Submitting to API:", JSON.stringify(data, null, 2));
       const response = await fetch("/api/onboarding", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-      console.log("API Response:", result);
-      console.log("Complete Form Data:", formData);
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
 
+      const result = await response.json();
+      console.log("API Response:", JSON.stringify(result, null, 2));
+      console.log("Complete Form Data:", JSON.stringify(data, null, 2));
       alert("Onboarding completed! Check console for data.");
     } catch (error) {
       console.error("Error submitting form:", error);
-      console.log("Form Data (Error case):", formData);
+      console.log("Form Data (Error case):", JSON.stringify(data, null, 2));
+      alert("An error occurred during submission. Check console for details.");
     }
   };
 
@@ -197,37 +239,6 @@ export default function VibeOnboarding() {
     const stepName = steps[currentStep];
 
     switch (stepName) {
-      //   case "forgot-password":
-      //     return (
-      //       <div className="space-y-6">
-      //         <div className="text-center space-y-2">
-      //           <h1 className="text-2xl font-bold text-gray-900">
-      //             Forgot Password?
-      //           </h1>
-      //         </div>
-
-      //         <div className="space-y-4">
-      //           <div>
-      //             <Label htmlFor="resetEmail">Email</Label>
-      //             <Input
-      //               id="resetEmail"
-      //               type="email"
-      //               placeholder="email@gmail.com"
-      //               value={formData.email}
-      //               onChange={(e) => updateFormData("email", e.target.value)}
-      //             />
-      //           </div>
-      //         </div>
-
-      //         <Button
-      //           onClick={handleNext}
-      //           className="w-full bg-red-800 hover:bg-red-900"
-      //         >
-      //           Reset Password
-      //         </Button>
-      //       </div>
-      //     );
-
       case "category":
         return (
           <div className="space-y-6">
@@ -236,8 +247,7 @@ export default function VibeOnboarding() {
                 Select Category
               </h1>
             </div>
-
-            <div className=" grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               {categories.map((category) => (
                 <div
                   key={category.id}
@@ -246,16 +256,18 @@ export default function VibeOnboarding() {
                       ? "ring-2 ring-red-800"
                       : ""
                   }`}
-                  onClick={() => updateFormData("category", category.id)}
+                  onClick={() =>
+                    setValue("category", category.id, { shouldValidate: true })
+                  }
                 >
                   <CardContent className="p-4 text-center">
-                    <div className="">
+                    <div>
                       <Image
                         src={category.image || "/placeholder.svg"}
                         alt={category.label}
                         width={700}
                         height={500}
-                        className=" rounded-lg mb-2"
+                        className="rounded-lg mb-2"
                       />
                     </div>
                     <p className="text-[18px] font-medium">{category.label}</p>
@@ -263,7 +275,9 @@ export default function VibeOnboarding() {
                 </div>
               ))}
             </div>
-
+            {errors.category && (
+              <p className="text-red-500 text-sm">{errors.category.message}</p>
+            )}
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
@@ -281,7 +295,6 @@ export default function VibeOnboarding() {
                 Select Interests
               </h1>
             </div>
-
             <div className="grid grid-cols-3 gap-4">
               {interests.map((interest) => (
                 <div
@@ -308,7 +321,9 @@ export default function VibeOnboarding() {
                 </div>
               ))}
             </div>
-
+            {errors.interests && (
+              <p className="text-red-500 text-sm">{errors.interests.message}</p>
+            )}
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
@@ -327,10 +342,9 @@ export default function VibeOnboarding() {
                   i
                 </div>
                 <span className="text-sm text-blue-600">
-                  You have picked 3 brands
+                  You have picked {formData.selectedBrands.length} brand(s)
                 </span>
               </div>
-
               <div className="flex flex-wrap gap-2">
                 {formData.selectedBrands.map((brand) => (
                   <Badge
@@ -347,7 +361,6 @@ export default function VibeOnboarding() {
                 ))}
               </div>
             </div>
-
             <div>
               <h2 className="text-lg font-semibold mb-4">Suggested</h2>
               <div className="grid grid-cols-3 gap-2">
@@ -369,7 +382,11 @@ export default function VibeOnboarding() {
                 ))}
               </div>
             </div>
-
+            {errors.selectedBrands && (
+              <p className="text-red-500 text-sm">
+                {errors.selectedBrands.message}
+              </p>
+            )}
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
@@ -385,74 +402,86 @@ export default function VibeOnboarding() {
             <div className="text-center space-y-2">
               <h1 className="text-2xl font-bold text-gray-900">Your Sizes</h1>
             </div>
-
             <div className="space-y-4">
               <div>
                 <Label>What is your shoe size?</Label>
-                <Select
-                  value={formData.shoeSize}
-                  onValueChange={(value) => updateFormData("shoeSize", value)}
-                >
-                  <SelectTrigger className="w-full py-6 mt-2">
-                    <SelectValue placeholder="Select Size" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem className="w-full" value="6">
-                      6
-                    </SelectItem>
-                    <SelectItem value="7">7</SelectItem>
-                    <SelectItem value="8">8</SelectItem>
-                    <SelectItem value="9">9</SelectItem>
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="11">11</SelectItem>
-                    <SelectItem value="12">12</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="shoeSize"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full py-6 mt-2">
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["6", "7", "8", "9", "10", "11", "12"].map((size) => (
+                          <SelectItem key={size} value={size}>
+                            {size}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.shoeSize && (
+                  <p className="text-red-500 text-sm">
+                    {errors.shoeSize.message}
+                  </p>
+                )}
               </div>
-
               <div>
                 <Label>What is your top size?</Label>
-                <Select
-                  value={formData.topSize}
-                  onValueChange={(value) => updateFormData("topSize", value)}
-                >
-                  <SelectTrigger className="w-full py-6 mt-2">
-                    <SelectValue placeholder="Select Size" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="XS">XS</SelectItem>
-                    <SelectItem value="S">S</SelectItem>
-                    <SelectItem value="M">M</SelectItem>
-                    <SelectItem value="L">L</SelectItem>
-                    <SelectItem value="XL">XL</SelectItem>
-                    <SelectItem value="XXL">XXL</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="topSize"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full py-6 mt-2">
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
+                          <SelectItem key={size} value={size}>
+                            {size}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.topSize && (
+                  <p className="text-red-500 text-sm">
+                    {errors.topSize.message}
+                  </p>
+                )}
               </div>
-
               <div>
                 <Label>What is your trouser or skirt size?</Label>
-                <Select
-                  value={formData.trouserSize}
-                  onValueChange={(value) =>
-                    updateFormData("trouserSize", value)
-                  }
-                >
-                  <SelectTrigger className="w-full py-6 mt-2">
-                    <SelectValue placeholder="Select Size" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="28">28</SelectItem>
-                    <SelectItem value="30">30</SelectItem>
-                    <SelectItem value="32">32</SelectItem>
-                    <SelectItem value="34">34</SelectItem>
-                    <SelectItem value="36">36</SelectItem>
-                    <SelectItem value="38">38</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="trouserSize"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full py-6 mt-2">
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["28", "30", "32", "34", "36", "38"].map((size) => (
+                          <SelectItem key={size} value={size}>
+                            {size}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.trouserSize && (
+                  <p className="text-red-500 text-sm">
+                    {errors.trouserSize.message}
+                  </p>
+                )}
               </div>
             </div>
-
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
@@ -479,49 +508,62 @@ export default function VibeOnboarding() {
                 Create an account
               </h1>
               <p className="text-gray-600 text-[18px]">
-                Enter new email and password for create an <br /> account
+                Enter your details to create an account
               </p>
             </div>
-
             <div className="space-y-4">
               <div>
                 <Label htmlFor="firstName">First Name</Label>
-                <Input
-                  id="firstName"
-                  className="py-[24px] px-6 rounded-2xl mt-1"
-                  placeholder="Enter your first name here"
-                  value={formData.firstName}
-                  onChange={(e) => updateFormData("firstName", e.target.value)}
+                <Controller
+                  name="firstName"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="firstName"
+                      className="py-[24px] px-6 rounded-2xl mt-1"
+                      placeholder="Enter your first name here"
+                    />
+                  )}
                 />
+                {errors.firstName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.firstName.message}
+                  </p>
+                )}
               </div>
-
               <div>
                 <Label htmlFor="lastName">Last Name</Label>
-                <Input
-                  id="lastName"
-                  placeholder="Enter your Last name here"
-                  className="py-[24px] px-6 rounded-2xl mt-1"
-                  value={formData.lastName}
-                  onChange={(e) => updateFormData("lastName", e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Phone<span className="text-red-500">*</span>
-                </label>
                 <Controller
-                  name="phone"
+                  name="lastName"
                   control={control}
-                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="lastName"
+                      className="py-[24px] px-6 rounded-2xl mt-1"
+                      placeholder="Enter your last name here"
+                    />
+                  )}
+                />
+                {errors.lastName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.lastName.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="mobileNumber">
+                  Mobile money number<span className="text-red-500">*</span>
+                </Label>
+                <Controller
+                  name="mobileNumber"
+                  control={control}
                   render={({ field }) => (
                     <PhoneInput
                       {...field}
-                      country={"us"}
-                      inputProps={{ id: "phoneNumber" }}
+                      country="us"
+                      inputProps={{ id: "mobileNumber" }}
                       containerClass="!w-full"
                       inputClass="!w-full !h-10 !text-sm !rounded-lg !pl-12 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
                       buttonClass="!h-10 !rounded-l-lg !border-r-0 !border-gray-300 hover:!border-primary focus:!border-primary"
@@ -529,56 +571,50 @@ export default function VibeOnboarding() {
                     />
                   )}
                 />
+                {errors.mobileNumber && (
+                  <p className="text-red-500 text-sm">
+                    {errors.mobileNumber.message}
+                  </p>
+                )}
               </div>
-
               <div>
                 <Label htmlFor="mobileMoneyName">
                   Registered mobile money name
                 </Label>
-                <Select
-                  value={formData.mobileMoneyName}
-                  onValueChange={(value) =>
-                    updateFormData("mobileMoneyName", value)
-                  }
-                >
-                  <SelectTrigger className="w-full py-6 mt-2">
-                    <SelectValue placeholder="Telecel" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="telecel">Telecel</SelectItem>
-                    <SelectItem value="mtn">MTN</SelectItem>
-                    <SelectItem value="vodafone">Vodafone</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="city">City</Label>
-                <Select
-                  value={formData.city}
-                  onValueChange={(value) => updateFormData("city", value)}
-                >
-                  <SelectTrigger className="w-full py-6 mt-2">
-                    <SelectValue placeholder="Your City" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="accra">Accra</SelectItem>
-                    <SelectItem value="kumasi">Kumasi</SelectItem>
-                    <SelectItem value="tamale">Tamale</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="mobileMoneyName"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full py-6 mt-2">
+                        <SelectValue placeholder="Select Provider" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["Telecel", "MTN", "Vodafone"].map((provider) => (
+                          <SelectItem
+                            key={provider}
+                            value={provider.toLowerCase()}
+                          >
+                            {provider}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.mobileMoneyName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.mobileMoneyName.message}
+                  </p>
+                )}
               </div>
             </div>
-
-            <Link href="/">
-              <Button
-                onClick={handleNext}
-                className="w-full bg-red-800 hover:bg-red-900"
-              >
-                Continue
-              </Button>
-            </Link>
-
+            <Button
+              onClick={handleNext}
+              className="w-full bg-red-800 hover:bg-red-900"
+            >
+              Continue
+            </Button>
             <div className="text-center">
               <span className="text-gray-600">Already have an account? </span>
               <button
@@ -591,6 +627,199 @@ export default function VibeOnboarding() {
           </div>
         );
 
+      case "address":
+        return (
+          <div className="space-y-6 px-4 sm:px-6">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
+              Seller Address
+            </h1>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="region">Region</Label>
+                <Controller
+                  name="region"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full py-3 sm:py-4 mt-2 rounded-2xl text-sm sm:text-base">
+                        <SelectValue placeholder="Select Region" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {regions.map((region) => (
+                          <SelectItem key={region} value={region}>
+                            {region}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.region && (
+                  <p className="text-red-500 text-sm">
+                    {errors.region.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="city">City / Town</Label>
+                <Controller
+                  name="city"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full py-3 sm:py-4 mt-2 rounded-2xl text-sm sm:text-base">
+                        <SelectValue placeholder="Select City or Town" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ghanaCities.map((city) => (
+                          <SelectItem key={city} value={city}>
+                            {city}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.city && (
+                  <p className="text-red-500 text-sm">{errors.city.message}</p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="area">Area</Label>
+                <Controller
+                  name="area"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Enter your area"
+                      className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
+                    />
+                  )}
+                />
+                {errors.area && (
+                  <p className="text-red-500 text-sm">{errors.area.message}</p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="mobileNumber">
+                  Phone<span className="text-red-500">*</span>
+                </Label>
+                <Controller
+                  name="mobileNumber"
+                  control={control}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      country="us"
+                      inputProps={{ id: "mobileNumber" }}
+                      containerClass="!w-full"
+                      inputClass="!w-full !h-10 sm:!h-12 !text-sm sm:!text-base !rounded-2xl !pl-12 !py-3 sm:!py-4 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
+                      buttonClass="!h-10 sm:!h-12 !rounded-l-2xl !border-r-0 !border-gray-300 hover:!border-primary focus:!border-primary"
+                      placeholder="Phone number"
+                    />
+                  )}
+                />
+                {errors.mobileNumber && (
+                  <p className="text-red-500 text-sm">
+                    {errors.mobileNumber.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Enter your email"
+                      className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
+                    />
+                  )}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
+              </div>
+            </div>
+            <Button
+              onClick={handleNext}
+              className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
+            >
+              {currentStep === steps.length - 1 ? "Submit" : "Continue"}
+            </Button>
+          </div>
+        );
+
+      case "make_account":
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <h1 className="text-2xl font-bold text-gray-900">
+                Create an Account
+              </h1>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="email"
+                      type="email"
+                      placeholder="email@gmail.com"
+                      className="py-[24px] px-6 rounded-2xl mt-1"
+                    />
+                  )}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      className="py-[24px] px-6 rounded-2xl mt-1"
+                    />
+                  )}
+                />
+                <button
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-sm text-red-800 hover:underline mt-2"
+                >
+                  {showPassword ? "Hide" : "Show"} Password
+                </button>
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            <Link href="/">
+              <Button
+                onClick={handleNext}
+                className="w-full bg-red-800 hover:bg-red-900"
+              >
+                Create Account
+              </Button>
+            </Link>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -598,21 +827,15 @@ export default function VibeOnboarding() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Hero Image */}
       <div className="hidden lg:flex lg:w-1/2 relative">
         <Image
-          src="./login.svg"
+          src="/login.svg"
           alt="VIBE Fashion"
           fill
           className="object-cover"
         />
         <div className="absolute inset-0 bg-opacity-20" />
-        {/* <div className="absolute top-8 left-8">
-          <h1 className="text-6xl font-bold text-white">VIBE</h1>
-        </div> */}
       </div>
-
-      {/* Right side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">{renderStep()}</div>
       </div>

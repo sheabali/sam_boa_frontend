@@ -146,11 +146,6 @@ const data = {
         icon: InfoIcon,
       },
       {
-        title: "Your Profile",
-        url: "/user/dashboard/profile",
-        icon: User,
-      },
-      {
         title: "Change Password",
         url: "/user/dashboard/change_password",
         icon: User,

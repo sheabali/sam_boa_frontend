@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -8,8 +10,35 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-export default function UserAvatarDropdown() {
+export default function UserAvatarDropdown({
+  onRoleChange,
+}: {
+  onRoleChange?: (role: string) => void;
+}) {
+  const router = useRouter();
+
+  const handleSelect = (value: string) => {
+    localStorage.setItem("role", value);
+    onRoleChange?.(value); // notify parent (DashboardLayout)
+
+    let path = "/";
+    switch (value) {
+      case "user":
+        path = "/user/dashboard";
+        break;
+      case "seller":
+        path = "/seller/dashboard";
+        break;
+      case "admin":
+        path = "/admin/dashboard";
+        break;
+    }
+
+    router.push(path);
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,11 +57,15 @@ export default function UserAvatarDropdown() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleSelect("user")}>
+          User
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleSelect("seller")}>
+          Seller
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleSelect("admin")}>
+          Admin
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

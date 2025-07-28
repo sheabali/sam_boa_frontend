@@ -10,12 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function UpdateStatusForm() {
   const [formData, setFormData] = useState({
     productName: "",
     sellerName: "",
+    selectClient: "",
     updateProgress: "in-transit",
     estimatedDate: "12/05/25",
     estimatedTime: "06:30 am",
@@ -65,6 +67,26 @@ export default function UpdateStatusForm() {
           />
         </div>
 
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Select Client</Label>
+          <Select
+            value={formData.updateProgress}
+            onValueChange={(value) =>
+              setFormData({ ...formData, selectClient: value })
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="in-transit">Andre Sophia</SelectItem>
+              <SelectItem value="confirmed">Confirmed</SelectItem>
+              <SelectItem value="received">Received</SelectItem>
+              <SelectItem value="processing">Processing</SelectItem>
+              <SelectItem value="shipped">Shipped</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <div className="space-y-2">
           <Label className="text-sm font-medium">Update Progress</Label>
           <Select
@@ -130,12 +152,14 @@ export default function UpdateStatusForm() {
       </div>
 
       <div className="flex space-x-4">
-        <Button
-          type="submit"
-          className="bg-red-800 hover:bg-red-900 text-white px-8"
-        >
-          Save Changes
-        </Button>
+        <Link href="/seller/dashboard/product_status">
+          <Button
+            type="submit"
+            className="bg-red-800 hover:bg-red-900 text-white px-8"
+          >
+            Save Changes
+          </Button>
+        </Link>
         <Button
           type="button"
           className="text-gray-600 hover:text-gray-800"

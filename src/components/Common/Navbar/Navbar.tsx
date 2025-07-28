@@ -1,12 +1,11 @@
 "use client";
 
-import logo from "@/assets/logo.png";
 import Logo from "@/components/shared/logo/Logo";
+import UserAvatarDropdown from "@/components/shared/user-avatar-dropdown";
 import Button from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,7 +16,7 @@ export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
-  const handleRegisterBtn = () => router.push("/register");
+  // const handleRegisterBtn = () => router.push("/register");
   const handleSignInBtn = () => router.push("/login");
 
   return (
@@ -49,20 +48,15 @@ export default function Navbar() {
               />
             </div>
             <div className="flex items-center gap-4">
+              <div>
+                <UserAvatarDropdown />
+              </div>
               <Link href="/login">
                 <Button
                   type="submit"
                   className=" bg-primary hover:bg-primary/90 rounded-3xl font-medium transition-colors"
                 >
                   Login
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button
-                  type="submit"
-                  className=" bg-primary hover:bg-primary/90 rounded-3xl font-medium transition-colors"
-                >
-                  Sign up
                 </Button>
               </Link>
             </div>
@@ -85,7 +79,7 @@ export default function Navbar() {
       >
         {/* Sidebar Header */}
         <div className="flex justify-between items-center px-4 py-3 border-b">
-          <Image width={120} height={50} src={logo} alt="logo" />
+          <Logo />
           <button onClick={() => setSidebarOpen(false)}>
             <IoMdClose size={24} />
           </button>
@@ -125,13 +119,13 @@ export default function Navbar() {
             >
               Sign In
             </Button>
-            <Button
+            {/* <Button
               variant="secondary"
               onClick={handleRegisterBtn}
               className="w-full"
             >
               Register
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

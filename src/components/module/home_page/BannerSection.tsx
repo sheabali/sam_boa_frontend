@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function BannerSection() {
   return (
@@ -26,19 +27,23 @@ export default function BannerSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-              <Button
-                className="bg-red-800 hover:bg-red-900 text-white px-8 py-3 rounded-full text-base font-medium"
-                size="lg"
-              >
-                Explore
-              </Button>
-              <Button
-                variant="outline"
-                className="border-red-800 text-red-800 hover:bg-red-800 hover:text-white px-8 py-3 rounded-full text-base font-medium"
-                size="lg"
-              >
-                Become a Seller
-              </Button>
+              <Link href="/explore">
+                <Button
+                  className="bg-red-800 hover:bg-red-900 text-white px-8 py-3 rounded-full text-base font-medium"
+                  size="lg"
+                >
+                  Explore
+                </Button>
+              </Link>
+              <Link href="/seller">
+                <Button
+                  variant="outline"
+                  className="border-red-800 text-red-800 hover:bg-red-800 hover:text-white px-8 py-3 rounded-full text-base font-medium"
+                  size="lg"
+                >
+                  Become a Seller
+                </Button>
+              </Link>
             </div>
 
             {/* Social Proof */}

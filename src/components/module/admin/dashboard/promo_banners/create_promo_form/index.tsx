@@ -3,8 +3,6 @@
 
 import type React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import Button from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -51,54 +49,60 @@ export default function CreatePromoForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="container mx-auto bg-white rounded-lg shadow-sm">
+    <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="container mx-auto  rounded-lg bg-white shadow-sm">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <div className="flex items-center gap-4">
-            <Button variant="outline" className="h-8 w-8 text-base">
-              <ArrowLeft className="h-4 w-4 text-black" />
+        <div className="flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 border-b">
+          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto mb-4 sm:mb-0">
+            <Button
+              variant="outline"
+              size="sm"
+              className=" border-primary text-primary hover:text-white h-10 w-10 p-0 flex items-center justify-center"
+              aria-label="Go back"
+            >
+              <ArrowLeft className="h-5 w-5 " />
             </Button>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
               Create New Promo
             </h1>
           </div>
-          <Avatar className="h-10 w-10">
-            <AvatarImage src="/placeholder.svg?height=40&width=40" alt="User" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="p-4 sm:p-6 space-y-6"
+        >
           {/* Upload Promo Banner */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Label className="text-sm font-medium text-gray-700">
               Upload Promo Banner
             </Label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 sm:p-8 text-center hover:border-gray-400 transition-colors">
               <div className="flex flex-col items-center justify-center space-y-4">
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                  <Camera className="w-6 h-6 text-red-600" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                  <Camera className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-600">
-                    Formats: JPG, PNG, JPEG - Optional dimensions
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    Formats: JPG, PNG, JPEG
                   </p>
-                  <p className="text-sm text-gray-600">3200 x 410px</p>
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    Recommended: 3200 x 410px
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-center gap-3">
               <Button
                 type="button"
                 variant="outline"
-                className="bg-gray-200 hover:bg-gray-300 hover:text-white text-gray-700"
+                className="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 hover:text-gray-800 text-gray-700 px-4 py-2 text-sm"
                 onClick={() => document.getElementById("file-upload")?.click()}
               >
                 Choose File
               </Button>
-              <span className="text-sm text-gray-500">
+              <span className="text-xs sm:text-sm text-gray-500 truncate max-w-full sm:max-w-md">
                 {selectedFile ? selectedFile.name : "No File Chosen"}
               </span>
               <input
@@ -119,8 +123,8 @@ export default function CreatePromoForm() {
             </Label>
             <Input
               id="cta"
-              placeholder="cta name"
-              className="w-full"
+              placeholder="Enter CTA name"
+              className="w-full text-sm py-2"
               {...register("ctaName")}
             />
           </div>
@@ -136,8 +140,8 @@ export default function CreatePromoForm() {
             <div className="relative">
               <Input
                 id="pageLink"
-                placeholder="url"
-                className="w-full pr-10"
+                placeholder="https://example.com"
+                className="w-full pr-10 text-sm py-2"
                 {...register("pageLink")}
               />
               <Link className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -145,17 +149,17 @@ export default function CreatePromoForm() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-4 pt-6">
+          <div className="flex flex-col sm:flex-row gap-3 pt-6">
             <Button
               type="submit"
-              className="flex-1 bg-red-800 hover:bg-red-900 text-white py-3 rounded-full"
+              className="w-full sm:flex-1 bg-red-800 hover:bg-red-900 text-white py-3 rounded-full text-sm font-medium"
             >
               Create New
             </Button>
             <Button
               type="button"
               variant="outline"
-              className="flex-1 border-red-800 text-red-800 hover:bg-red-50 py-3 rounded-full bg-transparent"
+              className="w-full sm:flex-1 border-red-800 text-red-800 hover:bg-red-50 py-3 rounded-full bg-transparent text-sm font-medium"
               onClick={handleCancel}
             >
               Cancel

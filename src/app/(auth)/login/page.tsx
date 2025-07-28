@@ -104,12 +104,14 @@ export default function LoginPage() {
               </Link>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full bg-red-800 hover:bg-red-900 rounded-3xl text-white   font-medium transition-colors"
-            >
-              Log in
-            </Button>
+            <Link href="/">
+              <Button
+                type="submit"
+                className="w-full bg-red-800 hover:bg-red-900 rounded-3xl text-white   font-medium transition-colors"
+              >
+                Log in
+              </Button>
+            </Link>
 
             <div className="relative my-4">
               <div className="absolute inset-0 flex items-center">
@@ -120,7 +122,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               className="w-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-700  rounded-3xl px-4  font-medium transition-colors flex items-center justify-center gap-2"
@@ -144,7 +146,7 @@ export default function LoginPage() {
                 />
               </svg>
               Log in with Google
-            </Button>
+            </Button> */}
           </form>
 
           <Link href="/register">
