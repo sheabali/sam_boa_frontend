@@ -98,14 +98,16 @@ export default function FeaturedProducts() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Apparel</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Apparel
+          </h1>
+          <p className="text-[12px] md:text-lg text-gray-600">
             Everyday wear to exclusive pieces.
           </p>
         </div>
 
         {/* Product Grid with transition */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 transition-all duration-300">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-8 transition-all duration-300">
           {currentProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -123,7 +125,7 @@ export default function FeaturedProducts() {
             }`}
             aria-label="Previous product"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
+            <ChevronLeft className="w-3 h-3 text-gray-600" />
           </button>
 
           <div className="text-sm text-gray-500">
@@ -142,7 +144,7 @@ export default function FeaturedProducts() {
             }`}
             aria-label="Next product"
           >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
+            <ChevronRight className="w-3 h-3 text-gray-600" />
           </button>
         </div>
       </div>

@@ -30,7 +30,8 @@ export default function Button({
 
   const variants: Record<Variant, string> = {
     primary: "bg-primary text-white",
-    outline: "border border-black hover:bg-primary/10",
+    outline:
+      "border border-black hover:bg-primary/10 hover:text-white text-black",
     secondary: "bg-secondary border border-secondary text-white",
   };
 

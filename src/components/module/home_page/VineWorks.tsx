@@ -7,34 +7,34 @@ export default function VineWorks() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - How Vine Works */}
           <div className="space-y-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">
+            <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-8">
               How Vine Works
             </h1>
 
             <div className="space-y-6">
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start text-[12px] text-base  space-x-4">
                 <span className="font-semibold text-gray-900">Step 1:</span>
                 <p className="text-gray-700">
                   Browse or upload your own clothing
                 </p>
               </div>
 
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start text-[12px] text-base  space-x-4">
                 <span className="font-semibold text-gray-900">Step 2:</span>
                 <p className="text-gray-700">Place bids or receive offers</p>
               </div>
 
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start text-[12px] text-base  space-x-4">
                 <span className="font-semibold text-gray-900">Step 3:</span>
                 <p className="text-gray-700">Accept/Deny/Counter</p>
               </div>
 
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start text-[12px] text-base  space-x-4">
                 <span className="font-semibold text-gray-900">Step 4:</span>
                 <p className="text-gray-700">Chat & finalize payment</p>
               </div>
 
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start text-[12px] text-base  space-x-4">
                 <span className="font-semibold text-gray-900">Step 5:</span>
                 <p className="text-gray-700">
                   Screenshot payment, fill buyer form, and done!

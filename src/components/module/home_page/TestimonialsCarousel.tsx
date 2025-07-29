@@ -77,13 +77,13 @@ export default function TestimonialsCarousel() {
   return (
     <section className="py-16 px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
+        <h2 className="text-2xl md:text-4xl font-bold text-center text-gray-900 mb-12">
           What Our Community Says
         </h2>
 
         <div className="relative">
           {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-8">
             {visibleTestimonials.map((testimonial) => (
               <Card
                 key={testimonial.id}
@@ -96,7 +96,7 @@ export default function TestimonialsCarousel() {
                   </div>
 
                   {/* Testimonial Text */}
-                  <blockquote className="text-gray-700 mb-6 leading-relaxed">
+                  <blockquote className="text-gray-700 mb-6 text-sm leading-relaxed">
                     {testimonial.quote}
                   </blockquote>
 
@@ -127,7 +127,7 @@ export default function TestimonialsCarousel() {
           <div className="flex justify-center gap-2">
             <Button
               variant="outline"
-              size="md"
+              size="sm"
               onClick={prevSlide}
               disabled={currentIndex === 0}
               className="rounded-full w-10 h-10 border-gray-300  disabled:opacity-50 bg-transparent"
@@ -138,7 +138,7 @@ export default function TestimonialsCarousel() {
 
             <Button
               variant="outline"
-              size="md"
+              size="sm"
               onClick={nextSlide}
               disabled={currentIndex + itemsPerPage >= testimonials.length}
               className="rounded-full w-10 h-10 border-gray-300 disabled:opacity-50"

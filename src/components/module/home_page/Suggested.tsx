@@ -79,16 +79,16 @@ export default function Suggested() {
     <section className="py-16 px-4 max-w-7xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
           Suggested for you
         </h2>
-        <p className="text-gray-600 text-lg">
+        <p className="text-gray-600 text-[12px] lg:text-lg">
           Fashion that speaks. Bid before it’s gone.
         </p>
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid  grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
@@ -98,7 +98,7 @@ export default function Suggested() {
       <div className="text-center">
         <Button
           variant="outline"
-          className="px-8 py-2 border-gray-300 hover:bg-gray-50 font-medium bg-transparent"
+          className="px-3 py-2 h-9 lg:h-12 border-gray-300 hover:bg-gray-50 hover:text-white font-medium bg-transparent"
         >
           View All
           <ArrowRight className="w-4 h-4 ml-2" />

@@ -108,10 +108,10 @@ export default function AllProductsPage() {
       <div className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
             All Products
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-[12px] lg:text-lg">
             Fashion that speaks. Bid before it&apos;s gone.
           </p>
         </div>
@@ -123,6 +123,7 @@ export default function AllProductsPage() {
             {categories.map((category) => (
               <Button
                 key={category.id}
+                size="sm"
                 variant="outline"
                 className={`px-6 py-2 rounded-full font-medium transition-colors ${
                   selectedCategory === category.id
@@ -141,6 +142,7 @@ export default function AllProductsPage() {
             {subCategories.map((category) => (
               <Button
                 key={category.id}
+                size="sm"
                 variant="outline"
                 className={`px-6 py-2 rounded-full font-medium transition-colors ${
                   selectedCategory === category.id
@@ -156,7 +158,7 @@ export default function AllProductsPage() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -171,7 +173,7 @@ export default function AllProductsPage() {
         <div className="text-center">
           <Button
             variant="outline"
-            className="px-8 py-2 border-red-500 text-red-500 hover:bg-red-50 font-medium bg-transparent rounded-full"
+            className="px-3 py-2 h-9 lg:h-12 border-gray-300 hover:bg-gray-50 hover:text-white font-medium bg-transparent"
           >
             View All
             <ArrowRight className="w-4 h-4 ml-2" />

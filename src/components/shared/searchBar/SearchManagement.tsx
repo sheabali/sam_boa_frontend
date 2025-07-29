@@ -126,7 +126,7 @@ const SearchManagement = () => {
         <div className="ml-auto">
           <button
             onClick={handleSearch}
-            className="bg-[#800020] text-white flex items-center gap-1 px-5 py-2 rounded-full text-sm hover:bg-[#660018] transition"
+            className="bg-[#800020] text-white flex items-center gap-1 px-5 py-2 h-6 md:h-8 rounded-full text-sm hover:bg-[#660018] transition"
           >
             <Search size={16} />
             Search

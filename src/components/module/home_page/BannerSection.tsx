@@ -13,7 +13,7 @@ export default function BannerSection() {
           {/* Left Content */}
           <div className="space-y-10 text-center lg:text-left">
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
                 Style has a new <br className="hidden sm:block" />
                 Marketplace -{" "}
                 <span className="text-red-800 inline-block">VINE</span>
@@ -27,7 +27,7 @@ export default function BannerSection() {
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
               <Link href="/explore">
                 <Button
-                  className="bg-red-800 hover:bg-red-900 text-white px-8 py-3 rounded-full text-base font-medium"
+                  className="bg-red-800 hover:bg-red-900 text-white h-5 lg:py-7 px-8 py-5 rounded-full lg:text-base font-medium"
                   size="lg"
                 >
                   Explore
@@ -36,7 +36,7 @@ export default function BannerSection() {
               <Link href="/seller">
                 <Button
                   variant="outline"
-                  className="border-red-800 text-red-800 hover:bg-red-800 hover:text-white px-8 py-3 rounded-full text-base font-medium bg-transparent"
+                  className="border-red-800 text-red-800 hover:bg-red-800 hover:text-white h-5 lg:h-10 px-8 lg:py-7 rounded-full text-base font-medium bg-transparent"
                   size="lg"
                 >
                   Become a Seller

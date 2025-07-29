@@ -32,13 +32,13 @@ export default function DynamicBanner({
       {/* Main Content */}
       <div className="relative z-10 container mx-auto max-w-4xl text-center">
         <h1
-          className={`text-4xl md:text-5xl lg:text-6xl font-semibold ${textColor} leading-tight`}
+          className={`text-2xl md:text-5xl lg:text-6xl font-semibold ${textColor} leading-tight`}
         >
           {title}
         </h1>
         {subtitle && (
           <h2
-            className={`text-sm md:text-base lg:text-base font-semibold ${textColor} leading-tight mt-2`}
+            className={`text-[14px] md:text-base lg:text-base  ${textColor} leading-tight mt-2`}
           >
             {subtitle}
           </h2>

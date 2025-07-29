@@ -58,12 +58,12 @@ export default function ProductCard({
             {product.name}
           </h3>
           <p className="text-sm md:text-lg font-semibold text-gray-900 mb-3">
-            {product.price}
+            ₵{product.price}
           </p>
           <Button
             variant="outline"
             size="sm"
-            className="w-full text-[9px] lg:text-sm border-primary hover:text-white not-visited: hover:bg-gray-50 bg-transparent"
+            className="w-full text-[9px] lg:text-sm border-primary text-primary hover:text-white not-visited: hover:bg-gray-50 bg-transparent"
             onClick={() => router.push(`/products/${product.id}`)}
           >
             View Details
