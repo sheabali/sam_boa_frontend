@@ -46,7 +46,7 @@ const sellers = [
 export default function SellerList() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold mb-6">Seller List</h1>
+      <h1 className="text-xl lg:text-3xl font-bold mb-6">Seller List</h1>
       <div className="grid  gap-4">
         {sellers.map((seller, index) => (
           <SellerCard

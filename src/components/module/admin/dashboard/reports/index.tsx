@@ -66,7 +66,7 @@ const reports: Report[] = [
 
 export default function ReportsPage() {
   return (
-    <div className="p-6 md:p-10 lg:p-12">
+    <div className="md:p-10 lg:p-12">
       <h1 className="text-3xl font-bold mb-6">Reports</h1>
       <div className="grid gap-4">
         {reports.map((report) => (
@@ -79,7 +79,7 @@ export default function ReportsPage() {
 
 function ReportCard({ report }: { report: Report }) {
   return (
-    <Card className=" p-10 rounded-lg shadow-sm">
+    <Card className=" py-4 px-2 md:px-6 md:py-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center gap-4">
         <div className="flex items-center  gap-4">
           <Avatar className="w-10 h-10">
@@ -107,7 +107,7 @@ function ReportCard({ report }: { report: Report }) {
             size="sm"
             className="border-primary text-primary hover:text-white"
           >
-            View Report
+            Report
           </Button>
         </Link>
       </div>

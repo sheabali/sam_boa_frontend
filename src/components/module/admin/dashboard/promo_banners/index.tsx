@@ -304,6 +304,7 @@ function PromoModal({
               />
               <Button
                 type="button"
+                size="sm"
                 variant="outline"
                 className="py-2 px-4 text-sm sm:text-base"
                 onClick={() => fileInputRef.current?.click()}
@@ -316,6 +317,7 @@ function PromoModal({
         </div>
         <DialogFooter className="mt-4">
           <Button
+            size="sm"
             variant="outline"
             onClick={handleClose}
             className="py-2 px-4 text-sm sm:text-base"
@@ -323,6 +325,7 @@ function PromoModal({
             Cancel
           </Button>
           <Button
+            size="sm"
             onClick={handleSave}
             className="py-2 px-4 text-sm sm:text-base"
           >
@@ -424,6 +427,7 @@ export default function PromoAndBanners() {
               <div className="space-y-6">
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={() => setIsPromoModalOpen(true)}
                   className="flex items-center text-black space-x-2 border border-primary hover:text-white rounded-full px-4 sm:px-6 py-2 text-sm sm:text-base"
                   aria-label="Create new promo"
@@ -461,8 +465,10 @@ export default function PromoAndBanners() {
                         </div>
                         <div className="flex items-center space-x-3">
                           <Button
+                            size="sm"
+                            variant="outline"
                             onClick={() => openEditModal(item)}
-                            className="bg-red-900 hover:bg-red-800 text-white px-6 py-2 rounded-full text-sm sm:text-base"
+                            className="  px-6 py-2  text-sm sm:text-base"
                             aria-label={`Edit promo ${item.title}`}
                           >
                             Edit

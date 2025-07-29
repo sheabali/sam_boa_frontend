@@ -112,6 +112,10 @@ export default function Navbar() {
                 className="w-full h-[44px] rounded-3xl pl-10"
               />
             </div>
+
+            <div className="flex justify-end items-center gap-4 my-5">
+              <UserAvatarDropdown />
+            </div>
             <Button
               variant="outline"
               onClick={handleSignInBtn}

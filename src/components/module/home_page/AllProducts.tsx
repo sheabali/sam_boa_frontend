@@ -11,13 +11,16 @@ const categories = [
   { id: "women", label: "Women" },
   { id: "streetwear", label: "Streetwear" },
   { id: "vintage", label: "Vintage" },
-];
-
-const subCategories = [
   { id: "jackets", label: "Jackets" },
   { id: "formal", label: "Formal" },
   { id: "footwear", label: "Footwear" },
 ];
+
+// const subCategories = [
+//   { id: "jackets", label: "Jackets" },
+//   { id: "formal", label: "Formal" },
+//   { id: "footwear", label: "Footwear" },
+// ];
 
 const products = [
   {
@@ -104,8 +107,8 @@ export default function AllProductsPage() {
       : products.filter((product) => product.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="py-16 px-4 max-w-7xl mx-auto">
+    <div className="min-h-auto">
+      <div className="my-12 md:my-24 px-4 max-w-7xl mx-auto ">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -117,15 +120,15 @@ export default function AllProductsPage() {
         </div>
 
         {/* Category Filters */}
-        <div className="flex flex-col items-center gap-4 mb-12">
-          {/* Main Categories */}
-          <div className="flex flex-wrap justify-center gap-2">
+        <div className="flex flex-col gap-4 mb-12">
+          {/* Main Categories (Horizontal Scroll) */}
+          <div className="flex overflow-x-auto gap-2 pb-3 no-scrollbar px-1">
             {categories.map((category) => (
               <Button
                 key={category.id}
                 size="sm"
                 variant="outline"
-                className={`px-6 py-2 rounded-full font-medium transition-colors ${
+                className={`whitespace-nowrap px-6 py-2 rounded-full font-medium transition-colors ${
                   selectedCategory === category.id
                     ? "bg-red-500 hover:bg-red-600 text-white border-red-500"
                     : "bg-gray-200 hover:bg-gray-300 text-gray-700 border-gray-200"
@@ -137,14 +140,14 @@ export default function AllProductsPage() {
             ))}
           </div>
 
-          {/* Sub Categories */}
-          <div className="flex flex-wrap justify-center gap-2">
+          {/* Sub Categories (Horizontal Scroll) */}
+          {/* <div className="flex overflow-x-auto gap-2 no-scrollbar px-1">
             {subCategories.map((category) => (
               <Button
                 key={category.id}
                 size="sm"
                 variant="outline"
-                className={`px-6 py-2 rounded-full font-medium transition-colors ${
+                className={`whitespace-nowrap px-6 py-2 rounded-full font-medium transition-colors ${
                   selectedCategory === category.id
                     ? "bg-red-500 hover:bg-red-600 text-white border-red-500"
                     : "bg-gray-200 hover:bg-gray-300 text-gray-700 border-gray-200"
@@ -154,7 +157,7 @@ export default function AllProductsPage() {
                 {category.label}
               </Button>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Products Grid */}

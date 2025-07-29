@@ -1,3 +1,5 @@
+"use client";
+
 import { Star } from "lucide-react";
 import Image from "next/image";
 
@@ -42,10 +44,10 @@ export default function ReviewsSection() {
   ];
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50  sm:p-6 ">
-      <div className="w-full container bg-white rounded-lg shadow-sm  sm:p-8 ">
-        <div className="flex justify-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 border-b-2 border-gray-200 pb-2">
+    <div className="flex flex-col items-center bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="container w-full bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8">
+        <div className="flex justify-center mb-6 sm:mb-10">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 border-b-2 border-gray-200 pb-2">
             Reviews
           </h2>
         </div>
@@ -54,10 +56,11 @@ export default function ReviewsSection() {
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-100"
+              className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 p-4 bg-white rounded-lg shadow border border-gray-100"
             >
-              <div className="py-9 px-4">
-                <div className="flex items-center my-5 gap-3">
+              {/* Left: User Info + Review */}
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-4">
                   <Image
                     src={review.avatar || "/placeholder.svg"}
                     alt={`${review.name}'s avatar`}
@@ -66,7 +69,7 @@ export default function ReviewsSection() {
                     className="rounded-full object-cover"
                   />
                   <div className="flex flex-col">
-                    <span className="font-medium text-[24px] text-gray-900">
+                    <span className="text-base sm:text-lg font-medium text-gray-900">
                       {review.name}
                     </span>
                     <span className="text-sm text-gray-500">
@@ -74,26 +77,30 @@ export default function ReviewsSection() {
                     </span>
                   </div>
                 </div>
-                <div className="flex-grow mt-4 sm:mt-0 sm:ml-4">
-                  <p className="text-gray-700 text-[20px] leading-relaxed">
-                    {review.reviewText}
-                  </p>
-                  <div className="flex items-center mt-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${
-                          i < review.rating
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "fill-gray-300 text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
+
+                <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-2">
+                  {review.reviewText}
+                </p>
+
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-5 h-5 ${
+                        i < review.rating
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "fill-gray-300 text-gray-300"
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
-              <div className="flex flex-col items-end mt-4 sm:mt-0 sm:ml-4 flex-shrink-0">
-                <span className="text-[24px]  mb-2">{review.date}</span>
+
+              {/* Right: Date + Product Image */}
+              <div className="flex flex-col items-end sm:items-center sm:w-36 flex-shrink-0">
+                <span className="text-sm sm:text-base text-gray-600 mb-2">
+                  {review.date}
+                </span>
                 <Image
                   src={review.productImage || "/placeholder.svg"}
                   alt="Product image"

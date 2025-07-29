@@ -28,7 +28,7 @@ export default function PlansPricingPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8 ">
-      <h1 className="text-3xl font-bold mb-6">Plans & Pricing</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Plans & Pricing</h1>
 
       <Tabs defaultValue="basic" className="w-full">
         <TabsList className="grid w-full grid-cols-3 mb-8 h-auto p-0 bg-transparent border-b border-gray-200">

@@ -99,8 +99,8 @@ export default function AboutSection() {
             />
           </div>
           <div className="space-y-6 order-1 lg:order-2">
-            <h2 className="text-2xl lg:text-2xl font-bold text-gray-900 leading-tight">
-              No Gatekeepers. No Middlemen. Just You & the Fit.
+            <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">
+              Built With Trust. Grown By You.
             </h2>
             <div className="space-y-3 text-base text-gray-600">
               <p>No hidden algorithms.</p>

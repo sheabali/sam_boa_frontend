@@ -76,9 +76,9 @@ const products = [
 
 export default function Suggested() {
   return (
-    <section className="py-16 px-4 max-w-7xl mx-auto">
+    <section className=" px-4 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
           Suggested for you
         </h2>

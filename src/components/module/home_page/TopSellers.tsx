@@ -56,7 +56,7 @@ export default function TopSellersCarousel() {
     if (typeof window !== "undefined") {
       if (window.innerWidth >= 1024) return 4;
       if (window.innerWidth >= 768) return 2;
-      return 1;
+      return 2; // Show 2 on small/mobile screens
     }
     return 4;
   };
@@ -86,7 +86,7 @@ export default function TopSellersCarousel() {
   );
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-12">
+    <div className="w-full container mx-auto px-4 pt-12">
       {/* Header */}
       <div className="text-center mb-12">
         <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -100,7 +100,7 @@ export default function TopSellersCarousel() {
 
       {/* Carousel */}
       <div className="overflow-x-auto lg:overflow-visible mb-8">
-        <div className="flex lg:grid lg:grid-cols-4 gap-6 min-w-[300px]">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 min-w-[300px]">
           {visibleSellers.map((seller) => (
             <div
               key={seller.id}
@@ -128,13 +128,13 @@ export default function TopSellersCarousel() {
 
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white bg-transparent">
-                    <h3 className="font-semibold text-xl mb-2">
+                    <h3 className="font-semibold text-base md:text-xl mb-2">
                       {seller.name}
                     </h3>
-                    <p className="text-white/80 text-sm mb-3">
+                    <p className="text-white/80 text-[12px] md:text-sm mb-3">
                       {seller.handle}
                     </p>
-                    <div className="flex items-center gap-2 text-white/90">
+                    <div className="flex items-center gap-2 text-[12px] md:text-sm text-white/90">
                       <Users className="w-4 h-4" />
                       <span className="text-sm">{seller.followers}</span>
                     </div>

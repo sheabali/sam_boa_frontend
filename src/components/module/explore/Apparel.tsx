@@ -99,7 +99,7 @@ export default function ApparelPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-2xl lg:text-4xl  font-bold text-gray-900 mb-4">
-            Apparel
+            Tops
           </h1>
           <p className="text-sm lg:text-lg text-gray-600">
             Everyday wear to exclusive pieces.

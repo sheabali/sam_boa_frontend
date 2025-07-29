@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import Button from "@/components/ui/button";
 
 import {
-  Bookmark,
   ChevronLeft,
   ChevronRight,
   Heart,
@@ -86,18 +85,17 @@ export default function SendOffer() {
               </button>
               {/* Save and Like buttons */}
               <div className="absolute right-2 top-1/4 -translate-y-1/2 z-10 flex flex-col gap-2">
-                <button
+                {/* <button
                   className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md"
                   aria-label="Save product"
                 >
                   <Bookmark className="w-5 h-5 text-gray-700" />
-                </button>
+                </button> */}
                 <button
                   className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md flex items-center justify-center gap-1"
                   aria-label="Like product"
                 >
                   <Heart className="w-5 h-5 text-gray-700" />
-                  <span className="text-xs text-gray-700">14</span>
                 </button>
               </div>
               <Image

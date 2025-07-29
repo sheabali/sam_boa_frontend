@@ -17,7 +17,7 @@ const Footer = () => {
       <div className="px-4 py-10">
         <div className="container grid grid-cols-1 gap-8 md:grid-cols-5 text-center md:text-left">
           {/* Social Icons */}
-          <div className="flex justify-start space-x-4">
+          <div className="flex justify-center space-x-4">
             <a href="#" aria-label="Facebook">
               <FaFacebookF size={24} />
             </a>
@@ -110,7 +110,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="text-center border-t border-gray-700 pt-4">
           <p className="text-sm text-gray-400">
-            Copyright © 2010-{currentYear} All rights reserved.
+            Copyright © {currentYear} All rights reserved.
           </p>
         </div>
         <div className="text-center mt-4">

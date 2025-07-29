@@ -3,7 +3,6 @@ import FeaturedProducts from "@/components/module/products/FeaturedProducts";
 import { Badge } from "@/components/ui/badge";
 import Button from "@/components/ui/button"; // Assuming this is a default export as per user's code
 import {
-  Bookmark,
   ChevronLeft,
   ChevronRight,
   Heart,
@@ -86,17 +85,10 @@ export default function Component() {
               {/* Save and Like buttons */}
               <div className="absolute right-2 top-1/4 -translate-y-1/2 z-10 flex flex-col gap-2">
                 <button
-                  className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md"
-                  aria-label="Save product"
-                >
-                  <Bookmark className="w-5 h-5 text-gray-700" />
-                </button>
-                <button
                   className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md flex items-center justify-center gap-1"
                   aria-label="Like product"
                 >
                   <Heart className="w-5 h-5 text-gray-700" />
-                  <span className="text-xs text-gray-700">14</span>
                 </button>
               </div>
 
@@ -131,28 +123,26 @@ export default function Component() {
               <ShoppingBag className="w-4 h-4 text-blue-600" />
               <span>In 1 person&apos;s bag</span>
             </div> */}
-            <div className="hidden md:block">
-              <div className="grid grid-cols-4 gap-2 sm:gap-3 ">
-                {productImages.map((img, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`aspect-square rounded-lg overflow-hidden border-2 ${
-                      selectedImage === index
-                        ? "border-blue-500"
-                        : "border-gray-200"
-                    }`}
-                  >
-                    <Image
-                      src={img || "/placeholder.svg"}
-                      alt={`Thumb ${index + 1}`}
-                      width={120}
-                      height={120}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+            <div className="grid grid-cols-4 gap-2 sm:gap-3 ">
+              {productImages.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`aspect-square rounded-lg overflow-hidden border-2 ${
+                    selectedImage === index
+                      ? "border-blue-500"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <Image
+                    src={img || "/placeholder.svg"}
+                    alt={`Thumb ${index + 1}`}
+                    width={120}
+                    height={120}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
             </div>
           </div>
           {/* Right - Product Info */}
@@ -293,7 +283,9 @@ export default function Component() {
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">
           Featured Products
         </h2>
-        <FeaturedProducts />
+        <div>
+          <FeaturedProducts />
+        </div>
       </div>
     </div>
   );

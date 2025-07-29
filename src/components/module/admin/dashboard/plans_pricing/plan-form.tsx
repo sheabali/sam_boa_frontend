@@ -82,7 +82,10 @@ export function PlanForm({ defaultValues }: PlanFormProps) {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="facilities">Facilities</Label>
-            <Button className="h-auto px-2 py-1 text-sm text-muted-foreground hover:bg-transparent hover:text-foreground">
+            <Button
+              size="sm"
+              className="h-auto px-2 py-1 text-sm text-muted-foreground hover:bg-transparent hover:text-foreground"
+            >
               <PlusCircle className="h-4 w-4 mr-1" />
               {"ADD MORE"}
             </Button>
@@ -142,6 +145,7 @@ export function PlanForm({ defaultValues }: PlanFormProps) {
       <div className="flex justify-start gap-4 mt-8">
         <Button
           type="submit"
+          size="sm"
           className="bg-[#8B0000] hover:bg-[#6A0000] text-white px-6 py-2 rounded-md"
           disabled={isSubmitting}
         >
@@ -149,6 +153,7 @@ export function PlanForm({ defaultValues }: PlanFormProps) {
         </Button>
         <Button
           type="button"
+          size="sm"
           variant="outline"
           className="border-[#8B0000] text-[#8B0000] hover:bg-[#FFF5F5] hover:text-[#8B0000] px-6 py-2 rounded-md bg-transparent"
           onClick={handleCancel}
