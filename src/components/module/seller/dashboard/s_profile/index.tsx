@@ -56,7 +56,7 @@ export default function DSallerProfilePage() {
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div className="flex items-center">
-            <Avatar className="w-14 h-14 sm:w-20 sm:h-20 mr-4">
+            <Avatar className="md:w-14 md:h-14 w-10 h-10 mr-4">
               <AvatarImage
                 src="https://i.ibb.co/mVjzdhHW/Rectangle-23852.png"
                 alt="Andre Sophia"
@@ -76,6 +76,7 @@ export default function DSallerProfilePage() {
           <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
             <Link href={`/seller/dashboard/seller_profile/${userId}`}>
               <Button
+                size="sm"
                 variant="outline"
                 className=" text-primary-foreground hover:text-white rounded-2xl mx-4 py-2 flex items-center"
               >
@@ -87,7 +88,7 @@ export default function DSallerProfilePage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center mb-6">
+        <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 text-center mb-6">
           <div>
             <p className="text-lg sm:text-xl font-bold">212</p>
             <p className="text-gray-500 text-sm">Followers</p>
@@ -126,6 +127,7 @@ export default function DSallerProfilePage() {
               alt="Instagram"
               width={32}
               height={32}
+              className="w-4 h-8"
             />
           </Link>
           <Link href="https://www.facebook.com/">
@@ -155,7 +157,7 @@ export default function DSallerProfilePage() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

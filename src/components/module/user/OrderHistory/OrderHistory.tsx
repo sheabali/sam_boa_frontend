@@ -73,7 +73,7 @@ export default function OrderHistoryPage() {
         Recent Orders
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-4 grid grid-cols-2 md:grid-cols-1 gap-4  ">
         {orders.map((order) => (
           <Card key={order.id} className="bg-[#F4F4F4] w-full">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 sm:p-6 lg:p-9 gap-4 sm:gap-0">
@@ -83,7 +83,7 @@ export default function OrderHistoryPage() {
                     {order.productName}
                   </p>
                   <span
-                    className={`px-2 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusStyle(
+                    className={`px-2 py-1 w-fit rounded-full text-xs sm:text-sm font-medium ${getStatusStyle(
                       order.status
                     )}`}
                   >
@@ -99,7 +99,10 @@ export default function OrderHistoryPage() {
               </div>
               <div className="self-start sm:self-center">
                 <Link href={getActionLink(order.action, order.id)}>
-                  <Button className="bg-primary text-white hover:bg-primary/90 text-sm sm:text-base px-4 py-2 w-full sm:w-auto">
+                  <Button
+                    size="sm"
+                    className="bg-primary text-white hover:bg-primary/90 text-sm sm:text-base px-4 py-2 w-full sm:w-auto"
+                  >
                     {order.action}
                   </Button>
                 </Link>

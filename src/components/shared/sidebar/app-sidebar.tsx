@@ -67,11 +67,11 @@ const data = {
   },
   seller: {
     navMain: [
-      {
-        title: "Dashboard",
-        url: "/user/dashboard",
-        icon: LayoutDashboard,
-      },
+      // {
+      //   title: "Dashboard",
+      //   url: "/user/dashboard",
+      //   icon: LayoutDashboard,
+      // },
       {
         title: "My Products",
         url: "/seller/dashboard/my_products",

@@ -7,7 +7,7 @@ export default function AboutSection() {
       <section className="container mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">
               A Community of Creators, Collectors, and Curators
             </h1>
             <p className="text-gray-600 text-lg leading-relaxed">
@@ -43,7 +43,7 @@ export default function AboutSection() {
             />
           </div>
           <div className="space-y-6 order-1 lg:order-2">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">
               No Gatekeepers. No Middlemen. Just You & the Fit.
             </h2>
             <div className="space-y-3 text-gray-600">
@@ -65,7 +65,7 @@ export default function AboutSection() {
       <section className="container mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">
               We&apos;re Not a Shop. We&apos;re a Stage.
             </h2>
             <div className="space-y-3 text-gray-600">
@@ -99,15 +99,15 @@ export default function AboutSection() {
             />
           </div>
           <div className="space-y-6 order-1 lg:order-2">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h2 className="text-2xl lg:text-2xl font-bold text-gray-900 leading-tight">
               No Gatekeepers. No Middlemen. Just You & the Fit.
             </h2>
-            <div className="space-y-3 text-gray-600">
+            <div className="space-y-3 text-base text-gray-600">
               <p>No hidden algorithms.</p>
               <p>No overpriced hype.</p>
               <p>No boring cart checkouts.</p>
             </div>
-            <div className="space-y-3 text-gray-900 font-medium">
+            <div className="space-y-3 text-base text-gray-900 font-medium">
               <p>At Vine, you&apos;re in control.</p>
               <p>You name the price.</p>
               <p>You accept the bid.</p>

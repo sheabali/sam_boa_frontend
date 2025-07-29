@@ -61,12 +61,12 @@ function FormField({
               id={id}
               placeholder={placeholder}
               type={type}
-              className="py-[24px] px-6 rounded-2xl mt-1"
+              className="py-[18px] md:py-[24px] px-6 rounded-2xl mt-1"
               {...field}
             />
           )}
         />
-        <PencilIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <PencilIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-2 w-3 md:h-3 md:w-4 text-muted-foreground" />
       </div>
       {errors[id] && (
         <p className="text-sm text-red-500">{errors[id]?.message}</p>
@@ -153,11 +153,11 @@ export default function ProfileSettings() {
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold mb-8">Profile Settings</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-8">Profile Settings</h1>
 
       {/* Image Upload */}
       <div className="space-y-6 text-center mb-10">
-        <h2 className="text-[26px] font-semibold text-gray-900">
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
           Upload a Profile Picture
         </h2>
         <div className="w-full border-2 border-dashed border-gray-300 rounded-xl py-12 px-4 flex flex-col items-center bg-gray-100">
@@ -165,7 +165,7 @@ export default function ProfileSettings() {
             <Image
               src={imagePreview}
               alt="Preview"
-              className="w-40 h-40 object-cover rounded-full mb-4"
+              className="w-20 h-20 md:w-40 md:h-40 object-cover rounded-full mb-4"
               width={160}
               height={160}
             />
@@ -174,11 +174,13 @@ export default function ProfileSettings() {
               <Image
                 src="https://i.ibb.co/pCzqP9S/icon-7797704-640.png"
                 alt="Default Preview"
-                className="w-40 h-40 object-cover rounded-full mb-4"
+                className="w-20 h-20 md:w-40 md:h-40 object-cover rounded-full mb-4"
                 width={160}
                 height={160}
               />
-              <p className="text-gray-600 mb-2">Upload a Profile Picture</p>
+              <p className="text-gray-600 mb-2 text-sm md:text-base">
+                Upload a Profile Picture
+              </p>
             </>
           )}
           <input
@@ -189,7 +191,7 @@ export default function ProfileSettings() {
             className="hidden"
           />
           <label htmlFor="upload">
-            <div className="bg-red-800 text-white px-6 py-2 rounded-full inline-block cursor-pointer hover:bg-red-900">
+            <div className="bg-red-800 text-white h-9 md:h-11 px-6 py-2 rounded-full inline-block cursor-pointer hover:bg-red-900">
               Upload file
             </div>
           </label>
@@ -267,7 +269,7 @@ export default function ProfileSettings() {
                   onChange={(value) => field.onChange(value)}
                   containerClass="!w-full"
                   inputClass="!w-full !h-10 py-6  !text-sm !rounded-lg !pl-12 !border-gray-300"
-                  buttonClass="!h-12.2  !rounded-l-lg  !border-r-0 !border-gray-300"
+                  buttonClass="md:!h-12.2  !rounded-l-lg  !border-r-0 !border-gray-300"
                 />
               )}
             />
@@ -282,14 +284,14 @@ export default function ProfileSettings() {
         <div className="flex gap-4 justify-start">
           <Button
             type="submit"
-            className="bg-[#8B0000] hover:bg-[#6A0000] text-white px-8"
+            className="bg-[#8B0000] hover:bg-[#6A0000] text-white px-8 h-9 md:h-11"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Saving..." : "Save Changes"}
+            {isSubmitting ? "Saving..." : "Save"}
           </Button>
           <Button
             type="button"
-            className="text-muted-foreground px-8"
+            className="text-muted-foreground px-8 h-9 md:h-11"
             onClick={() => reset()}
           >
             Cancel

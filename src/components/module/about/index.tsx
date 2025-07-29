@@ -108,10 +108,10 @@ export default function About() {
         <AboutSection />
       </div>
       <div className="container mx-auto px-4 py-16 md:py-24 text-center">
-        <h1 className="text-4xl md:text-xl lg:text-[40px] font-bold text-gray-900 leading-tight mb-6">
+        <h1 className="text-2xl md:text-xl lg:text-[40px] font-bold text-gray-900 leading-tight mb-6">
           Join the Movement. Dress Loudly. Deal Freely.
         </h1>
-        <p className="text-gray-600 text-lg md:text-[24px] leading-relaxed mb-4">
+        <p className="text-gray-600 text-base md:text-[24px] leading-relaxed mb-4">
           Welcome to Vine — where fashion doesn’t just follow trends… It sets
           them.
         </p>

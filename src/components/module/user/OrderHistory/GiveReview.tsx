@@ -13,13 +13,13 @@ export default function GiveReviewPage() {
 
   return (
     <div className="container max-w-2xl  px-4 py-8 md:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold mb-6">Give a Review</h1>
+      <h1 className="text-xl md:text-3xl font-bold mb-6">Give a Review</h1>
 
       <div className="mb-8 my-auto">
-        <p className="text-lg font-semibold">
+        <p className="text-base lg:text-lg font-semibold">
           Product Name : <span className="font-normal">Example Product A</span>
         </p>
-        <p className="text-lg font-semibold">
+        <p className="text-base md:text-lg font-semibold">
           Saler Name : <span className="font-normal">Example Seller B</span>
         </p>
       </div>
@@ -54,7 +54,7 @@ export default function GiveReviewPage() {
 
       <Button
         onClick={handleSubmit}
-        className="w-full py-2 bg-primary text-white hover:bg-primary/90"
+        className="w-full py-2  h-9 md:h-12 bg-primary text-white hover:bg-primary/90"
       >
         Submit
       </Button>
