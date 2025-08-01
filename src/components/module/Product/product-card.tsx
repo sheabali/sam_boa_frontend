@@ -58,7 +58,7 @@ export default function ProductCard({
             {product.name}
           </h3>
           <p className="text-sm md:text-lg font-semibold text-gray-900 mb-3">
-            ₵{product.price}
+            ₵ {product.price}
           </p>
           <Button
             variant="outline"

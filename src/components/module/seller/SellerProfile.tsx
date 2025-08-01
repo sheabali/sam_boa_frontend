@@ -15,7 +15,7 @@ export default function SallerProfilePage() {
       image:
         "https://i.ibb.co/tprWjmtN/5bcf0032b459e28bfa6d164a846c119d68094d8f.png",
       name: 'Nike Dunk Low "Panda"',
-      price: "€70.00",
+      price: "70.00",
       views: 32,
     },
     {
@@ -23,7 +23,7 @@ export default function SallerProfilePage() {
       image:
         "https://i.ibb.co/jP0rSwpK/46c040f672d3a7f44ddc91a1cecc4797e92bfac6.png",
       name: "Vintage Cargo Pants",
-      price: "€70.00",
+      price: "70.00",
       views: 32,
     },
     {
@@ -31,7 +31,7 @@ export default function SallerProfilePage() {
       image:
         "https://i.ibb.co/tprWjmtN/5bcf0032b459e28bfa6d164a846c119d68094d8f.png",
       name: "Yeezy Boost 350",
-      price: "€70.00",
+      price: "70.00",
       views: 32,
     },
   ];
@@ -71,30 +71,34 @@ export default function SallerProfilePage() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
-            <Button className="bg-primary text-primary-foreground rounded-full hover:bg-primary/90 px-4 py-2 flex items-center">
+          <div className="grid grid-cols-3 gap-4 ">
+            <Button
+              size="sm"
+              className="bg-primary text-primary-foreground rounded-full hover:bg-primary/90 px-4 py-2 flex items-center"
+            >
               <UserPlus className="w-4 h-4 mr-2" />
               Follow
             </Button>
             <Button
+              size="sm"
               variant="outline"
               className="border-primary text-primary hover:bg-primary hover:text-white rounded-full"
             >
-              <MessageSquare />
+              <MessageSquare className="w-4 h-4 " />
             </Button>
-            <Link href={`/report/${1}`}>
-              <Button
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary hover:text-white rounded-full"
-              >
-                Report
-              </Button>
-            </Link>
+
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-primary text-primary hover:bg-primary hover:text-white rounded-full "
+            >
+              <Link href={`/report/${1}`}> Report</Link>
+            </Button>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center mb-6">
+        <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 text-center my-6">
           <div>
             <p className="text-lg sm:text-xl font-bold">212</p>
             <p className="text-gray-500 text-sm">Followers</p>
