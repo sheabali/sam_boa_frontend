@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Link } from "lucide-react";
 import { useState } from "react";
 import ProductCard from "../Product/product-card";
 
@@ -174,13 +174,15 @@ export default function AllProductsPage() {
 
         {/* View All Button */}
         <div className="text-center">
-          <Button
-            variant="outline"
-            className="px-3 py-2 h-9 lg:h-12 border-gray-300 hover:bg-gray-50 hover:text-white font-medium bg-transparent"
-          >
-            View All
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          <Link href="/explore">
+            <Button
+              variant="outline"
+              className="px-3 py-2 h-9 lg:h-12 border-gray-300 hover:bg-gray-50 hover:text-white font-medium bg-transparent"
+            >
+              View All
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

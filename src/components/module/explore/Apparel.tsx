@@ -9,7 +9,7 @@ const allProducts = [
   {
     id: 1,
     name: 'Nike Dunk Low "Panda"',
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/hF12zRC7/8f04b0df5efab58d2bef3a0d1974b6f28a80df84.png",
     views: 32,
@@ -17,7 +17,7 @@ const allProducts = [
   {
     id: 2,
     name: "Vintage Cargo Pants",
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/Wpq2YhCP/b8a8e668131d8f9651b2ebb42da957a98a3b5160.png",
     views: 32,
@@ -25,7 +25,7 @@ const allProducts = [
   {
     id: 3,
     name: "Yeezy Boost 350",
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/hF12zRC7/8f04b0df5efab58d2bef3a0d1974b6f28a80df84.png",
     views: 32,
@@ -33,7 +33,7 @@ const allProducts = [
   {
     id: 4,
     name: "Yeezy Boost 350",
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/Wpq2YhCP/b8a8e668131d8f9651b2ebb42da957a98a3b5160.png",
     views: 32,
@@ -41,7 +41,7 @@ const allProducts = [
   {
     id: 5,
     name: "Adidas Ultraboost",
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/hF12zRC7/8f04b0df5efab58d2bef3a0d1974b6f28a80df84.png",
     views: 28,
@@ -49,7 +49,7 @@ const allProducts = [
   {
     id: 6,
     name: "Denim Jacket",
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/Wpq2YhCP/b8a8e668131d8f9651b2ebb42da957a98a3b5160.png",
     views: 45,
@@ -57,7 +57,7 @@ const allProducts = [
   {
     id: 7,
     name: "Graphic T-Shirt",
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/hF12zRC7/8f04b0df5efab58d2bef3a0d1974b6f28a80df84.png",
     views: 19,
@@ -65,7 +65,7 @@ const allProducts = [
   {
     id: 8,
     name: "Leather Boots",
-    price: "£70.00",
+    price: "70.00",
     image:
       "https://i.ibb.co/Wpq2YhCP/b8a8e668131d8f9651b2ebb42da957a98a3b5160.png",
     views: 37,

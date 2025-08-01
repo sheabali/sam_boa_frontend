@@ -1,5 +1,6 @@
 import Button from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import ProductCard from "../Product/product-card";
 
 // https: //i.ibb.co/N6gsK2Zw/image-42.png
@@ -96,14 +97,16 @@ export default function TrendingProducts() {
 
       {/* View All Button */}
       <div className="text-center">
-        <Button
-          size="md"
-          variant="outline"
-          className="px-3 py-2 h-9 lg:h-12 border-gray-300 hover:bg-gray-50 hover:text-white font-medium bg-transparent"
-        >
-          View All
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
+        <Link href="/explore">
+          <Button
+            size="md"
+            variant="outline"
+            className="px-3 py-2 h-9 lg:h-12 border-gray-300 hover:bg-gray-50 hover:text-white font-medium bg-transparent"
+          >
+            View All
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </Link>
       </div>
     </section>
   );

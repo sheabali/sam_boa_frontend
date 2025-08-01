@@ -1,8 +1,10 @@
+// app/explore/page.tsx
+
 import Explore from "@/components/module/explore";
 import DynamicBanner from "@/components/shared/DynamicBanner";
 import SearchManagement from "@/components/shared/searchBar/SearchManagement";
 
-const page = () => {
+const ExplorePage = () => {
   return (
     <div>
       <DynamicBanner
@@ -14,7 +16,7 @@ const page = () => {
 
       <div className="mt-10">
         <h2 className="text-3xl lg:text-[60px] font-semibold text-center mb-4">
-          Mens
+          Men
         </h2>
         <Explore />
       </div>
@@ -22,4 +24,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ExplorePage;
