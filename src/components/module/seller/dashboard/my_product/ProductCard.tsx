@@ -35,15 +35,17 @@ export default function ProductCard({
             >
               Mark as sold
             </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => onEdit(product.id)}
-              className="w-full sm:w-auto px-4 py-2 text-sm sm:text-base hover:text-white"
-            >
-              <Edit className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
-              Edit
-            </Button>
+            <Link href={`/seller/dashboard/my_products/${product.id}`}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onEdit(product.id)}
+                className="w-full sm:w-auto px-4 py-2 text-sm sm:text-base hover:text-white"
+              >
+                <Edit className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+                Edit
+              </Button>
+            </Link>
           </div>
         );
       case "sold":
