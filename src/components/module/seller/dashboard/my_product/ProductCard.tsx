@@ -97,27 +97,28 @@ export default function ProductCard({
   };
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row items-start sm:items-center justify-between p-4 bg-white rounded-lg border border-gray-200 mb-4 sm:mb-5">
-      {/* Left Section */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
-        {/* Image */}
-        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
+    <div className="flex flex-col sm:flex-row w-full bg-white border border-gray-200 rounded-lg overflow-hidden mb-4 sm:mb-5">
+      {/* Left: Image */}
+      <div className="w-full sm:w-1/4 bg-gray-100 p-3 flex justify-center items-center">
+        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden">
           <Image
             src={product.image || "/placeholder.svg"}
             alt={product.name}
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             className="w-full h-full object-cover"
           />
         </div>
+      </div>
 
-        {/* Product Info */}
-        <div className="flex flex-col gap-2 w-full">
+      {/* Right: Details */}
+      <div className="w-full sm:w-3/4 flex flex-col justify-between p-4 gap-4">
+        {/* Product Details */}
+        <div className="flex flex-col gap-2">
           <h3 className="font-semibold text-base sm:text-lg lg:text-xl line-clamp-2">
             {product.name}
           </h3>
 
-          {/* Colors */}
           <div className="flex flex-col gap-1">
             <span className="text-xs sm:text-sm text-gray-600">
               Available Colors
@@ -133,17 +134,16 @@ export default function ProductCard({
             </div>
           </div>
 
-          {/* Product Details */}
-          <div className="flex flex-col gap-1 mt-2 text-xs sm:text-sm text-gray-600">
+          <div className="flex flex-col gap-1 text-xs sm:text-sm text-gray-600">
             <span>Size: {product.size}</span>
             <span>Brand: {product.brand}</span>
             <span>Condition: {product.condition}</span>
           </div>
         </div>
-      </div>
 
-      {/* Action Buttons */}
-      <div className="w-full sm:w-auto">{renderActionButtons()}</div>
+        {/* Bottom: Action Buttons */}
+        <div className="pt-2">{renderActionButtons()}</div>
+      </div>
     </div>
   );
 }

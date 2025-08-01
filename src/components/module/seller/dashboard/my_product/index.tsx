@@ -70,28 +70,28 @@ export default function ProductsPage() {
       </h1>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 bg-transparent border-b border-gray-200 rounded-none h-auto p-0 mb-4 sm:mb-6">
+        <TabsList className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 bg-transparent border-b border-gray-200 rounded-none h-auto p-0 mb-4 sm:mb-6">
           <TabsTrigger
             value="all"
-            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
+            className="text-[12px] md:text-sm sm:text-base  data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             All Products
           </TabsTrigger>
           <TabsTrigger
             value="unsold"
-            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
+            className="text-[12px] md:text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             Unsold Products
           </TabsTrigger>
           <TabsTrigger
             value="sold"
-            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
+            className="text-[12px] md:text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             Sold Products
           </TabsTrigger>
           <TabsTrigger
             value="draft"
-            className="text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
+            className="text-[12px] md:text-sm sm:text-base data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:bg-transparent rounded-none py-2 sm:pb-3"
           >
             Draft Items
           </TabsTrigger>
