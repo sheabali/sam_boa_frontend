@@ -20,7 +20,7 @@ export default function GiveReviewPage() {
           Product Name : <span className="font-normal">Example Product A</span>
         </p>
         <p className="text-base md:text-lg font-semibold">
-          Saler Name : <span className="font-normal">Example Seller B</span>
+          Seller Name : <span className="font-normal">Example Seller B</span>
         </p>
       </div>
 

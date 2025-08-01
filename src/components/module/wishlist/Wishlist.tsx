@@ -49,7 +49,7 @@ export default function WishlistPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div className="container mx-auto py-8 sm:px-6 lg:px-8">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
         Wishlist
       </h1>
@@ -57,26 +57,26 @@ export default function WishlistPage() {
         My Watch List
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
         {wishlistItems.map((item) => (
           <div
             key={item.id}
-            className="flex flex-col sm:flex-row items-center sm:items-start justify-between bg-gray-100 p-4 rounded-lg shadow-sm gap-4"
+            className="flex flex-row items-center justify-between bg-gray-100 p-4 rounded-lg shadow-sm gap-4"
           >
             {/* Left: Image & Info */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto flex-1">
+            <div className="flex flex-row items-center gap-2 w-full">
               <Image
                 src={item.imageSrc || "/placeholder.svg"}
                 alt={item.name}
                 width={100}
                 height={100}
-                className="rounded-md object-cover bg-gray-200 w-[100px] h-[100px]"
+                className="rounded-md object-cover bg-gray-200 w-[80px] h-[80px] md:w-[100px] md:h-[100px]"
               />
               <div className="text-center sm:text-left">
-                <h3 className="text-base sm:text-lg font-semibold">
+                <h3 className="text-[12px] md:text-sm  lg:text-base font-semibold">
                   {item.name}
                 </h3>
-                <p className="text-gray-800 text-lg sm:text-xl font-bold">
+                <p className="text-gray-800 text-[12px] md:text-sm lg:text-base font-bold">
                   {item.price}
                 </p>
               </div>
@@ -88,9 +88,12 @@ export default function WishlistPage() {
                 onClick={() => handleRemoveFromWishlist(item.id)}
                 className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition"
               >
-                <Trash2 className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                <Trash2 className="w-4 h-4 md:w-5 md:h-5 sm:w-6 sm:h-6 text-black" />
               </button>
-              <Button className="bg-[#8B0000] hover:bg-[#6A0000] text-white h-10 md:h-11 px-6 sm:px-10 rounded-full text-sm sm:text-base font-semibold w-full sm:w-auto">
+              <Button
+                size="sm"
+                className="bg-[#8B0000] hover:bg-[#6A0000] text-white  md:h-10 lg:h-14 sm:px-10 rounded-full md:text-sm sm:text-base font-semibold  sm:w-auto"
+              >
                 Buy Now
               </Button>
             </div>

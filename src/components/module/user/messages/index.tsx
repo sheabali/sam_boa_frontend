@@ -1,16 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import type React from "react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import Button from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLeft, ImageIcon, Paperclip, Send } from "lucide-react";
+import { ArrowLeft, ImageIcon, Paperclip, Send, Smile } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Message = {
   id: string;
@@ -20,6 +19,7 @@ type Message = {
   formLink?: boolean;
   timestamp: string;
   isSelf: boolean;
+  isRead?: boolean;
 };
 
 type Thread = {
@@ -48,51 +48,54 @@ const initialThreads: Thread[] = [
         id: "msg1",
         senderId: "other",
         text: "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore.",
-        timestamp: "10 AM",
+        timestamp: "10:00 AM",
         isSelf: false,
       },
       {
         id: "msg2",
         senderId: "other",
         text: "Sed Do Eiusmod Tempor Incididunt Ut Labore Et Magna Aliqua. Ut Enim Ad Minim Veniam, Quis Nostrud Exercitation Ullamco Laboris Nisi Ut Aliquip.",
-        timestamp: "10 AM",
+        timestamp: "10:05 AM",
         isSelf: false,
       },
       {
         id: "msg3",
         senderId: "self",
         text: "Lorem Ipsum Dolor Sit",
-        timestamp: "10 AM",
+        timestamp: "10:10 AM",
         isSelf: true,
+        isRead: true,
       },
       {
         id: "msg4",
         senderId: "other",
         text: "Sed Do Eiusmod Tempor Incididunt Ut Labore Et Magna Aliqua. Ut Enim Ad Minim Veniam, Quis Nostrud Exercitation Ullamco Laboris Nisi Ut Aliquip.",
-        timestamp: "10 AM",
+        timestamp: "10:15 AM",
         isSelf: false,
       },
       {
         id: "msg5",
         senderId: "self",
         text: "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing",
-        timestamp: "10 AM",
+        timestamp: "10:20 AM",
         isSelf: true,
+        isRead: true,
       },
       {
         id: "msg6",
         senderId: "self",
         imageUrl:
           "https://i.ibb.co/tprWjmtN/5bcf0032b459e28bfa6d164a846c119d68094d8f.png",
-        timestamp: "10 AM",
+        timestamp: "10:25 AM",
         isSelf: true,
+        isRead: true,
       },
       {
         id: "msg7",
         senderId: "other",
         text: "Sed Do Eiusmod Tempor Incididunt ",
         formLink: true,
-        timestamp: "10 AM",
+        timestamp: "10:30 AM",
         isSelf: false,
       },
     ],
@@ -110,15 +113,16 @@ const initialThreads: Thread[] = [
         id: "msg8",
         senderId: "other",
         text: "Hello Michael!",
-        timestamp: "9 AM",
+        timestamp: "09:00 AM",
         isSelf: false,
       },
       {
         id: "msg9",
         senderId: "self",
         text: "Hi there!",
-        timestamp: "9 AM",
+        timestamp: "09:05 AM",
         isSelf: true,
+        isRead: true,
       },
     ],
   },
@@ -135,7 +139,7 @@ const initialThreads: Thread[] = [
         id: "msg10",
         senderId: "other",
         text: "How are you?",
-        timestamp: "8 AM",
+        timestamp: "08:00 AM",
         isSelf: false,
       },
     ],
@@ -154,7 +158,7 @@ const initialThreads: Thread[] = [
         id: "msg11",
         senderId: "other",
         text: "Good morning!",
-        timestamp: "7 AM",
+        timestamp: "07:00 AM",
         isSelf: false,
       },
     ],
@@ -172,7 +176,7 @@ const initialThreads: Thread[] = [
         id: "msg12",
         senderId: "other",
         text: "Ticket #1234 has been updated.",
-        timestamp: "6 AM",
+        timestamp: "06:00 AM",
         isSelf: false,
       },
     ],
@@ -191,7 +195,7 @@ const initialThreads: Thread[] = [
         id: "msg13",
         senderId: "other",
         text: "Checking in!",
-        timestamp: "5 AM",
+        timestamp: "05:00 AM",
         isSelf: false,
       },
     ],
@@ -210,7 +214,7 @@ const initialThreads: Thread[] = [
         id: "msg14",
         senderId: "other",
         text: "See you soon.",
-        timestamp: "4 AM",
+        timestamp: "04:00 AM",
         isSelf: false,
       },
     ],
@@ -222,10 +226,15 @@ export default function DashboardMessagesPage() {
   const [threads, setThreads] = useState<Thread[]>(initialThreads);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const activeChat = threads.find((thread) => thread.id === activeChatId);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (activeChat && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [activeChat?.messages]);
 
   const handleImageUploadClick = () => {
     fileInputRef.current?.click();
@@ -245,6 +254,7 @@ export default function DashboardMessagesPage() {
             minute: "2-digit",
           }),
           isSelf: true,
+          isRead: true,
         };
 
         setThreads((prevThreads) =>
@@ -278,6 +288,7 @@ export default function DashboardMessagesPage() {
         minute: "2-digit",
       }),
       isSelf: true,
+      isRead: true,
     };
 
     setThreads((prevThreads) =>
@@ -288,7 +299,7 @@ export default function DashboardMessagesPage() {
               messages: [...thread.messages, newMsg],
               lastMessage: newMsg.text || "",
               time: "Just now",
-              unreadCount: 0, // Clear unread count when sending a message
+              unreadCount: 0,
             }
           : thread
       )
@@ -297,10 +308,10 @@ export default function DashboardMessagesPage() {
   };
 
   return (
-    <div className="container my-14 flex w-full flex-col md:flex-row bg-gray-100 dark:bg-gray-950">
+    <div className="container mt-14 mb-4 flex w-full flex-col bg-gray-100 dark:bg-gray-950 md:flex-row">
       {/* Sidebar */}
       <div
-        className={`$${
+        className={`${
           activeChatId ? "hidden" : "flex"
         } w-full flex-col border-b bg-white p-4 dark:border-gray-800 dark:bg-gray-900 md:flex md:w-80 md:border-r md:border-b-0`}
       >
@@ -327,12 +338,12 @@ export default function DashboardMessagesPage() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <h3 className="font-medium">{thread.name}</h3>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-xs text-write dark:text-gray-400">
                       {thread.time}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
+                    <p className="text-sm text-write dark:text-gray-400 line-clamp-1">
                       {thread.lastMessage}
                     </p>
                     {thread.unreadCount > 0 && (
@@ -359,6 +370,7 @@ export default function DashboardMessagesPage() {
           <>
             <div className="flex items-center gap-4 border-b p-4 dark:border-gray-800">
               <Button
+                size="sm"
                 className="md:hidden"
                 onClick={() => setActiveChatId(null)}
               >
@@ -370,7 +382,7 @@ export default function DashboardMessagesPage() {
               </Avatar>
               <div>
                 <h3 className="font-medium">{activeChat.name}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-write dark:text-gray-400">
                   {activeChat.username}
                 </p>
               </div>
@@ -383,7 +395,7 @@ export default function DashboardMessagesPage() {
                   <div
                     key={message.id}
                     className={`flex items-start gap-3 ${
-                      message.isSelf ? "justify-end" : ""
+                      message.isSelf ? "justify-end" : "justify-start"
                     }`}
                   >
                     {!message.isSelf && (
@@ -401,7 +413,7 @@ export default function DashboardMessagesPage() {
                       className={`max-w-[70%] rounded-lg p-3 ${
                         message.isSelf
                           ? "bg-primary text-white"
-                          : "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-50"
                       }`}
                     >
                       {message.text && (
@@ -426,15 +438,20 @@ export default function DashboardMessagesPage() {
                           className="rounded-md object-cover"
                         />
                       )}
-                      <span
-                        className={`mt-1 block text-right text-xs ${
-                          message.isSelf
-                            ? "text-gray-200"
-                            : "text-gray-500 dark:text-gray-400"
-                        }`}
-                      >
-                        {message.timestamp}
-                      </span>
+                      <div className="flex justify-between mt-1 text-xs">
+                        <span
+                          className={`${
+                            message.isSelf
+                              ? "text-gray-200"
+                              : "text-write dark:text-gray-400"
+                          }`}
+                        >
+                          {message.timestamp}
+                        </span>
+                        {message.isSelf && message.isRead && (
+                          <span className="text-gray-200">✓✓</span>
+                        )}
+                      </div>
                     </div>
                     {message.isSelf && (
                       <Avatar className="h-8 w-8">
@@ -464,14 +481,21 @@ export default function DashboardMessagesPage() {
                 className="hidden"
               />
               <Button size="sm" onClick={handleImageUploadClick} type="button">
-                <ImageIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <ImageIcon className="h-5 w-5 text-white dark:text-gray-400" />
               </Button>
               <Button
                 size="sm"
                 type="button"
                 onClick={() => alert("File upload not implemented yet!")}
               >
-                <Paperclip className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                <Paperclip className="h-5 w-5 text-write dark:text-gray-400" />
+              </Button>
+              <Button
+                size="sm"
+                type="button"
+                onClick={() => alert("Emoji picker not implemented yet!")}
+              >
+                <Smile className="h-5 w-5 text-write dark:text-gray-400" />
               </Button>
               <Input
                 placeholder="Type message here..."
@@ -479,13 +503,17 @@ export default function DashboardMessagesPage() {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
               />
-              <Button size="sm" type="submit" className="rounded-full ">
+              <Button
+                size="sm"
+                type="submit"
+                className="bg-blue-500 rounded-full"
+              >
                 <Send className="h-5 w-5 text-white" />
               </Button>
             </form>
           </>
         ) : (
-          <div className="flex h-full items-center justify-center text-gray-500">
+          <div className="flex h-full items-center justify-center text-write">
             Select a chat to start messaging.
           </div>
         )}
