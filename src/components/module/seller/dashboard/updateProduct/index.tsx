@@ -41,68 +41,97 @@ const formSchema = z.object({
   condition: z.string().min(1, "Condition is required"),
   brand: z.string().min(1, "Brand is required"),
   secondaryBrand: z.string().optional(),
-  availableSize: z.string().min(1, "Size is required"),
+  size: z.string().min(1, "Size is required"),
   setPrice: z.string().min(1, "Price is required"),
   setDiscount: z.string().optional(),
-  sizes: z.string().min(1, "Sizes is required"),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
+// Updated color palette based on the Figma "Color Dropdown" image
 const colors = [
-  { name: "Red", value: "#ef4444" },
-  { name: "Blue", value: "#3b82f6" },
-  { name: "Green", value: "#10b981" },
-  { name: "Yellow", value: "#f59e0b" },
-  { name: "Purple", value: "#8b5cf6" },
-  { name: "Pink", value: "#ec4899" },
-  { name: "Black", value: "#000000" },
-  { name: "White", value: "#ffffff" },
+  { name: "Red1", value: "#FF0000" }, // Bright Red
+  { name: "Red2", value: "#800000" }, // Dark Red
+  { name: "Red3", value: "#FF4040" }, // Light Red
+  { name: "Red4", value: "#FF3333" }, // Another Red shade
+  { name: "Blue1", value: "#0000FF" }, // Bright Blue
+  { name: "Blue2", value: "#000080" }, // Dark Blue
+  { name: "Blue3", value: "#00008B" }, // Navy Blue
+  { name: "Blue4", value: "#00B7EB" }, // Light Blue
+  { name: "Green1", value: "#00FF00" }, // Bright Green
+  { name: "Green2", value: "#008000" }, // Dark Green
+  { name: "Yellow1", value: "#FFFF00" }, // Bright Yellow
+  { name: "Yellow2", value: "#FFA500" }, // Orange-Yellow
+  { name: "Purple1", value: "#FF00FF" }, // Magenta
+  { name: "Purple2", value: "#800080" }, // Purple
+  { name: "Green3", value: "#32CD32" }, // Lime Green
 ];
 
-// Default fake data for the form
-const defaultFormData: FormData = {
-  productName: "Classic Sneakers",
-  description: "Comfortable and stylish sneakers perfect for everyday wear.",
-  hashtag: "#sneakers #fashion #casual",
-  category: "both",
-  productType: "footwear",
-  condition: "brand-new",
-  brand: "Nike",
-  secondaryBrand: "",
-  availableSize: "US 9",
-  setPrice: "99.99",
-  setDiscount: "10.00",
-  sizes: "US 9",
-};
+// Interface for existing product data
+interface ProductData extends FormData {
+  id: string;
+  selectedColors?: string[];
+  mainImageUrl?: string;
+  additionalImageUrls?: string[];
+}
 
-export default function UpdateProductForm() {
-  const [selectedColors, setSelectedColors] = useState<string[]>([
-    "#ef4444",
-    "#3b82f6",
+interface UpdateProductFormProps {
+  product: ProductData;
+}
+
+export default function UpdateProductForm({ product }: UpdateProductFormProps) {
+  const [selectedColors, setSelectedColors] = useState<string[]>(
+    product.selectedColors || []
+  );
+  const [images, setImages] = useState<(File | null)[]>([
+    null,
+    null,
+    null,
+    null,
   ]);
-  const [mainImage, setMainImage] = useState<File | null>(null);
-  const [additionalImage, setAdditionalImage] = useState<File | null>(null);
-  const [mainImagePreview, setMainImagePreview] = useState<string>("");
-  const [additionalImagePreview, setAdditionalImagePreview] =
-    useState<string>("");
-
-  // Initialize form with default fake data
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: defaultFormData,
+  const [imagePreviews, setImagePreviews] = useState<string[]>(() => {
+    const previews = ["", "", "", ""];
+    if (product.mainImageUrl) previews[0] = product.mainImageUrl;
+    if (product.additionalImageUrls) {
+      product.additionalImageUrls.slice(0, 3).forEach((url, i) => {
+        if (i + 1 < previews.length) previews[i + 1] = url;
+      });
+    }
+    return previews;
   });
 
-  // Cleanup image previews
+  // Initialize form with existing product data
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      productName: product.productName || "",
+      description: product.description || "",
+      hashtag: product.hashtag || "",
+      category: product.category || "",
+      productType: product.productType || "",
+      condition: product.condition || "",
+      brand: product.brand || "",
+      secondaryBrand: product.secondaryBrand || "",
+      size: product.size || "",
+      setPrice: product.setPrice || "",
+      setDiscount: product.setDiscount || "",
+    },
+  });
+
+  // Cleanup image previews for new uploads
   useEffect(() => {
     return () => {
-      if (mainImagePreview) URL.revokeObjectURL(mainImagePreview);
-      if (additionalImagePreview) URL.revokeObjectURL(additionalImagePreview);
+      imagePreviews.forEach((preview, index) => {
+        if (preview && images[index]) URL.revokeObjectURL(preview);
+      });
     };
-  }, [mainImagePreview, additionalImagePreview]);
+  }, [imagePreviews, images]);
 
   const handleColorSelect = (color: string) => {
-    if (!selectedColors.includes(color)) {
+    if (
+      !selectedColors.includes(color) &&
+      selectedColors.length < colors.length
+    ) {
       setSelectedColors([...selectedColors, color]);
     }
   };
@@ -113,7 +142,7 @@ export default function UpdateProductForm() {
 
   const handleImageUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: "main" | "additional"
+    index: number
   ) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -121,44 +150,55 @@ export default function UpdateProductForm() {
         toast.error("File size must be less than 5MB");
         return;
       }
-
       if (!file.type.startsWith("image/")) {
         toast.error("Please select an image file (JPG, PNG, JPEG)");
         return;
       }
-
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        if (type === "main") {
-          setMainImage(file);
-          setMainImagePreview(result);
-        } else {
-          setAdditionalImage(file);
-          setAdditionalImagePreview(result);
-        }
+        const newImages = [...images];
+        const newPreviews = [...imagePreviews];
+        newImages[index] = file;
+        newPreviews[index] = result;
+        setImages(newImages);
+        setImagePreviews(newPreviews);
       };
-      reader.onerror = () => {
-        toast.error("Error reading file");
-      };
+      reader.onerror = () => toast.error("Error reading file");
       reader.readAsDataURL(file);
     }
-
     event.target.value = "";
+  };
+
+  const removeImage = (index: number) => {
+    const newImages = [...images];
+    const newPreviews = [...imagePreviews];
+    newImages[index] = null;
+    newPreviews[index] = "";
+    setImages(newImages);
+    setImagePreviews(newPreviews);
   };
 
   const onSubmit = async (data: FormData) => {
     try {
       const formData = {
+        id: product.id,
         ...data,
         selectedColors,
-        mainImage,
-        additionalImage,
+        mainImage: images[0] || undefined,
+        additionalImages:
+          images.slice(1).filter((img) => img !== null) || undefined,
       };
-      console.log("Form submitted:", formData);
-      toast.success("Product created successfully!");
+      if (images.filter((img) => img !== null).length < 2) {
+        toast.error("Please upload at least 2 images.");
+        return;
+      }
+      console.log("Form updated:", formData);
+      toast.success("Product updated successfully!");
+      // TODO: Implement API call to update product
+      // await updateProductAPI(formData);
     } catch (error) {
-      toast.error("Failed to create product. Please try again.");
+      toast.error("Failed to update product. Please try again.");
       console.error("Submission error:", error);
     }
   };
@@ -166,12 +206,14 @@ export default function UpdateProductForm() {
   const onSaveAsDraft = () => {
     const currentData = form.getValues();
     console.log("Saved as draft:", {
+      id: product.id,
       ...currentData,
       selectedColors,
-      mainImage,
-      additionalImage,
+      mainImage: images[0] || undefined,
+      additionalImages:
+        images.slice(1).filter((img) => img !== null) || undefined,
     });
-    toast.info("Product saved as draft.");
+    toast.info("Product draft updated.");
   };
 
   return (
@@ -183,7 +225,7 @@ export default function UpdateProductForm() {
               <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>
-          <h1 className="text-lg font-semibold">Edit Products</h1>
+          <h1 className="text-lg font-semibold">Update Product</h1>
         </div>
 
         <div className="p-4 sm:p-6 lg:p-8">
@@ -274,9 +316,9 @@ export default function UpdateProductForm() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="men">Mens</SelectItem>
-                            <SelectItem value="women">Womens</SelectItem>
-                            <SelectItem value="both">Both</SelectItem>
+                            <SelectItem value="men">Men</SelectItem>
+                            <SelectItem value="women">Women</SelectItem>
+                            <SelectItem value="unisex">Unisex</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -392,7 +434,7 @@ export default function UpdateProductForm() {
 
                   <FormField
                     control={form.control}
-                    name="sizes"
+                    name="size"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm font-medium text-gray-700">
@@ -446,38 +488,40 @@ export default function UpdateProductForm() {
                       {selectedColors.map((color, index) => (
                         <div key={index} className="relative">
                           <div
-                            className="w-8 h-8 rounded-full border-2 border-gray-200"
+                            className="w-8 h-8 rounded border-2 border-gray-200"
                             style={{ backgroundColor: color }}
                             aria-label={`Selected color ${color}`}
                           />
                           {selectedColors.length > 0 && (
-                            <Button
+                            <button
                               type="button"
-                              size="sm"
+                              // size="sm"
                               className="absolute -top-1 -right-1 w-4 h-4 p-0 bg-gray-500 hover:bg-gray-600 rounded-full"
                               onClick={() => handleColorRemove(color)}
                               aria-label={`Remove color ${color}`}
                             >
-                              <X className="w-2 h-2 text-white" />
-                            </Button>
+                              <X className="w-4 h-4 text-white" />
+                            </button>
                           )}
                         </div>
                       ))}
-                      <div className="flex flex-wrap gap-1">
+                      <div className="grid grid-cols-4 gap-1">
                         {colors
                           .filter(
                             (color) => !selectedColors.includes(color.value)
                           )
-                          .slice(0, 5)
                           .map((color) => (
-                            <Button
+                            <button
                               key={color.value}
-                              className="w-6 h-6 p-0 bg-none rounded-full border border-gray-300"
+                              className="w-8 h-8 p-0 rounded border border-gray-300"
                               onClick={() => handleColorSelect(color.value)}
                               aria-label={`Select color ${color.name}`}
                             >
-                              <div style={{ backgroundColor: color.value }} />
-                            </Button>
+                              <div
+                                className="w-full h-full rounded"
+                                style={{ backgroundColor: color.value }}
+                              />
+                            </button>
                           ))}
                       </div>
                     </div>
@@ -529,157 +573,85 @@ export default function UpdateProductForm() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                <div className="space-y-2">
-                  <Label
-                    className="text-sm font-medium text-gray-700"
-                    htmlFor="main-image-upload"
-                  >
-                    Upload Product Picture (Main)
-                  </Label>
-                  <div className="relative">
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/jpg"
-                      className="hidden"
-                      id="main-image-upload"
-                      onChange={(e) => handleImageUpload(e, "main")}
-                      aria-label="Upload main product image"
-                    />
-                    <Card
-                      className="border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors cursor-pointer"
-                      onClick={() =>
-                        document.getElementById("main-image-upload")?.click()
-                      }
-                      role="button"
-                      aria-label="Upload main product image"
-                    >
-                      <CardContent className="p-4">
-                        {mainImagePreview ? (
-                          <div className="relative">
-                            <Image
-                              src={mainImagePreview}
-                              alt="Main product preview"
-                              className="w-full h-32 sm:h-40 object-cover rounded"
-                              width={200}
-                              height={200}
-                            />
-                            <Button
-                              type="button"
-                              size="sm"
-                              className="absolute top-1 right-1 w-6 h-6 p-0 bg-black/50 hover:bg-black/70 rounded-full"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setMainImage(null);
-                                setMainImagePreview("");
-                              }}
-                              aria-label="Remove main image"
-                            >
-                              <X className="w-3 h-3 text-white" />
-                            </Button>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col items-center justify-center h-32 sm:h-40 text-gray-400">
-                            <Camera className="w-8 h-8 mb-1" />
-                            <span className="text-xs">Choose File</span>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    Formats: JPG, PNG, JPEG - Max 5MB
-                  </p>
-                  {!mainImage && (
-                    <p className="text-xs text-gray-400">No File Chosen</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} className="space-y-2">
                     <Label
                       className="text-sm font-medium text-gray-700"
-                      htmlFor="additional-image-upload"
+                      htmlFor={`image-upload-${index}`}
                     >
-                      Additional Picture
+                      {index === 0 ? "Main Image" : `Additional Image ${index}`}
                     </Label>
-                    <Button
-                      type="button"
-                      size="sm"
-                      className="text-xs text-gray-500"
-                      disabled
-                    >
-                      NO MORE
-                    </Button>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/jpg"
+                        className="hidden"
+                        id={`image-upload-${index}`}
+                        onChange={(e) => handleImageUpload(e, index)}
+                        aria-label={`Upload image ${index + 1}`}
+                      />
+                      <Card
+                        className="border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors cursor-pointer"
+                        onClick={() =>
+                          document
+                            .getElementById(`image-upload-${index}`)
+                            ?.click()
+                        }
+                        role="button"
+                        aria-label={`Upload image ${index + 1}`}
+                      >
+                        <CardContent className="p-4">
+                          {imagePreviews[index] ? (
+                            <div className="relative">
+                              <Image
+                                src={imagePreviews[index]}
+                                alt={`Image preview ${index + 1}`}
+                                className="w-full h-32 sm:h-40 object-cover rounded"
+                                width={200}
+                                height={200}
+                              />
+                              <Button
+                                type="button"
+                                size="sm"
+                                className="absolute top-1 right-1 w-6 h-6 p-0 bg-black/50 hover:bg-black/70 rounded-full"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  removeImage(index);
+                                }}
+                                aria-label={`Remove image ${index + 1}`}
+                              >
+                                <X className="w-3 h-3 text-white" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <div className="flex flex-col items-center justify-center h-32 sm:h-40 text-gray-400">
+                              <Camera className="w-8 h-8 mb-1" />
+                              <span className="text-xs">Choose File</span>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Formats: JPG, PNG, JPEG - Max 5MB
+                    </p>
+                    {!images[index] && !imagePreviews[index] && (
+                      <p className="text-xs text-gray-400">No File Chosen</p>
+                    )}
                   </div>
-                  <div className="relative">
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/jpg"
-                      className="hidden"
-                      id="additional-image-upload"
-                      onChange={(e) => handleImageUpload(e, "additional")}
-                      aria-label="Upload additional product image"
-                    />
-                    <Card
-                      className="border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors cursor-pointer"
-                      onClick={() =>
-                        document
-                          .getElementById("additional-image-upload")
-                          ?.click()
-                      }
-                      role="button"
-                      aria-label="Upload additional product image"
-                    >
-                      <CardContent className="p-4">
-                        {additionalImagePreview ? (
-                          <div className="relative">
-                            <Image
-                              src={additionalImagePreview}
-                              alt="Additional product preview"
-                              className="w-full h-32 sm:h-40 object-cover rounded"
-                              width={200}
-                              height={200}
-                            />
-                            <Button
-                              type="button"
-                              size="sm"
-                              className="absolute top-1 right-1 w-6 h-6 p-0 bg-black/50 hover:bg-black/70 rounded-full"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setAdditionalImage(null);
-                                setAdditionalImagePreview("");
-                              }}
-                              aria-label="Remove additional image"
-                            >
-                              <X className="w-3 h-3 text-white" />
-                            </Button>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col items-center justify-center h-32 sm:h-40 text-gray-400">
-                            <Camera className="w-8 h-8 mb-1" />
-                            <span className="text-xs">Choose File</span>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    Formats: JPG, PNG, JPEG - Max 5MB
-                  </p>
-                  {!additionalImage && (
-                    <p className="text-xs text-gray-400">No File Chosen</p>
-                  )}
-                </div>
+                ))}
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-6">
                 <Button
                   type="submit"
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                   disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting ? "Creating..." : "Create New"}
+                  {form.formState.isSubmitting
+                    ? "Updating..."
+                    : "Update Product"}
                 </Button>
                 <Button
                   type="button"
