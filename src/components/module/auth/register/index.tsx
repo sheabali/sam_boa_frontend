@@ -23,6 +23,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { toast } from "sonner";
 import { z } from "zod";
 
 // const interests = [
@@ -315,11 +316,11 @@ export default function VibeOnboarding() {
 
       const result = await response.json();
       console.log("API Response:", JSON.stringify(result, null, 2));
-      alert("Onboarding completed successfully!");
       router.push("/");
     } catch (error) {
+      toast.success("Onboarding completed successfully!"); //todo remove this line just for testing
+      router.push("/");
       console.error("Error submitting form:", error);
-      alert("An error occurred during submission. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -507,13 +508,15 @@ export default function VibeOnboarding() {
             </div>
             <div className="space-y-4">
               <div>
-                <Label>What is your shoe size?</Label>
+                <Label className="text-sm md:text-base">
+                  What is your shoe size?
+                </Label>
                 <Controller
                   name="shoeSize"
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-6 mt-2">
+                      <SelectTrigger className="w-full py-5 rounded-2xl mt-2">
                         <SelectValue placeholder="Select Size" />
                       </SelectTrigger>
                       <SelectContent>
@@ -533,13 +536,15 @@ export default function VibeOnboarding() {
                 )}
               </div>
               <div>
-                <Label>What is your top size?</Label>
+                <Label className="text-sm md:text-base">
+                  What is your top size?
+                </Label>
                 <Controller
                   name="topSize"
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-6 mt-2">
+                      <SelectTrigger className="w-full py-5 rounded-2xl mt-2">
                         <SelectValue placeholder="Select Size" />
                       </SelectTrigger>
                       <SelectContent>
@@ -559,13 +564,15 @@ export default function VibeOnboarding() {
                 )}
               </div>
               <div>
-                <Label>What is your trouser or skirt size?</Label>
+                <Label className="text-sm md:text-base">
+                  What is your trouser or skirt size?
+                </Label>
                 <Controller
                   name="trouserSize"
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-6 mt-2">
+                      <SelectTrigger className="w-full py-5 rounded-2xl mt-2">
                         <SelectValue placeholder="Select Size" />
                       </SelectTrigger>
                       <SelectContent>
@@ -753,7 +760,8 @@ export default function VibeOnboarding() {
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-3 sm:py-4 mt-2 rounded-2xl text-sm sm:text-base">
+                      <SelectTrigger className="w-full py-5 md:py-6 mt-2 rounded-2xl text-sm md:text-base">
+                        {" "}
                         <SelectValue placeholder="Select Region" />
                       </SelectTrigger>
                       <SelectContent>
@@ -779,7 +787,7 @@ export default function VibeOnboarding() {
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-3 sm:py-4 mt-2 rounded-2xl text-sm sm:text-base">
+                      <SelectTrigger className="w-full py-5 md:py-6 mt-2 rounded-2xl text-sm md:text-base">
                         <SelectValue placeholder="Select City or Town" />
                       </SelectTrigger>
                       <SelectContent>
@@ -798,6 +806,7 @@ export default function VibeOnboarding() {
                   </p>
                 )}
               </div>
+
               <div>
                 <Label htmlFor="area">Area</Label>
                 <Controller
@@ -807,7 +816,7 @@ export default function VibeOnboarding() {
                     <Input
                       {...field}
                       placeholder="Enter your area"
-                      className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
+                      className="py-5 md:py-6 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
                     />
                   )}
                 />
@@ -851,7 +860,7 @@ export default function VibeOnboarding() {
                     <Input
                       {...field}
                       placeholder="Enter your email"
-                      className="py-3 sm:py-4 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
+                      className="py-5 md:py-6 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
                     />
                   )}
                 />
@@ -882,7 +891,9 @@ export default function VibeOnboarding() {
             </div>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label className="text-sm md:text-base" htmlFor="email">
+                  Email
+                </Label>
                 <Controller
                   name="email"
                   control={control}
@@ -892,7 +903,7 @@ export default function VibeOnboarding() {
                       id="email"
                       type="email"
                       placeholder="email@gmail.com"
-                      className="py-[24px] px-6 rounded-2xl mt-1"
+                      className="py-5 md:py-6 px-6 rounded-2xl mt-1"
                     />
                   )}
                 />
@@ -903,7 +914,9 @@ export default function VibeOnboarding() {
                 )}
               </div>
               <div>
-                <Label htmlFor="password">Password</Label>
+                <Label className="text-sm md:text-base" htmlFor="password">
+                  Password
+                </Label>
                 <Controller
                   name="password"
                   control={control}
@@ -913,7 +926,7 @@ export default function VibeOnboarding() {
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Password"
-                      className="py-[24px] px-6 rounded-2xl mt-1"
+                      className="py-5 md:py-6 px-6 rounded-2xl mt-1"
                     />
                   )}
                 />
