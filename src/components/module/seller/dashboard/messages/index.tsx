@@ -3,9 +3,9 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLeft, ImageIcon, Paperclip, Send, Smile } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowLeft, ImageIcon, Send } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
@@ -471,7 +471,7 @@ export default function DashboardMessagesPage() {
             {/* Message input */}
             <form
               onSubmit={handleSendMessage}
-              className="flex items-center gap-2 border-t p-4 dark:border-gray-800"
+              className="flex items-start gap-2 border-t p-4 dark:border-gray-800"
             >
               <input
                 type="file"
@@ -483,23 +483,24 @@ export default function DashboardMessagesPage() {
               <Button size="sm" onClick={handleImageUploadClick} type="button">
                 <ImageIcon className="h-5 w-5 text-white dark:text-gray-400" />
               </Button>
-              <Button
+              {/* <Button
                 size="sm"
                 type="button"
                 onClick={() => alert("File upload not implemented yet!")}
+                className="hidden lg:block"
               >
-                <Paperclip className="h-5 w-5 text-write dark:text-gray-400" />
-              </Button>
-              <Button
+                <PaperclipIcon className="h-5 w-5 text-write dark:text-gray-400" />
+              </Button> */}
+              {/* <Button
                 size="sm"
                 type="button"
                 onClick={() => alert("Emoji picker not implemented yet!")}
               >
                 <Smile className="h-5 w-5 text-write dark:text-gray-400" />
-              </Button>
-              <Input
+              </Button> */}
+              <Textarea
                 placeholder="Type message here..."
-                className="flex-1 rounded-full bg-gray-100 px-4 py-2 dark:bg-gray-800"
+                className="flex-1 resize-none bg-gray-100 px-4 py-2  dark:bg-gray-800"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
               />
