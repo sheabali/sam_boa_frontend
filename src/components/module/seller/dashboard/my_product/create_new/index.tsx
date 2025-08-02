@@ -22,6 +22,7 @@ const formSchema = z.object({
   sizes: z.string().min(1, "Size is required"),
   setPrice: z.string().min(1, "Price is required"),
   setDiscount: z.string().optional(),
+  interests: z.string().min(1, "Interests is required"),
 });
 
 const colors = [
@@ -75,6 +76,7 @@ export default function CreateProductForm() {
       sizes: "",
       setPrice: "",
       setDiscount: "",
+      interests: "",
     },
   });
 
@@ -254,26 +256,53 @@ export default function CreateProductForm() {
                     </p>
                   )}
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Product Type
-                  </label>
-                  <select
-                    {...form.register("productType")}
-                    className="w-full p-2 border rounded"
-                    aria-label="Select product type"
-                  >
-                    <option value="">Select type</option>
-                    <option value="footwear">Footwear</option>
-                    <option value="clothing">Clothing</option>
-                    <option value="accessories">Accessories</option>
-                    <option value="bags">Bags</option>
-                  </select>
-                  {form.formState.errors.productType && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.productType.message}
-                    </p>
-                  )}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      Product Type
+                    </label>
+                    <select
+                      {...form.register("productType")}
+                      className="w-full p-2 border rounded"
+                      aria-label="Select product type"
+                    >
+                      <option value="">Select type</option>
+                      <option value="footwear">Footwear</option>
+                      <option value="clothing">Clothing</option>
+                      <option value="accessories">Accessories</option>
+                      <option value="bags">Bags</option>
+                    </select>
+                    {form.formState.errors.productType && (
+                      <p className="text-red-500 text-xs">
+                        {form.formState.errors.productType.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      Interests
+                    </label>
+                    <select
+                      {...form.register("interests")}
+                      className="w-full p-2 border rounded"
+                      aria-label="Select interests"
+                    >
+                      <option value="">Select interests</option>
+                      <option value="streetwear">Streetwear</option>
+                      <option value="vintage">Vintage</option>
+                      <option value="sportswear">Sportswear</option>
+                      <option value="luxury">Luxury</option>
+                      <option value="independent-brands">
+                        Independent brands
+                      </option>
+                      <option value="old-fashion">Old fashion</option>
+                    </select>
+                    {form.formState.errors.condition && (
+                      <p className="text-red-500 text-xs">
+                        {form.formState.errors.condition.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex-1 space-y-6 mt-6 lg:mt-0">
@@ -346,7 +375,7 @@ export default function CreateProductForm() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center md:mt-18 justify-between">
                     <label className="text-sm font-medium text-gray-700">
                       Available Colors
                     </label>
@@ -407,7 +436,7 @@ export default function CreateProductForm() {
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
                   <div>
                     <label className="text-sm font-medium text-gray-700">
                       Set Price

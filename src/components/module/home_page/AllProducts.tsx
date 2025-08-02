@@ -1,7 +1,8 @@
 "use client";
 
 import Button from "@/components/ui/button";
-import { ArrowRight, Link } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import ProductCard from "../Product/product-card";
 

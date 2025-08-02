@@ -21,7 +21,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -86,14 +85,14 @@ const formSchema = z.object({
     .string()
     .min(1, "Last name is required")
     .max(50, "Last name cannot exceed 50 characters"),
-  mobileNumber: z.string().min(1, "Mobile number is required"),
+  // mobileNumber: z.string().min(1, "Mobile number is required"),
 
-  mobileMoneyName: z
-    .string()
-    .min(1, "Mobile money provider is required")
-    .refine((value) => ["telecel", "mtn", "airteltigo"].includes(value), {
-      message: "Invalid mobile money provider",
-    }),
+  // mobileMoneyName: z
+  //   .string()
+  //   .min(1, "Mobile money provider is required")
+  //   .refine((value) => ["telecel", "mtn", "airteltigo"].includes(value), {
+  //     message: "Invalid mobile money provider",
+  //   }),
   city: z.string().min(1, "City is required"),
   region: z.string().min(1, "Region is required"),
   area: z.string().min(1, "Area is required"),
@@ -143,8 +142,8 @@ const stepFields: { [key: string]: (keyof FormData)[] } = {
   interests: ["interests"],
   brands: ["selectedBrands"],
   sizes: ["shoeSize", "topSize", "trouserSize"],
-  register: ["firstName", "lastName", "mobileNumber", "mobileMoneyName"],
-  address: ["region", "city", "area", "mobileNumber", "email"],
+  register: ["firstName", "lastName"], //"mobileNumber", "mobileMoneyName"],
+  address: ["region", "city", "area"], //"mobileNumber", "email"],
   make_account: ["email", "password"],
 };
 
@@ -153,7 +152,7 @@ const categories = [
   {
     id: "mensware",
     label: "Shop Mensware",
-    image: "https://i.ibb.co/ycvbKsQV/Rectangle-23854.png",
+    image: "https://i.ibb.co/mVjzdhHW/Rectangle-23852.png",
   },
   {
     id: "womensware",
@@ -163,7 +162,7 @@ const categories = [
   {
     id: "both",
     label: "Shop Both",
-    image: "https://i.ibb.co/mVjzdhHW/Rectangle-23852.png",
+    image: "https://i.ibb.co/ycvbKsQV/Rectangle-23854.png",
   },
 ];
 
@@ -172,32 +171,32 @@ const interests = [
   {
     id: "streetwear",
     label: "Streetwear",
-    image: "https://i.ibb.co/WNy9Tk2k/Rectangle-23854-2.png",
+    image: "https://i.ibb.co/RVf6mfx/Rectangle-23852-1.png",
   },
   {
     id: "vintage",
     label: "Vintage",
-    image: "https://i.ibb.co/0VD0pJW2/Rectangle-23853-2.png",
+    image: "https://i.ibb.co/v43nVf4b/Rectangle-23853-1.png",
   },
   {
     id: "sportswear",
     label: "Sportswear",
-    image: "https://i.ibb.co/8JtGCmW/Rectangle-23852-2.png",
+    image: "https://i.ibb.co/Rkp8d1qq/Rectangle-23854-1.png",
   },
   {
     id: "luxury",
     label: "Luxury",
-    image: "https://i.ibb.co/Rkp8d1qq/Rectangle-23854-1.png",
+    image: "https://i.ibb.co/8JtGCmW/Rectangle-23852-2.png",
   },
   {
     id: "independent",
     label: "Independent brands",
-    image: "https://i.ibb.co/v43nVf4b/Rectangle-23853-1.png",
+    image: "https://i.ibb.co/0VD0pJW2/Rectangle-23853-2.png",
   },
   {
     id: "old-fashion",
     label: "Old fashion",
-    image: "https://i.ibb.co/RVf6mfx/Rectangle-23852-1.png",
+    image: "https://i.ibb.co/WNy9Tk2k/Rectangle-23854-2.png",
   },
 ];
 
@@ -231,8 +230,8 @@ export default function VibeOnboarding() {
       password: "",
       firstName: "",
       lastName: "",
-      mobileNumber: "",
-      mobileMoneyName: "",
+      // mobileNumber: "",
+      // mobileMoneyName: "",
       city: "",
       region: "",
       area: "",
@@ -667,7 +666,7 @@ export default function VibeOnboarding() {
                   </p>
                 )}
               </div>
-              <div>
+              {/* <div>
                 <Label className="text-sm md:text-base" htmlFor="mobileNumber">
                   Mobile money number<span className="text-red-500">*</span>
                 </Label>
@@ -725,7 +724,7 @@ export default function VibeOnboarding() {
                     {errors.mobileMoneyName.message}
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
             <Button
               onClick={handleNext}
@@ -826,7 +825,7 @@ export default function VibeOnboarding() {
                   </p>
                 )}
               </div>
-              <div>
+              {/* <div>
                 <Label htmlFor="mobileNumber">
                   Phone<span className="text-red-500">*</span>
                 </Label>
@@ -850,8 +849,8 @@ export default function VibeOnboarding() {
                     {errors.mobileNumber.message}
                   </p>
                 )}
-              </div>
-              <div>
+              </div> */}
+              {/* <div>
                 <Label htmlFor="email">Email</Label>
                 <Controller
                   name="email"
@@ -869,7 +868,7 @@ export default function VibeOnboarding() {
                     {errors.email.message}
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
             <Button
               onClick={handleNext}

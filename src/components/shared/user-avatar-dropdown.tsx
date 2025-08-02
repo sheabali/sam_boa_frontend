@@ -26,10 +26,10 @@ export default function UserAvatarDropdown({
     let path = "/";
     switch (value) {
       case "user":
-        path = "/user/dashboard";
+        path = "/user/dashboard/order/order_history";
         break;
       case "seller":
-        path = "/seller/dashboard";
+        path = "/seller/dashboard/my_products";
         break;
       case "admin":
         path = "/admin/dashboard";

@@ -12,8 +12,25 @@ import { z } from "zod";
 import Button from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+
+// Data to be filled
+const user = {
+  firstName: "John",
+  lastName: "Doe",
+  region: "Kampala",
+  city: "Kampala",
+  area: "Kampala",
+  mobileMoneyName: "Airtel Money",
+  email: "V9a6j@example.com",
+  mobileNumber: "256700000000",
+  category: "Shop Mensware",
+  interests: "Sportswear",
+  brands: "Nike",
+  shoeSize: "Mens / UK 8.5",
+  topSize: "Mens / UK 11.5",
+  trouserOrSkirtSize: "Mens / UK L",
+};
 
 // Schema
 const profileSchema = z.object({
@@ -25,6 +42,12 @@ const profileSchema = z.object({
   mobileMoneyName: z.string().min(1, "Mobile Money Name is required"),
   email: z.string().email("Invalid email address"),
   mobileNumber: z.string().min(10, "Invalid phone number"),
+  category: z.string().min(1, "Category is required"),
+  interests: z.string().min(1, "Interests is required"),
+  brands: z.string().min(1, "Brands is required"),
+  shoeSize: z.string().min(1, "Shoe Size is required"),
+  topSize: z.string().min(1, "Top Size is required"),
+  trouserOrSkirtSize: z.string().min(1, "Trouser or Skirt Size is required"),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
@@ -102,14 +125,20 @@ export default function ProfileSettings() {
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      region: "",
-      city: "",
-      area: "",
-      mobileMoneyName: "",
-      email: "",
-      mobileNumber: "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      region: user?.region || "",
+      city: user?.city || "",
+      area: user?.area || "",
+      mobileMoneyName: user?.mobileMoneyName || "",
+      email: user?.email || "",
+      mobileNumber: user?.mobileNumber || "",
+      category: user?.category || "",
+      interests: user?.interests || "",
+      brands: user?.brands || "",
+      shoeSize: user?.shoeSize || "",
+      topSize: user?.topSize || "",
+      trouserOrSkirtSize: user?.trouserOrSkirtSize || "",
     },
   });
 
@@ -236,13 +265,13 @@ export default function ProfileSettings() {
             control={control}
             errors={errors}
           />
-          <FormField
+          {/* <FormField
             id="mobileMoneyName"
             label="Registered Mobile Money Name"
             placeholder="Telecel"
             control={control}
             errors={errors}
-          />
+          /> */}
           <FormField
             id="email"
             label="Email"
@@ -252,8 +281,50 @@ export default function ProfileSettings() {
             errors={errors}
           />
 
+          <FormField
+            id="category"
+            label="Category"
+            placeholder="Your category"
+            control={control}
+            errors={errors}
+          />
+          <FormField
+            id="interests"
+            label="Interests"
+            placeholder="Your interests"
+            control={control}
+            errors={errors}
+          />
+          <FormField
+            id="brands"
+            label="brands"
+            placeholder="Your brands"
+            control={control}
+            errors={errors}
+          />
+          <FormField
+            id="shoeSize"
+            label="Shoe Size"
+            placeholder="Shoe Size"
+            control={control}
+            errors={errors}
+          />
+          <FormField
+            id="topSize"
+            label="Top Size"
+            placeholder="Top Size"
+            control={control}
+            errors={errors}
+          />
+          <FormField
+            id="trouserOrSkirtSize"
+            label="Trouser Or Skirt Size"
+            placeholder="Trouser Or Skirt Size"
+            control={control}
+            errors={errors}
+          />
           {/* Phone Input */}
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="mobileNumber">Mobile Number</Label>
             <Controller
               name="mobileNumber"
@@ -278,7 +349,7 @@ export default function ProfileSettings() {
                 {errors.mobileNumber.message}
               </p>
             )}
-          </div>
+          </div> */}
         </div>
 
         <div className="flex gap-4 justify-start">
