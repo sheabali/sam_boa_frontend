@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
-// Define form schema
 const formSchema = z.object({
   productName: z.string().min(1, "Product name is required"),
   description: z.string().min(1, "Description is required"),
@@ -25,27 +24,32 @@ const formSchema = z.object({
   setDiscount: z.string().optional(),
 });
 
-type FormData = z.infer<typeof formSchema>;
-
 const colors = [
-  { name: "Red1", value: "#FF0000" }, // Bright Red
-  { name: "Red2", value: "#800000" }, // Dark Red
-  { name: "Red3", value: "#FF4040" }, // Light Red
-  { name: "Red4", value: "#FF3333" }, // Another Red shade
-  { name: "Blue1", value: "#0000FF" }, // Bright Blue
-  { name: "Blue2", value: "#000080" }, // Dark Blue
-  { name: "Blue3", value: "#00008B" }, // Navy Blue
-  { name: "Blue4", value: "#00B7EB" }, // Light Blue
-  { name: "Green1", value: "#00FF00" }, // Bright Green
-  { name: "Green2", value: "#008000" }, // Dark Green
-  { name: "Yellow1", value: "#FFFF00" }, // Bright Yellow
-  { name: "Yellow2", value: "#FFA500" }, // Orange-Yellow
-  { name: "Purple1", value: "#FF00FF" }, // Magenta
-  { name: "Purple2", value: "#800080" }, // Purple
-  { name: "Green3", value: "#32CD32" }, // Lime Green
+  { name: "Red", value: "#FF0000" },
+  { name: "Maroon", value: "#800000" },
+  { name: "Light Red", value: "#FF4040" },
+  { name: "Crimson", value: "#DC143C" },
+  { name: "Blue", value: "#0000FF" },
+  { name: "Navy", value: "#000080" },
+  { name: "Sky Blue", value: "#87CEEB" },
+  { name: "Teal", value: "#008080" },
+  { name: "Green", value: "#008000" },
+  { name: "Lime", value: "#32CD32" },
+  { name: "Olive", value: "#808000" },
+  { name: "Yellow", value: "#FFFF00" },
+  { name: "Orange", value: "#FFA500" },
+  { name: "Purple", value: "#800080" },
+  { name: "Magenta", value: "#FF00FF" },
+  { name: "Pink", value: "#FFC0CB" },
+  { name: "Brown", value: "#A52A2A" },
+  { name: "Gray", value: "#808080" },
+  { name: "Multicolored", value: "multicolored" },
+  { name: "Other", value: "other" },
 ];
 
-const brands = ["Nike", "Adidas", "Puma", "Reebok"];
+const brands = ["Nike", "Adidas", "Puma", "Reebok", "Others"];
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function CreateProductForm() {
   const [selectedColors, setSelectedColors] = React.useState<string[]>([]);
@@ -74,14 +78,6 @@ export default function CreateProductForm() {
     },
   });
 
-  React.useEffect(() => {
-    return () => {
-      imagePreviews.forEach((preview) => {
-        if (preview) URL.revokeObjectURL(preview);
-      });
-    };
-  }, [imagePreviews]);
-
   const handleColorSelect = (color: string) => {
     if (
       !selectedColors.includes(color) &&
@@ -101,14 +97,11 @@ export default function CreateProductForm() {
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("File size must be less than 5MB");
-        return;
-      }
-      if (!file.type.startsWith("image/")) {
-        toast.error("Please select an image file (JPG, PNG, JPEG)");
-        return;
-      }
+      if (file.size > 5 * 1024 * 1024)
+        return toast.error("File size must be less than 5MB");
+      if (!file.type.startsWith("image/"))
+        return toast.error("Please select an image file");
+
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result;
@@ -121,7 +114,6 @@ export default function CreateProductForm() {
           setImagePreviews(newPreviews);
         }
       };
-      reader.onerror = () => toast.error("Error reading file");
       reader.readAsDataURL(file);
     }
     event.target.value = "";
@@ -137,12 +129,8 @@ export default function CreateProductForm() {
   };
 
   const onSubmit = async (data: FormData) => {
-    console.log("Form submitted with data:", data);
-    console.log("Selected Colors:", images);
-    if (images.filter((img) => img).length < 2) {
-      toast.error("Please upload at least 2 images");
-      return;
-    }
+    if (images.filter(Boolean).length < 2)
+      return toast.error("Upload at least 2 images");
     setIsSubmitting(true);
     try {
       const formData = {
@@ -158,15 +146,15 @@ export default function CreateProductForm() {
       };
       console.log("Form Data:", JSON.stringify(formData, null, 2));
       toast.success("Product created successfully!");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      toast.error("Failed to create product. Please try again.");
-      console.error("Submission error:", error);
+      toast.error("Failed to create product");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const onSaveAsDraft = async () => {
+  const onSaveAsDraft = () => {
     const currentData = form.getValues();
     const draftData = {
       ...currentData,
@@ -255,6 +243,7 @@ export default function CreateProductForm() {
                     aria-label="Select category"
                   >
                     <option value="">Select category</option>
+
                     <option value="men">Use Men</option>
                     <option value="women">Women</option>
                     <option value="unisex">Unisex</option>
@@ -361,7 +350,7 @@ export default function CreateProductForm() {
                     <label className="text-sm font-medium text-gray-700">
                       Available Colors
                     </label>
-                    <button
+                    {/* <button
                       type="button"
                       className="text-xs text-gray-500 disabled:opacity-50"
                       disabled={selectedColors.length >= colors.length}
@@ -379,7 +368,7 @@ export default function CreateProductForm() {
                       }
                     >
                       ADD MORE
-                    </button>
+                    </button> */}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {selectedColors.map((color, index) => (
@@ -405,7 +394,7 @@ export default function CreateProductForm() {
                           (color) =>
                             !selectedColors.includes(color.value as string)
                         )
-                        .slice(0, 5)
+
                         .map((color) => (
                           <button
                             key={color.value}
@@ -486,8 +475,9 @@ export default function CreateProductForm() {
                           <Image
                             src={imagePreviews[i]}
                             alt={`Preview ${i + 1}`}
-                            className="w-full h-full object-cover rounded"
-                            fill
+                            height={500}
+                            width={500}
+                            className="w-[70%] h-[100%] object-contain rounded"
                           />
                           <button
                             type="button"
