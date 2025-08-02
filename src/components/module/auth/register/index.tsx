@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/select";
 import { ghanaCities } from "@/constants/cityData";
 import { regions } from "@/constants/regions";
+import { sizes } from "@/constants/sizeData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { X } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -25,26 +25,101 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { z } from "zod";
 
+// const interests = [
+//   {
+//     id: "streetwear",
+//     label: "Streetwear",
+//     image: "https://i.ibb.co/WNy9Tk2k/Rectangle-23854-2.png",
+//   },
+//   {
+//     id: "vintage",
+//     label: "Vintage",
+//     image: "https://i.ibb.co/0VD0pJW2/Rectangle-23853-2.png",
+//   },
+//   {
+//     id: "sportswear",
+//     label: "Sportswear",
+//     image: "https://i.ibb.co/8JtGCmW/Rectangle-23852-2.png",
+//   },
+//   {
+//     id: "luxury",
+//     label: "Luxury",
+//     image: "https://i.ibb.co/Rkp8d1qq/Rectangle-23854-1.png",
+//   },
+//   {
+//     id: "independent",
+//     label: "Independent brands",
+//     image: "https://i.ibb.co/v43nVf4b/Rectangle-23853-1.png",
+//   },
+//   {
+//     id: "old-fashion",
+//     label: "Old fashion",
+//     image: "https://i.ibb.co/RVf6mfx/Rectangle-23852-1.png",
+//   },
+// ];
+
+const validInterests = [
+  "streetwear",
+  "vintage",
+  "sportswear",
+  "luxury",
+  "independent",
+  "old-fashion",
+]; // Replace with actual valid interests
+
 // Define form data schema with Zod
 const formSchema = z.object({
-  email: z.string().email("Invalid email").min(1, "Email is required"),
-  password: z
+  email: z
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .min(1, "Password is required"),
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
+    .email("Please enter a valid email address")
+    .min(1, "Email is required")
+    .refine((email) => !email.includes("temporary"), {
+      message: "Disposable email addresses are not allowed",
+    }),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .max(50, "First name cannot exceed 50 characters"),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .max(50, "Last name cannot exceed 50 characters"),
   mobileNumber: z.string().min(1, "Mobile number is required"),
-  mobileMoneyName: z.string().min(1, "Mobile money name is required"),
+
+  mobileMoneyName: z
+    .string()
+    .min(1, "Mobile money provider is required")
+    .refine((value) => ["telecel", "mtn", "airteltigo"].includes(value), {
+      message: "Invalid mobile money provider",
+    }),
   city: z.string().min(1, "City is required"),
   region: z.string().min(1, "Region is required"),
   area: z.string().min(1, "Area is required"),
   shoeSize: z.string().min(1, "Shoe size is required"),
   topSize: z.string().min(1, "Top size is required"),
   trouserSize: z.string().min(1, "Trouser size is required"),
-  category: z.string().min(1, "Category is required"),
-  selectedBrands: z.array(z.string()).min(1, "Select at least one brand"),
-  interests: z.array(z.string()).min(1, "Select at least one interest"),
+  category: z
+    .string()
+    .min(1, "Category is required")
+    .refine((value) => ["mensware", "womensware", "both"].includes(value), {
+      message: "Invalid category",
+    }),
+  selectedBrands: z
+    .array(z.string())
+    .min(1, "Select at least one brand")
+    .refine(
+      (brands) => brands.every((brand) => suggestedBrands.includes(brand)),
+      { message: "Invalid brand selected" }
+    ),
+  interests: z
+    .array(z.string())
+    .min(1, "Select at least one interest")
+    .refine(
+      (interests) =>
+        interests.every((interest) => validInterests.includes(interest)),
+      { message: "Invalid interest selected" }
+    ),
 });
 
 // Infer TypeScript type from Zod schema
@@ -60,6 +135,17 @@ const steps = [
   "address",
   "make_account",
 ];
+
+// Define step-specific fields for validation
+const stepFields: { [key: string]: (keyof FormData)[] } = {
+  category: ["category"],
+  interests: ["interests"],
+  brands: ["selectedBrands"],
+  sizes: ["shoeSize", "topSize", "trouserSize"],
+  register: ["firstName", "lastName", "mobileNumber", "mobileMoneyName"],
+  address: ["region", "city", "area", "mobileNumber", "email"],
+  make_account: ["email", "password"],
+};
 
 // Define categories
 const categories = [
@@ -135,7 +221,8 @@ export default function VibeOnboarding() {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
+    trigger,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -155,14 +242,14 @@ export default function VibeOnboarding() {
       selectedBrands: [],
       interests: [],
     },
+    mode: "onChange", // Enable real-time validation
   });
 
   const [currentStep, setCurrentStep] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add loading state
 
-  // Watch form values for debugging
   const formData = watch();
-  console.log("Current Form Data:", JSON.stringify(formData, null, 2));
 
   const toggleBrand = (brand: string) => {
     const currentBrands = formData.selectedBrands;
@@ -186,25 +273,27 @@ export default function VibeOnboarding() {
     );
   };
 
-  const handleNext = () => {
-    console.log("Current Step:", currentStep, "Total Steps:", steps.length);
+  const handleNext = async () => {
+    // Validate fields for the current step
+    const isStepValid = await trigger(stepFields[steps[currentStep]], {
+      shouldFocus: true,
+    });
+
+    if (!isStepValid) {
+      console.log(`Validation failed for step ${steps[currentStep]}:`, errors);
+      return;
+    }
+
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      console.log("Triggering form submission");
       handleSubmit(onSubmit)();
     }
   };
 
   const onSubmit = async (data: FormData) => {
-    console.log(
-      "onSubmit triggered with data:",
-      data,
-      JSON.stringify(data, null, 2)
-    );
-    router.push("/");
+    setIsSubmitting(true);
     try {
-      // Validate data structure
       if (!data || Object.keys(data).length === 0) {
         console.error("Form data is empty or undefined");
         alert("Form data is empty. Please fill out all required fields.");
@@ -226,17 +315,20 @@ export default function VibeOnboarding() {
 
       const result = await response.json();
       console.log("API Response:", JSON.stringify(result, null, 2));
-      console.log("Complete Form Data:", JSON.stringify(data, null, 2));
-      alert("Onboarding completed! Check console for data.");
+      alert("Onboarding completed successfully!");
+      router.push("/");
     } catch (error) {
       console.error("Error submitting form:", error);
-      console.log("Form Data (Error case):", JSON.stringify(data, null, 2));
-      alert("An error occurred during submission. Check console for details.");
+      alert("An error occurred during submission. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const renderStep = () => {
     const stepName = steps[currentStep];
+    const isNextButtonDisabled =
+      !isValid && stepFields[stepName].some((field) => !formData[field]);
 
     switch (stepName) {
       case "category":
@@ -247,7 +339,7 @@ export default function VibeOnboarding() {
                 Select Category
               </h1>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 md:gap-4">
               {categories.map((category) => (
                 <div
                   key={category.id}
@@ -270,17 +362,22 @@ export default function VibeOnboarding() {
                         className="rounded-lg mb-2"
                       />
                     </div>
-                    <p className="text-[18px] font-medium">{category.label}</p>
+                    <p className="text-[12px] md:text-[18px] font-medium">
+                      {category.label}
+                    </p>
                   </CardContent>
                 </div>
               ))}
             </div>
             {errors.category && (
-              <p className="text-red-500 text-sm">{errors.category.message}</p>
+              <p className="text-red-500 text-sm" role="alert">
+                {errors.category.message}
+              </p>
             )}
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
+              disabled={isNextButtonDisabled}
             >
               Next {">>"}
             </Button>
@@ -316,17 +413,22 @@ export default function VibeOnboarding() {
                         className=""
                       />
                     </div>
-                    <p className="text-[18px] font-medium">{interest.label}</p>
+                    <p className="text-[12px] md:text-[18px] font-medium">
+                      {interest.label}
+                    </p>
                   </CardContent>
                 </div>
               ))}
             </div>
             {errors.interests && (
-              <p className="text-red-500 text-sm">{errors.interests.message}</p>
+              <p className="text-red-500 text-sm" role="alert">
+                {errors.interests.message}
+              </p>
             )}
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
+              disabled={isNextButtonDisabled}
             >
               Next {">>"}
             </Button>
@@ -383,13 +485,14 @@ export default function VibeOnboarding() {
               </div>
             </div>
             {errors.selectedBrands && (
-              <p className="text-red-500 text-sm">
+              <p className="text-red-500 text-sm" role="alert">
                 {errors.selectedBrands.message}
               </p>
             )}
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
+              disabled={isNextButtonDisabled}
             >
               Next {">>"}
             </Button>
@@ -414,7 +517,7 @@ export default function VibeOnboarding() {
                         <SelectValue placeholder="Select Size" />
                       </SelectTrigger>
                       <SelectContent>
-                        {["6", "7", "8", "9", "10", "11", "12"].map((size) => (
+                        {sizes.map((size) => (
                           <SelectItem key={size} value={size}>
                             {size}
                           </SelectItem>
@@ -424,7 +527,7 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.shoeSize && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.shoeSize.message}
                   </p>
                 )}
@@ -440,7 +543,7 @@ export default function VibeOnboarding() {
                         <SelectValue placeholder="Select Size" />
                       </SelectTrigger>
                       <SelectContent>
-                        {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
+                        {sizes.map((size) => (
                           <SelectItem key={size} value={size}>
                             {size}
                           </SelectItem>
@@ -450,7 +553,7 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.topSize && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.topSize.message}
                   </p>
                 )}
@@ -466,7 +569,7 @@ export default function VibeOnboarding() {
                         <SelectValue placeholder="Select Size" />
                       </SelectTrigger>
                       <SelectContent>
-                        {["28", "30", "32", "34", "36", "38"].map((size) => (
+                        {sizes.map((size) => (
                           <SelectItem key={size} value={size}>
                             {size}
                           </SelectItem>
@@ -476,7 +579,7 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.trouserSize && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.trouserSize.message}
                   </p>
                 )}
@@ -485,6 +588,7 @@ export default function VibeOnboarding() {
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
+              disabled={isNextButtonDisabled}
             >
               Continue
             </Button>
@@ -504,16 +608,18 @@ export default function VibeOnboarding() {
         return (
           <div className="space-y-6">
             <div className="text-center space-y-2">
-              <h1 className="text-[40px] font-bold text-gray-900">
+              <h1 className="text-2xl md:text-[40px] font-bold text-gray-900">
                 Create an account
               </h1>
-              <p className="text-gray-600 text-[18px]">
+              <p className="text-gray-600 text-sm md:text-[18px]">
                 Enter your details to create an account
               </p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="firstName">First Name</Label>
+                <Label className="text-sm md:text-base" htmlFor="firstName">
+                  First Name
+                </Label>
                 <Controller
                   name="firstName"
                   control={control}
@@ -521,19 +627,21 @@ export default function VibeOnboarding() {
                     <Input
                       {...field}
                       id="firstName"
-                      className="py-[24px] px-6 rounded-2xl mt-1"
+                      className="py-[20px] mb-2 md:py-[24px] px-6 rounded-2xl mt-1"
                       placeholder="Enter your first name here"
                     />
                   )}
                 />
                 {errors.firstName && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.firstName.message}
                   </p>
                 )}
               </div>
               <div>
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label className="text-sm md:text-base" htmlFor="lastName">
+                  Last Name
+                </Label>
                 <Controller
                   name="lastName"
                   control={control}
@@ -541,19 +649,19 @@ export default function VibeOnboarding() {
                     <Input
                       {...field}
                       id="lastName"
-                      className="py-[24px] px-6 rounded-2xl mt-1"
+                      className="py-[20px] mb-2 md:py-[24px] px-6 rounded-2xl mt-1"
                       placeholder="Enter your last name here"
                     />
                   )}
                 />
                 {errors.lastName && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.lastName.message}
                   </p>
                 )}
               </div>
               <div>
-                <Label htmlFor="mobileNumber">
+                <Label className="text-sm md:text-base" htmlFor="mobileNumber">
                   Mobile money number<span className="text-red-500">*</span>
                 </Label>
                 <Controller
@@ -562,7 +670,7 @@ export default function VibeOnboarding() {
                   render={({ field }) => (
                     <PhoneInput
                       {...field}
-                      country="us"
+                      country="gh"
                       inputProps={{ id: "mobileNumber" }}
                       containerClass="!w-full"
                       inputClass="!w-full !h-10 !text-sm !rounded-lg !pl-12 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
@@ -572,13 +680,16 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.mobileNumber && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.mobileNumber.message}
                   </p>
                 )}
               </div>
               <div>
-                <Label htmlFor="mobileMoneyName">
+                <Label
+                  className="text-sm md:text-base"
+                  htmlFor="mobileMoneyName"
+                >
                   Registered mobile money name
                 </Label>
                 <Controller
@@ -586,11 +697,11 @@ export default function VibeOnboarding() {
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-6 mt-2">
+                      <SelectTrigger className="w-full py-[20px] mb-2 md:py-[24px] px-6 rounded-2xl mt-1">
                         <SelectValue placeholder="Select Provider" />
                       </SelectTrigger>
                       <SelectContent>
-                        {["Telecel", "MTN", "Vodafone"].map((provider) => (
+                        {["Telecel", "AirtelTigo", "MTN"].map((provider) => (
                           <SelectItem
                             key={provider}
                             value={provider.toLowerCase()}
@@ -603,7 +714,7 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.mobileMoneyName && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.mobileMoneyName.message}
                   </p>
                 )}
@@ -612,6 +723,7 @@ export default function VibeOnboarding() {
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900"
+              disabled={isNextButtonDisabled}
             >
               Continue
             </Button>
@@ -655,7 +767,7 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.region && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.region.message}
                   </p>
                 )}
@@ -681,7 +793,9 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.city && (
-                  <p className="text-red-500 text-sm">{errors.city.message}</p>
+                  <p className="text-red-500 text-sm" role="alert">
+                    {errors.city.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -698,7 +812,9 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.area && (
-                  <p className="text-red-500 text-sm">{errors.area.message}</p>
+                  <p className="text-red-500 text-sm" role="alert">
+                    {errors.area.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -711,7 +827,7 @@ export default function VibeOnboarding() {
                   render={({ field }) => (
                     <PhoneInput
                       {...field}
-                      country="us"
+                      country="gh"
                       inputProps={{ id: "mobileNumber" }}
                       containerClass="!w-full"
                       inputClass="!w-full !h-10 sm:!h-12 !text-sm sm:!text-base !rounded-2xl !pl-12 !py-3 sm:!py-4 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
@@ -721,7 +837,7 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.mobileNumber && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.mobileNumber.message}
                   </p>
                 )}
@@ -740,13 +856,16 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                  <p className="text-red-500 text-sm" role="alert">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
             </div>
             <Button
               onClick={handleNext}
               className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
+              disabled={isNextButtonDisabled || isSubmitting}
             >
               {currentStep === steps.length - 1 ? "Submit" : "Continue"}
             </Button>
@@ -778,7 +897,9 @@ export default function VibeOnboarding() {
                   )}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                  <p className="text-red-500 text-sm" role="alert">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -803,20 +924,19 @@ export default function VibeOnboarding() {
                   {showPassword ? "Hide" : "Show"} Password
                 </button>
                 {errors.password && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm" role="alert">
                     {errors.password.message}
                   </p>
                 )}
               </div>
             </div>
-            <Link href="/">
-              <Button
-                onClick={handleNext}
-                className="w-full bg-red-800 hover:bg-red-900"
-              >
-                Create Account
-              </Button>
-            </Link>
+            <Button
+              onClick={handleNext}
+              className="w-full bg-red-800 hover:bg-red-900"
+              disabled={isNextButtonDisabled || isSubmitting}
+            >
+              {isSubmitting ? "Creating Account..." : "Create Account"}
+            </Button>
           </div>
         );
 

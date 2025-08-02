@@ -25,6 +25,7 @@ const SearchManagement = () => {
   const [color, setColor] = useState<ServiceOption[]>([]);
   const [condition, setCondition] = useState<ServiceOption[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  console.log("size", size.length);
 
   const [filters, setFilters] = useState({
     category: "",
@@ -143,16 +144,26 @@ const SearchManagement = () => {
     ]);
 
     setColor([
-      { name: "Maroon", value: "#800000" },
       { name: "Red", value: "#FF0000" },
-      { name: "Pink", value: "#FF69B4" },
-      { name: "Dark Blue", value: "#00008B" },
+      { name: "Maroon", value: "#800000" },
+      { name: "Light Red", value: "#FF4040" },
+      { name: "Crimson", value: "#DC143C" },
       { name: "Blue", value: "#0000FF" },
-      { name: "Cyan", value: "#00FFFF" },
+      { name: "Navy", value: "#000080" },
+      { name: "Sky Blue", value: "#87CEEB" },
+      { name: "Teal", value: "#008080" },
       { name: "Green", value: "#008000" },
+      { name: "Lime", value: "#32CD32" },
+      { name: "Olive", value: "#808000" },
       { name: "Yellow", value: "#FFFF00" },
-      { name: "Light Blue", value: "#ADD8E6" },
-      { name: "Light Green", value: "#90EE90" },
+      { name: "Orange", value: "#FFA500" },
+      { name: "Purple", value: "#800080" },
+      { name: "Magenta", value: "#FF00FF" },
+      { name: "Pink", value: "#FFC0CB" },
+      { name: "Brown", value: "#A52A2A" },
+      { name: "Gray", value: "#808080" },
+      { name: "Multicolored", value: "multicolored" },
+      { name: "Other", value: "other" },
     ]);
 
     setCondition([
@@ -209,22 +220,40 @@ const SearchManagement = () => {
       <select
         value={filters.color}
         onChange={(e) => handleChange("color", e.target.value)}
-        className="appearance-none  bg-white px-3 py-2 pr-8 rounded-md text-sm w-[80%] focus:outline-none focus:ring-1 focus:ring-primary"
+        className="appearance-none bg-white px-3 py-2 pr-8 rounded-md text-sm w-[80%] focus:outline-none focus:ring-1 focus:ring-primary"
+        style={{
+          backgroundImage:
+            filters.color !== ""
+              ? `linear-gradient(to right, ${filters.color} 0%, ${filters.color} 100%)`
+              : undefined,
+          backgroundSize: filters.color !== "" ? "24px 24px" : "0 0",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "95% center",
+          color: filters.color !== "" ? "#000" : "#555",
+        }}
       >
-        <option value="">Color</option>
+        <option className="py-2" value="">
+          {" "}
+          Select Color
+        </option>
         {color.map((opt) => (
           <option
             key={opt.value}
             value={opt.value}
-            style={{ backgroundColor: opt.value, color: "transparent" }}
+            style={{
+              backgroundColor: "#fff",
+              color: "#000",
+              padding: "8px",
+            }}
           >
-            {opt.name}
+            ● {opt.name}
           </option>
         ))}
       </select>
+
       <ChevronDown
         size={16}
-        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
       />
     </div>
   );
