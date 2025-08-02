@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -50,23 +49,27 @@ type FormData = z.infer<typeof formSchema>;
 
 // Updated color palette based on the Figma "Color Dropdown" image
 const colors = [
-  { name: "Red1", value: "#FF0000" }, // Bright Red
-  { name: "Red2", value: "#800000" }, // Dark Red
-  { name: "Red3", value: "#FF4040" }, // Light Red
-  { name: "Red4", value: "#FF3333" }, // Another Red shade
-  { name: "Blue1", value: "#0000FF" }, // Bright Blue
-  { name: "Blue2", value: "#000080" }, // Dark Blue
-  { name: "Blue3", value: "#00008B" }, // Navy Blue
-  { name: "Blue4", value: "#00B7EB" }, // Light Blue
-  { name: "Green1", value: "#00FF00" }, // Bright Green
-  { name: "Green2", value: "#008000" }, // Dark Green
-  { name: "Yellow1", value: "#FFFF00" }, // Bright Yellow
-  { name: "Yellow2", value: "#FFA500" }, // Orange-Yellow
-  { name: "Purple1", value: "#FF00FF" }, // Magenta
-  { name: "Purple2", value: "#800080" }, // Purple
-  { name: "Green3", value: "#32CD32" }, // Lime Green
+  { name: "Red", value: "#FF0000" },
+  { name: "Maroon", value: "#800000" },
+  { name: "Light Red", value: "#FF4040" },
+  { name: "Crimson", value: "#DC143C" },
+  { name: "Blue", value: "#0000FF" },
+  { name: "Navy", value: "#000080" },
+  { name: "Sky Blue", value: "#87CEEB" },
+  { name: "Teal", value: "#008080" },
+  { name: "Green", value: "#008000" },
+  { name: "Lime", value: "#32CD32" },
+  { name: "Olive", value: "#808000" },
+  { name: "Yellow", value: "#FFFF00" },
+  { name: "Orange", value: "#FFA500" },
+  { name: "Purple", value: "#800080" },
+  { name: "Magenta", value: "#FF00FF" },
+  { name: "Pink", value: "#FFC0CB" },
+  { name: "Brown", value: "#A52A2A" },
+  { name: "Gray", value: "#808080" },
+  { name: "Multicolored", value: "multicolored" },
+  { name: "Other", value: "other" },
 ];
-
 // Interface for existing product data
 interface ProductData extends FormData {
   id: string;
@@ -170,7 +173,7 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
     event.target.value = "";
   };
 
-  const removeImage = (index: number) => {
+  const handleRemoveImage = (index: number) => {
     const newImages = [...images];
     const newPreviews = [...imagePreviews];
     newImages[index] = null;
@@ -470,7 +473,7 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
                       <Label className="text-sm font-medium text-gray-700">
                         Available Colors
                       </Label>
-                      <Button
+                      {/* <Button
                         type="button"
                         size="sm"
                         className="text-xs text-gray-500"
@@ -482,7 +485,7 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
                         }}
                       >
                         ADD MORE
-                      </Button>
+                      </Button> */}
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {selectedColors.map((color, index) => (
@@ -572,71 +575,65 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
                   </div>
                 </div>
               </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                {[...Array(4)].map((_, index) => (
-                  <div key={index} className="space-y-2">
-                    <Label
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                {Array.from({ length: 4 }, (_, i) => (
+                  <div key={i} className="space-y-2">
+                    <label
                       className="text-sm font-medium text-gray-700"
-                      htmlFor={`image-upload-${index}`}
+                      htmlFor={`image-upload-${i}`}
                     >
-                      {index === 0 ? "Main Image" : `Additional Image ${index}`}
-                    </Label>
+                      {i === 0 ? "Main Image" : `Additional Image ${i}`}
+                    </label>
                     <div className="relative">
                       <input
                         type="file"
                         accept="image/jpeg,image/png,image/jpg"
                         className="hidden"
-                        id={`image-upload-${index}`}
-                        onChange={(e) => handleImageUpload(e, index)}
-                        aria-label={`Upload image ${index + 1}`}
+                        id={`image-upload-${i}`}
+                        onChange={(e) => handleImageUpload(e, i)}
+                        aria-label={`Upload image ${i + 1}`}
                       />
-                      <Card
-                        className="border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors cursor-pointer"
+                      <div
+                        className="custom-card p-4 flex flex-col items-center justify-center h-32 sm:h-40 text-gray-400 cursor-pointer"
                         onClick={() =>
-                          document
-                            .getElementById(`image-upload-${index}`)
-                            ?.click()
+                          document.getElementById(`image-upload-${i}`)?.click()
                         }
                         role="button"
-                        aria-label={`Upload image ${index + 1}`}
+                        aria-label={`Upload image ${i + 1}`}
                       >
-                        <CardContent className="p-4">
-                          {imagePreviews[index] ? (
-                            <div className="relative">
-                              <Image
-                                src={imagePreviews[index]}
-                                alt={`Image preview ${index + 1}`}
-                                className="w-full h-32 sm:h-40 object-cover rounded"
-                                width={200}
-                                height={200}
-                              />
-                              <Button
-                                type="button"
-                                size="sm"
-                                className="absolute top-1 right-1 w-6 h-6 p-0 bg-black/50 hover:bg-black/70 rounded-full"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeImage(index);
-                                }}
-                                aria-label={`Remove image ${index + 1}`}
-                              >
-                                <X className="w-3 h-3 text-white" />
-                              </Button>
-                            </div>
-                          ) : (
-                            <div className="flex flex-col items-center justify-center h-32 sm:h-40 text-gray-400">
-                              <Camera className="w-8 h-8 mb-1" />
-                              <span className="text-xs">Choose File</span>
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
+                        {imagePreviews[i] ? (
+                          <div className="relative w-full h-full">
+                            <Image
+                              src={imagePreviews[i]}
+                              alt={`Preview ${i + 1}`}
+                              height={500}
+                              width={500}
+                              className="w-[70%] h-[100%] object-contain rounded"
+                            />
+                            <button
+                              type="button"
+                              className="absolute top-1 right-1 w-6 h-6 p-0 bg-black/50 hover:bg-black/70 rounded-full"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveImage(i);
+                              }}
+                              aria-label={`Remove image ${i + 1}`}
+                            >
+                              <X className="w-3 h-3 text-white" />
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <Camera className="w-8 h-8 mb-1" />
+                            <span className="text-xs">Choose File</span>
+                          </>
+                        )}
+                      </div>
                     </div>
                     <p className="text-xs text-gray-500">
                       Formats: JPG, PNG, JPEG - Max 5MB
                     </p>
-                    {!images[index] && !imagePreviews[index] && (
+                    {!images[i] && (
                       <p className="text-xs text-gray-400">No File Chosen</p>
                     )}
                   </div>

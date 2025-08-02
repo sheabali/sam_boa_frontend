@@ -244,7 +244,7 @@ export default function CreateProductForm() {
                   >
                     <option value="">Select category</option>
 
-                    <option value="men">Use Men</option>
+                    <option value="men">Men</option>
                     <option value="women">Women</option>
                     <option value="unisex">Unisex</option>
                   </select>
