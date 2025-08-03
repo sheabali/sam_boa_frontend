@@ -1,6 +1,5 @@
 "use client";
 
-import SearchManagement from "@/components/shared/searchBar/SearchManagement";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import ProductCard from "../Product/product-card";
@@ -106,9 +105,9 @@ export default function ApparelPage() {
             Everyday wear to exclusive pieces.
           </p>
         </div>
-        <div className="md:mb-20">
+        {/* <div className="md:mb-20">
           <SearchManagement />
-        </div>
+        </div> */}
 
         {/* Product Grid with transition */}
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 transition-all duration-300">

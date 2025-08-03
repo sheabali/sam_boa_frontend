@@ -261,7 +261,7 @@ const SearchManagement = () => {
   return (
     <div className="w-full max-w-screen-xl mx-auto px-4 md:px-6 py-4">
       {/* Mobile: Drawer */}
-      <div className="flex justify-center items-center mt-8 lg:hidden">
+      <div className="flex justify-start items-start mt-8 lg:hidden">
         <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
           <DrawerTrigger asChild>
             <Button
@@ -269,7 +269,7 @@ const SearchManagement = () => {
               variant="outline"
               className="flex items-center gap-2"
             >
-              <Filter size={16} />
+              <Filter size={14} />
               Filters
             </Button>
           </DrawerTrigger>
