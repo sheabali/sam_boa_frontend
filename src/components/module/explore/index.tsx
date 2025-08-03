@@ -12,8 +12,12 @@ const Explore = () => {
       {/* Man section */}
       <div className="container">
         <Apparel />
-        <Bottoms />
-        <Footwear />
+        <div className="mb-10">
+          <Bottoms />
+        </div>
+        <div className="mb-16">
+          <Footwear />
+        </div>
       </div>
       <SaleBanner />
       {/* Woman section */}
@@ -21,9 +25,15 @@ const Explore = () => {
         <div className="text-center text-6xl font-semibold mt-25 mb-16">
           <h1 className="text-3xl lg:text-[60px]">Women</h1>
         </div>
-        <WomensApparel />
-        <WBottoms />
-        <WFootwear />
+        <div className="mb-10">
+          <WomensApparel />
+        </div>
+        <div className="mb-10">
+          <WBottoms />
+        </div>
+        <div className="mb-10">
+          <WFootwear />
+        </div>
       </div>
     </div>
   );

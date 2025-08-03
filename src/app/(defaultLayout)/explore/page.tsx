@@ -1,5 +1,3 @@
-// app/explore/page.tsx
-
 import Explore from "@/components/module/explore";
 import DynamicBanner from "@/components/shared/DynamicBanner";
 import SearchManagement from "@/components/shared/searchBar/SearchManagement";

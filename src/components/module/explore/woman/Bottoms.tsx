@@ -1,5 +1,6 @@
 "use client";
 
+import SearchManagement from "@/components/shared/searchBar/SearchManagement";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import ProductCard from "../../Product/product-card";
@@ -94,16 +95,19 @@ export default function WBottoms() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen border border-primary rounded bg-gray-50 py-12">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center md:mb-12">
           <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4">
             Bottoms
           </h1>
           <p className="text-sm lg:text-lg text-gray-600">
             From casual to statement pieces.
           </p>
+        </div>
+        <div className="md:mb-20">
+          <SearchManagement />
         </div>
 
         {/* Product Grid with transition */}

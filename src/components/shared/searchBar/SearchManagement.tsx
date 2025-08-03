@@ -264,7 +264,11 @@ const SearchManagement = () => {
       <div className="flex justify-center items-center mt-8 lg:hidden">
         <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
           <DrawerTrigger asChild>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              className="flex items-center gap-2"
+            >
               <Filter size={16} />
               Filters
             </Button>
@@ -286,6 +290,7 @@ const SearchManagement = () => {
             </div>
             <div className="px-4 pb-6">
               <Button
+                size="sm"
                 onClick={handleSearch}
                 className="w-full bg-[#800020] hover:bg-[#660018] text-white"
               >
