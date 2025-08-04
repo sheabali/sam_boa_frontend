@@ -1,4 +1,3 @@
-import AllProductsPage from "@/components/module/home_page/AllProducts";
 import BannerSection from "@/components/module/home_page/BannerSection";
 import SaleBanner from "@/components/module/home_page/SaleBanner";
 import Suggested from "@/components/module/home_page/Suggested";
@@ -14,7 +13,7 @@ const HomePage = () => {
       <TopSellers />
       <TrendingProducts />
       <Suggested />
-      <AllProductsPage />
+      {/* <AllProductsPage /> */}
       <VineWorks />
       <SaleBanner />
       <TestimonialsCarousel />

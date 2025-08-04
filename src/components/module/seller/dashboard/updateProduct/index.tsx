@@ -223,11 +223,11 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto bg-white rounded-lg shadow-sm">
         <div className="flex items-center p-4 sm:p-6 border-b">
-          <Button size="sm" className="p-0 mr-3" aria-label="Go back">
+          <button className="p-0 mr-3" aria-label="Go back">
             <Link href="/seller/dashboard/my_products">
               <ArrowLeft className="h-5 w-5" />
             </Link>
-          </Button>
+          </button>
           <h1 className="text-lg font-semibold">Update Product</h1>
         </div>
 
@@ -508,7 +508,7 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
                           )}
                         </div>
                       ))}
-                      <div className="grid grid-cols-4 gap-1">
+                      <div className="flex flex-wrap gap-2">
                         {colors
                           .filter(
                             (color) => !selectedColors.includes(color.value)
@@ -516,7 +516,7 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
                           .map((color) => (
                             <button
                               key={color.value}
-                              className="w-8 h-8 p-0 rounded border border-gray-300"
+                              className="w-6 h-6 p-0 rounded border border-gray-300"
                               onClick={() => handleColorSelect(color.value)}
                               aria-label={`Select color ${color.name}`}
                             >
@@ -575,9 +575,9 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                 {Array.from({ length: 4 }, (_, i) => (
-                  <div key={i} className="space-y-2">
+                  <div key={i} className="space-y-2 shadow-md p-4 rounded-2xl">
                     <label
                       className="text-sm font-medium text-gray-700"
                       htmlFor={`image-upload-${i}`}
@@ -608,18 +608,18 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
                               alt={`Preview ${i + 1}`}
                               height={500}
                               width={500}
-                              className="w-[70%] h-[100%] object-contain rounded"
+                              className="w-[70%] h-[100%] object-contain rounded-md"
                             />
                             <button
                               type="button"
-                              className="absolute top-1 right-1 w-6 h-6 p-0 bg-black/50 hover:bg-black/70 rounded-full"
+                              className="absolute top-1 right-1 w-6 h-6 p-0  flex items-center justify-center bg-black/50 hover:bg-black/70 rounded-full"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleRemoveImage(i);
                               }}
                               aria-label={`Remove image ${i + 1}`}
                             >
-                              <X className="w-3 h-3 text-white" />
+                              <X className="w-3 h-3 text-white flex justify-center" />
                             </button>
                           </div>
                         ) : (

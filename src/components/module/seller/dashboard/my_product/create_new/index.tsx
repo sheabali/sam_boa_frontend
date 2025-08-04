@@ -1,15 +1,36 @@
 "use client";
 
+import Button from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { brands } from "@/constants/brandsData";
 import { sizes } from "@/constants/sizeData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Camera, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
+// Define form schema
 const formSchema = z.object({
   productName: z.string().min(1, "Product name is required"),
   description: z.string().min(1, "Description is required"),
@@ -19,12 +40,15 @@ const formSchema = z.object({
   condition: z.string().min(1, "Condition is required"),
   brand: z.string().min(1, "Brand is required"),
   secondaryBrand: z.string().optional(),
-  sizes: z.string().min(1, "Size is required"),
+  size: z.string().min(1, "Size is required"),
   setPrice: z.string().min(1, "Price is required"),
   setDiscount: z.string().optional(),
   interests: z.string().min(1, "Interests is required"),
 });
 
+type FormData = z.infer<typeof formSchema>;
+
+// Color palette
 const colors = [
   { name: "Red", value: "#FF0000" },
   { name: "Maroon", value: "#800000" },
@@ -48,37 +72,70 @@ const colors = [
   { name: "Other", value: "other" },
 ];
 
-const brands = ["Nike", "Adidas", "Puma", "Reebok", "Others"];
+// Interface for existing product data
+interface ProductData extends FormData {
+  id?: string;
+  selectedColors?: string[];
+  mainImageUrl?: string;
+  additionalImageUrls?: string[];
+}
 
-type FormData = z.infer<typeof formSchema>;
+interface ProductFormProps {
+  product?: ProductData;
+  isEdit?: boolean;
+}
 
-export default function CreateProductForm() {
-  const [selectedColors, setSelectedColors] = React.useState<string[]>([]);
-  const [images, setImages] = React.useState<(File | null)[]>(
-    Array(4).fill(null)
+export default function ProductForm({
+  product,
+  isEdit = false,
+}: ProductFormProps) {
+  const [selectedColors, setSelectedColors] = useState<string[]>(
+    product?.selectedColors || []
   );
-  const [imagePreviews, setImagePreviews] = React.useState<string[]>(
-    Array(4).fill("")
-  );
-  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+  const [images, setImages] = useState<(File | null)[]>([
+    null,
+    null,
+    null,
+    null,
+  ]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>(() => {
+    const previews = ["", "", "", ""];
+    if (product?.mainImageUrl) previews[0] = product.mainImageUrl;
+    if (product?.additionalImageUrls) {
+      product.additionalImageUrls.slice(0, 3).forEach((url, i) => {
+        if (i + 1 < previews.length) previews[i + 1] = url;
+      });
+    }
+    return previews;
+  });
 
+  // Initialize form with existing product data or default values
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      productName: "",
-      description: "",
-      hashtag: "",
-      category: "",
-      productType: "",
-      condition: "",
-      brand: "",
-      secondaryBrand: "",
-      sizes: "",
-      setPrice: "",
-      setDiscount: "",
-      interests: "",
+      productName: product?.productName || "",
+      description: product?.description || "",
+      hashtag: product?.hashtag || "",
+      category: product?.category || "",
+      productType: product?.productType || "",
+      condition: product?.condition || "",
+      brand: product?.brand || "",
+      secondaryBrand: product?.secondaryBrand || "",
+      size: product?.size || "",
+      setPrice: product?.setPrice || "",
+      setDiscount: product?.setDiscount || "",
+      interests: product?.interests || "",
     },
   });
+
+  // Cleanup image previews for new uploads
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach((preview, index) => {
+        if (preview && images[index]) URL.revokeObjectURL(preview);
+      });
+    };
+  }, [imagePreviews, images]);
 
   const handleColorSelect = (color: string) => {
     if (
@@ -99,23 +156,25 @@ export default function CreateProductForm() {
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024)
-        return toast.error("File size must be less than 5MB");
-      if (!file.type.startsWith("image/"))
-        return toast.error("Please select an image file");
-
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("File size must be less than 5MB");
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please select an image file (JPG, PNG, JPEG)");
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (e) => {
-        const result = e.target?.result;
-        if (typeof result === "string") {
-          const newImages = [...images];
-          const newPreviews = [...imagePreviews];
-          newImages[index] = file;
-          newPreviews[index] = result;
-          setImages(newImages);
-          setImagePreviews(newPreviews);
-        }
+        const result = e.target?.result as string;
+        const newImages = [...images];
+        const newPreviews = [...imagePreviews];
+        newImages[index] = file;
+        newPreviews[index] = result;
+        setImages(newImages);
+        setImagePreviews(newPreviews);
       };
+      reader.onerror = () => toast.error("Error reading file");
       reader.readAsDataURL(file);
     }
     event.target.value = "";
@@ -131,430 +190,524 @@ export default function CreateProductForm() {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (images.filter(Boolean).length < 2)
-      return toast.error("Upload at least 2 images");
-    setIsSubmitting(true);
+    console.log("Form submitted:", data);
     try {
       const formData = {
+        id: product?.id,
         ...data,
         selectedColors,
-        images: images
-          .map((img, i) =>
-            img ? { name: img.name, data: imagePreviews[i] } : null
-          )
-          .filter(
-            (item): item is { name: string; data: string } => item !== null
-          ),
+        mainImage: images[0] || undefined,
+        additionalImages:
+          images.slice(1).filter((img) => img !== null) || undefined,
       };
-      console.log("Form Data:", JSON.stringify(formData, null, 2));
-      toast.success("Product created successfully!");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      if (images.filter((img) => img !== null).length < 2) {
+        toast.error("Please upload at least 2 images.");
+        return;
+      }
+      console.log("Form submitted:", formData);
+      toast.success(
+        isEdit
+          ? "Product updated successfully!"
+          : "Product created successfully!"
+      );
     } catch (error) {
-      toast.error("Failed to create product");
-    } finally {
-      setIsSubmitting(false);
+      toast.error(
+        isEdit ? "Failed to update product." : "Failed to create product."
+      );
+      console.error("Submission error:", error);
     }
   };
 
   const onSaveAsDraft = () => {
     const currentData = form.getValues();
-    const draftData = {
+    console.log("Saved as draft:", {
+      id: product?.id,
       ...currentData,
       selectedColors,
-      images: images
-        .map((img, i) =>
-          img ? { name: img.name, data: imagePreviews[i] } : null
-        )
-        .filter(
-          (item): item is { name: string; data: string } => item !== null
-        ),
-    };
-    console.log("Draft Data:", JSON.stringify(draftData, null, 2));
-    toast.info("Product saved as draft.");
+      mainImage: images[0] || undefined,
+      additionalImages:
+        images.slice(1).filter((img) => img !== null) || undefined,
+    });
+    toast.info("Product draft saved.");
   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto bg-white rounded-lg shadow-sm">
         <div className="flex items-center p-4 sm:p-6 border-b">
-          <Link href="/seller/dashboard/my_products">
-            <button className="p-0 mr-3" aria-label="Go back">
+          <button className="p-0 mr-3" aria-label="Go back">
+            <Link href="/seller/dashboard/my_products">
               <ArrowLeft className="h-5 w-5" />
-            </button>
-          </Link>
-          <h1 className="text-lg font-semibold">Create New Product</h1>
+            </Link>
+          </button>
+          <h1 className="text-lg font-semibold">
+            {isEdit ? "Update Product" : "Create New Product"}
+          </h1>
         </div>
+
         <div className="p-4 sm:p-6 lg:p-8">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="flex flex-col lg:flex-row lg:gap-8">
-              <div className="flex-1 space-y-6">
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Product Name
-                  </label>
-                  <input
-                    {...form.register("productName")}
-                    placeholder="Enter product name"
-                    className="w-full p-2 border rounded"
-                    aria-required="true"
-                  />
-                  {form.formState.errors.productName && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.productName.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Description
-                  </label>
-                  <textarea
-                    {...form.register("description")}
-                    placeholder="Enter product description"
-                    className="w-full p-2 border rounded"
-                    aria-required="true"
-                  />
-                  {form.formState.errors.description && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.description.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Hashtags
-                  </label>
-                  <input
-                    {...form.register("hashtag")}
-                    placeholder="Enter hashtags (e.g., #fashion #style)"
-                    className="w-full p-2 border rounded"
-                  />
-                  {form.formState.errors.hashtag && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.hashtag.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Category
-                  </label>
-                  <select
-                    {...form.register("category")}
-                    className="w-full p-2 border rounded"
-                    aria-label="Select category"
-                  >
-                    <option value="">Select category</option>
-
-                    <option value="men">Men</option>
-                    <option value="women">Women</option>
-                    <option value="unisex">Unisex</option>
-                  </select>
-                  {form.formState.errors.category && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.category.message}
-                    </p>
-                  )}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      Product Type
-                    </label>
-                    <select
-                      {...form.register("productType")}
-                      className="w-full p-2 border rounded"
-                      aria-label="Select product type"
-                    >
-                      <option value="">Select type</option>
-                      <option value="footwear">Footwear</option>
-                      <option value="clothing">Clothing</option>
-                      <option value="accessories">Accessories</option>
-                      <option value="bags">Bags</option>
-                    </select>
-                    {form.formState.errors.productType && (
-                      <p className="text-red-500 text-xs">
-                        {form.formState.errors.productType.message}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      Interests
-                    </label>
-                    <select
-                      {...form.register("interests")}
-                      className="w-full p-2 border rounded"
-                      aria-label="Select interests"
-                    >
-                      <option value="">Select interests</option>
-                      <option value="streetwear">Streetwear</option>
-                      <option value="vintage">Vintage</option>
-                      <option value="sportswear">Sportswear</option>
-                      <option value="luxury">Luxury</option>
-                      <option value="independent-brands">
-                        Independent brands
-                      </option>
-                      <option value="old-fashion">Old fashion</option>
-                    </select>
-                    {form.formState.errors.condition && (
-                      <p className="text-red-500 text-xs">
-                        {form.formState.errors.condition.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 space-y-6 mt-6 lg:mt-0">
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Condition
-                  </label>
-                  <select
-                    {...form.register("condition")}
-                    className="w-full p-2 border rounded"
-                    aria-label="Select condition"
-                  >
-                    <option value="">Select condition</option>
-                    <option value="brand-new">Brand New</option>
-                    <option value="used-like-new">Used Like New</option>
-                    <option value="used-like-excellent">
-                      Used Like Excellent
-                    </option>
-                    <option value="used-like-good">Used Like Good</option>
-                    <option value="medium">Medium</option>
-                  </select>
-                  {form.formState.errors.condition && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.condition.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Brand
-                  </label>
-                  <select
-                    {...form.register("brand")}
-                    className="w-full p-2 border rounded"
-                    aria-label="Select brand"
-                  >
-                    <option value="">Select brand</option>
-                    {brands.map((brand) => (
-                      <option key={brand} value={brand}>
-                        {brand}
-                      </option>
-                    ))}
-                  </select>
-                  {form.formState.errors.brand && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.brand.message}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Available Size
-                  </label>
-                  <select
-                    {...form.register("sizes")}
-                    className="w-full p-2 border rounded"
-                    aria-label="Select size"
-                  >
-                    <option value="">Select size</option>
-                    {sizes.map((size) => (
-                      <option key={size} value={size}>
-                        {size}
-                      </option>
-                    ))}
-                  </select>
-                  {form.formState.errors.sizes && (
-                    <p className="text-red-500 text-xs">
-                      {form.formState.errors.sizes.message}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center md:mt-18 justify-between">
-                    <label className="text-sm font-medium text-gray-700">
-                      Available Colors
-                    </label>
-                    {/* <button
-                      type="button"
-                      className="text-xs text-gray-500 disabled:opacity-50"
-                      disabled={selectedColors.length >= colors.length}
-                      onClick={() =>
-                        toast.info(
-                          selectedColors.length >= colors.length
-                            ? "All available colors have been selected."
-                            : "Select a color from the available options."
-                        )
-                      }
-                      aria-label={
-                        selectedColors.length >= colors.length
-                          ? "All colors selected"
-                          : "Add more colors"
-                      }
-                    >
-                      ADD MORE
-                    </button> */}
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedColors.map((color, index) => (
-                      <div key={index} className="relative">
-                        <div
-                          className="w-8 h-8 rounded-full border-2 border-gray-200"
-                          style={{ backgroundColor: color }}
-                          aria-label={`Selected color ${color}`}
-                        />
-                        <button
-                          type="button"
-                          className="absolute -top-1 -right-1 w-4 h-4 p-0 bg-gray-500 hover:bg-gray-600 rounded-full"
-                          onClick={() => handleColorRemove(color)}
-                          aria-label={`Remove color ${color}`}
-                        >
-                          <X className="w-4 h-4 text-white" />
-                        </button>
-                      </div>
-                    ))}
-                    <div className="flex flex-wrap gap-1">
-                      {colors
-                        .filter(
-                          (color) =>
-                            !selectedColors.includes(color.value as string)
-                        )
-
-                        .map((color) => (
-                          <button
-                            key={color.value}
-                            className="w-6 h-6 p-0 rounded-full border border-gray-300"
-                            style={{ backgroundColor: color.value }}
-                            onClick={() => handleColorSelect(color.value)}
-                            aria-label={`Select color ${color.name}`}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="flex flex-col lg:flex-row lg:gap-8">
+                <div className="flex-1 space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="productName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Product Name
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter product name"
+                            {...field}
+                            className="w-full"
+                            aria-required="true"
                           />
-                        ))}
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Description
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Enter product description"
+                            {...field}
+                            className="w-full py-2"
+                            aria-required="true"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="hashtag"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Hashtags
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter hashtags (e.g., #fashion #style)"
+                            {...field}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Category
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className="w-full"
+                              aria-label="Select category"
+                            >
+                              <SelectValue placeholder="Select category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="men">Men</SelectItem>
+                            <SelectItem value="women">Women</SelectItem>
+                            <SelectItem value="unisex">Unisex</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="productType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Product Type
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className="w-full"
+                              aria-label="Select product type"
+                            >
+                              <SelectValue placeholder="Select type" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="footwear">Footwear</SelectItem>
+                            <SelectItem value="clothing">Clothing</SelectItem>
+                            <SelectItem value="accessories">
+                              Accessories
+                            </SelectItem>
+                            <SelectItem value="bags">Bags</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="interests"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Interests
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className="w-full"
+                              aria-label="Select interests"
+                            >
+                              <SelectValue placeholder="Select interests" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="streetwear">
+                              Streetwear
+                            </SelectItem>
+                            <SelectItem value="vintage">Vintage</SelectItem>
+                            <SelectItem value="sportswear">
+                              Sportswear
+                            </SelectItem>
+                            <SelectItem value="luxury">Luxury</SelectItem>
+                            <SelectItem value="independent-brands">
+                              Independent brands
+                            </SelectItem>
+                            <SelectItem value="old-fashion">
+                              Old fashion
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="flex-1 space-y-6 mt-6 lg:mt-0">
+                  <FormField
+                    control={form.control}
+                    name="condition"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Condition
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className="w-full"
+                              aria-label="Select condition"
+                            >
+                              <SelectValue placeholder="Select condition" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="brand-new">Brand New</SelectItem>
+                            <SelectItem value="used-like-new">
+                              Used Like New
+                            </SelectItem>
+                            <SelectItem value="used-like-excellent">
+                              Used Like Excellent
+                            </SelectItem>
+                            <SelectItem value="used-like-good">
+                              Used Like Good
+                            </SelectItem>
+                            <SelectItem value="medium">Medium</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="brand"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Brand
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className="w-full"
+                              aria-label="Select brand"
+                            >
+                              <SelectValue placeholder="Select brand" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {brands.map((brand) => (
+                              <SelectItem key={brand} value={brand}>
+                                {brand}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="size"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Available Size
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className="w-full"
+                              aria-label="Select size"
+                            >
+                              <SelectValue placeholder="Select size" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {sizes.map((size) => (
+                              <SelectItem key={size} value={size}>
+                                {size}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-medium text-gray-700">
+                        Available Colors
+                      </Label>
                     </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      Set Price
-                    </label>
-                    <input
-                      {...form.register("setPrice")}
-                      type="number"
-                      placeholder="Enter price (e.g., 99.99)"
-                      className="w-full p-2 border rounded"
-                      aria-required="true"
-                    />
-                    {form.formState.errors.setPrice && (
-                      <p className="text-red-500 text-xs">
-                        {form.formState.errors.setPrice.message}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-700">
-                      Set Discount (Optional)
-                    </label>
-                    <input
-                      {...form.register("setDiscount")}
-                      type="number"
-                      placeholder="Enter discount (e.g., 10.00)"
-                      className="w-full p-2 border rounded"
-                    />
-                    {form.formState.errors.setDiscount && (
-                      <p className="text-red-500 text-xs">
-                        {form.formState.errors.setDiscount.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-              {Array.from({ length: 4 }, (_, i) => (
-                <div key={i} className="space-y-2">
-                  <label
-                    className="text-sm font-medium text-gray-700"
-                    htmlFor={`image-upload-${i}`}
-                  >
-                    {i === 0 ? "Main Image" : `Additional Image ${i}`}
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/jpg"
-                      className="hidden"
-                      id={`image-upload-${i}`}
-                      onChange={(e) => handleImageUpload(e, i)}
-                      aria-label={`Upload image ${i + 1}`}
-                    />
-                    <div
-                      className="custom-card p-4 flex flex-col items-center justify-center h-32 sm:h-40 text-gray-400 cursor-pointer"
-                      onClick={() =>
-                        document.getElementById(`image-upload-${i}`)?.click()
-                      }
-                      role="button"
-                      aria-label={`Upload image ${i + 1}`}
-                    >
-                      {imagePreviews[i] ? (
-                        <div className="relative w-full h-full">
-                          <Image
-                            src={imagePreviews[i]}
-                            alt={`Preview ${i + 1}`}
-                            height={500}
-                            width={500}
-                            className="w-[70%] h-[100%] object-contain rounded"
+                    <div className="flex flex-wrap gap-2">
+                      {selectedColors.map((color, index) => (
+                        <div key={index} className="relative">
+                          <div
+                            className="w-8 h-8 rounded border-2 border-gray-200"
+                            style={{ backgroundColor: color }}
+                            aria-label={`Selected color ${color}`}
                           />
                           <button
                             type="button"
-                            className="absolute top-1 right-1 w-6 h-6 p-0 bg-black/50 hover:bg-black/70 rounded-full"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleRemoveImage(i);
-                            }}
-                            aria-label={`Remove image ${i + 1}`}
+                            className="absolute -top-1 -right-1 w-4 h-4 p-0 bg-gray-500 hover:bg-gray-600 rounded-full"
+                            onClick={() => handleColorRemove(color)}
+                            aria-label={`Remove color ${color}`}
                           >
-                            <X className="w-3 h-3 text-white" />
+                            <X className="w-4 h-4 text-white" />
                           </button>
                         </div>
-                      ) : (
-                        <>
-                          <Camera className="w-8 h-8 mb-1" />
-                          <span className="text-xs">Choose File</span>
-                        </>
-                      )}
+                      ))}
+                      <div className="flex flex-wrap gap-2">
+                        {colors
+                          .filter(
+                            (color) => !selectedColors.includes(color.value)
+                          )
+                          .map((color) => (
+                            <button
+                              key={color.value}
+                              className="w-6 h-6 p-0 rounded border border-gray-300"
+                              onClick={() => handleColorSelect(color.value)}
+                              aria-label={`Select color ${color.name}`}
+                            >
+                              <div
+                                className="w-full h-full rounded"
+                                style={{ backgroundColor: color.value }}
+                              />
+                            </button>
+                          ))}
+                      </div>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500">
-                    Formats: JPG, PNG, JPEG - Max 5MB
-                  </p>
-                  {!images[i] && (
-                    <p className="text-xs text-gray-400">No File Chosen</p>
-                  )}
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="setPrice"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            Set Price
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Enter price (e.g., 99.99)"
+                              {...field}
+                              className="w-full"
+                              aria-required="true"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="setDiscount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            Set Discount (Optional)
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Enter discount (e.g., 10.00)"
+                              {...field}
+                              className="w-full"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
-              ))}
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 pt-6">
-              <button
-                type="submit"
-                className="flex-1 bg-primary rounded-full text-white p-2  disabled:opacity-50"
-                disabled={isSubmitting || form.formState.isSubmitting}
-              >
-                {isSubmitting ? "Creating..." : "Create New"}
-              </button>
-              <button
-                type="button"
-                className="flex-1 bg-transparent rounded-full border border-gray-300 p-2  disabled:opacity-50"
-                onClick={onSaveAsDraft}
-                disabled={isSubmitting || form.formState.isSubmitting}
-              >
-                Save as Draft
-              </button>
-            </div>
-          </form>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                {Array.from({ length: 4 }, (_, i) => (
+                  <div key={i} className="space-y-2 shadow-md p-4 rounded-2xl">
+                    <label
+                      className="text-sm font-medium text-gray-700"
+                      htmlFor={`image-upload-${i}`}
+                    >
+                      {i === 0 ? "Main Image" : `Additional Image ${i}`}
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/jpg"
+                        className="hidden"
+                        id={`image-upload-${i}`}
+                        onChange={(e) => handleImageUpload(e, i)}
+                        aria-label={`Upload image ${i + 1}`}
+                      />
+                      <div
+                        className="custom-card p-4 flex flex-col items-center justify-center h-32 sm:h-40 text-gray-400 cursor-pointer"
+                        onClick={() =>
+                          document.getElementById(`image-upload-${i}`)?.click()
+                        }
+                        role="button"
+                        aria-label={`Upload image ${i + 1}`}
+                      >
+                        {imagePreviews[i] ? (
+                          <div className="relative w-full h-full">
+                            <Image
+                              src={imagePreviews[i]}
+                              alt={`Preview ${i + 1}`}
+                              height={500}
+                              width={500}
+                              className="w-[70%] h-[100%] object-contain rounded-md"
+                            />
+                            <button
+                              type="button"
+                              className="absolute top-1 right-1 w-6 h-6 p-0 flex items-center justify-center bg-black/50 hover:bg-black/70 rounded-full"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveImage(i);
+                              }}
+                              aria-label={`Remove image ${i + 1}`}
+                            >
+                              <X className="w-3 h-3 text-white" />
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <Camera className="w-8 h-8 mb-1" />
+                            <span className="text-xs">Choose File</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Formats: JPG, PNG, JPEG - Max 5MB
+                    </p>
+                    {!images[i] && (
+                      <p className="text-xs text-gray-400">No File Chosen</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-6">
+                <Button
+                  type="submit"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 disabled:opacity-50"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting
+                    ? isEdit
+                      ? "Updating..."
+                      : "Creating..."
+                    : isEdit
+                    ? "Update Product"
+                    : "Create Product"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1 bg-transparent border border-gray-300 rounded-full p-2 disabled:opacity-50"
+                  onClick={onSaveAsDraft}
+                  disabled={form.formState.isSubmitting}
+                >
+                  Save as Draft
+                </Button>
+              </div>
+            </form>
+          </Form>
         </div>
       </div>
     </div>

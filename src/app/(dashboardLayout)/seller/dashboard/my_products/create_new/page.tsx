@@ -1,9 +1,9 @@
-import CreateProductForm from "@/components/module/seller/dashboard/my_product/create_new";
+import ProductForm from "@/components/module/seller/dashboard/my_product/create_new";
 
 const page = () => {
   return (
     <div>
-      <CreateProductForm />
+      <ProductForm />
     </div>
   );
 };
