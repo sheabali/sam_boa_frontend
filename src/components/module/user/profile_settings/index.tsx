@@ -2,7 +2,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PencilIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -12,7 +11,28 @@ import { z } from "zod";
 import Button from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import "react-phone-input-2/lib/style.css";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+// Predefined options for dropdowns
+const categoryOptions = [
+  "Shop Menswear",
+  "Shop WoMenswear",
+  "Shop Kids",
+  "Shop Accessories",
+];
+const interestOptions = [
+  "Sportswear",
+  "Casual Wear",
+  "Formal Wear",
+  "Outdoor Gear",
+];
+const brandOptions = ["Nike", "Adidas", "Puma", "Under Armour"];
 
 // Data to be filled
 const user = {
@@ -24,7 +44,7 @@ const user = {
   mobileMoneyName: "Airtel Money",
   email: "V9a6j@example.com",
   mobileNumber: "256700000000",
-  category: "Shop Mensware",
+  category: "Shop Menswear",
   interests: "Sportswear",
   brands: "Nike",
   shoeSize: "Mens / UK 8.5",
@@ -60,6 +80,7 @@ interface FormFieldProps {
   control: any;
   errors: any;
   children?: React.ReactNode;
+  options?: string[];
 }
 
 function FormField({
@@ -70,30 +91,55 @@ function FormField({
   control,
   errors,
   children,
+  options,
 }: FormFieldProps) {
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{label}</Label>
       <div className="relative">
         {children}
-        <Controller
-          name={id}
-          control={control}
-          render={({ field }) => (
-            <Input
-              id={id}
-              placeholder={placeholder}
-              type={type}
-              className="py-[18px] md:py-[24px] px-6 rounded-2xl mt-1"
-              {...field}
-            />
-          )}
-        />
-        <PencilIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-2 w-3 md:h-3 md:w-4 text-muted-foreground" />
+        {options ? (
+          <Controller
+            name={id}
+            control={control}
+            render={({ field }) => (
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+                defaultValue={field.value}
+              >
+                <SelectTrigger className="py-[18px] md:py-[24px] px-6 rounded-2xl mt-1 w-full">
+                  <SelectValue placeholder={placeholder} />
+                </SelectTrigger>
+                <SelectContent>
+                  {options.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+        ) : (
+          <Controller
+            name={id}
+            control={control}
+            render={({ field }) => (
+              <Input
+                id={id}
+                placeholder={placeholder}
+                type={type}
+                className="py-[18px] md:py-[24px] px-6 rounded-2xl mt-1"
+                {...field}
+              />
+            )}
+          />
+        )}
+        {errors[id] && (
+          <p className="text-sm text-red-500">{errors[id]?.message}</p>
+        )}
       </div>
-      {errors[id] && (
-        <p className="text-sm text-red-500">{errors[id]?.message}</p>
-      )}
     </div>
   );
 }
@@ -265,13 +311,13 @@ export default function ProfileSettings() {
             control={control}
             errors={errors}
           />
-          {/* <FormField
+          <FormField
             id="mobileMoneyName"
             label="Registered Mobile Money Name"
-            placeholder="Telecel"
+            placeholder="Airtel Money"
             control={control}
             errors={errors}
-          /> */}
+          />
           <FormField
             id="email"
             label="Email"
@@ -280,27 +326,29 @@ export default function ProfileSettings() {
             control={control}
             errors={errors}
           />
-
           <FormField
             id="category"
             label="Category"
-            placeholder="Your category"
+            placeholder="Select category"
             control={control}
             errors={errors}
+            options={categoryOptions}
           />
           <FormField
             id="interests"
             label="Interests"
-            placeholder="Your interests"
+            placeholder="Select interests"
             control={control}
             errors={errors}
+            options={interestOptions}
           />
           <FormField
             id="brands"
-            label="brands"
-            placeholder="Your brands"
+            label="Brands"
+            placeholder="Select brands"
             control={control}
             errors={errors}
+            options={brandOptions}
           />
           <FormField
             id="shoeSize"
@@ -323,33 +371,6 @@ export default function ProfileSettings() {
             control={control}
             errors={errors}
           />
-          {/* Phone Input */}
-          {/* <div className="space-y-2">
-            <Label htmlFor="mobileNumber">Mobile Number</Label>
-            <Controller
-              name="mobileNumber"
-              control={control}
-              render={({ field }) => (
-                <PhoneInput
-                  {...field}
-                  country={"gh"}
-                  inputProps={{
-                    name: "mobileNumber",
-                    required: true,
-                  }}
-                  onChange={(value) => field.onChange(value)}
-                  containerClass="!w-full"
-                  inputClass="!w-full !h-10 py-6  !text-sm !rounded-lg !pl-12 !border-gray-300"
-                  buttonClass="md:!h-12.2  !rounded-l-lg  !border-r-0 !border-gray-300"
-                />
-              )}
-            />
-            {errors.mobileNumber && (
-              <p className="text-sm text-red-500">
-                {errors.mobileNumber.message}
-              </p>
-            )}
-          </div> */}
         </div>
 
         <div className="flex gap-4 justify-start">

@@ -102,7 +102,7 @@ const formSchema = z.object({
   category: z
     .string()
     .min(1, "Category is required")
-    .refine((value) => ["mensware", "womensware", "both"].includes(value), {
+    .refine((value) => ["menswear", "womenswear", "both"].includes(value), {
       message: "Invalid category",
     }),
   selectedBrands: z
@@ -150,13 +150,13 @@ const stepFields: { [key: string]: (keyof FormData)[] } = {
 // Define categories
 const categories = [
   {
-    id: "mensware",
-    label: "Shop Mensware",
+    id: "menswear",
+    label: "Shop Menswear",
     image: "https://i.ibb.co/mVjzdhHW/Rectangle-23852.png",
   },
   {
-    id: "womensware",
-    label: "Shop Womensware",
+    id: "womenswear",
+    label: "Shop Womenswear",
     image: "https://i.ibb.co/zhn1crwC/Rectangle-23853.png",
   },
   {

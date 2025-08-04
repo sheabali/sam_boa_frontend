@@ -15,6 +15,7 @@ import {
   InfoIcon,
   LayoutDashboard,
   MessagesSquare,
+  PackageCheck,
   Rss,
   ShoppingCart,
   User,
@@ -90,7 +91,7 @@ const data = {
       {
         title: "Product Status",
         url: "/seller/dashboard/product_status",
-        icon: MessagesSquare,
+        icon: PackageCheck,
       },
 
       {

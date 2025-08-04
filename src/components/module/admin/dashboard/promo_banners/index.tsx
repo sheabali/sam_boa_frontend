@@ -69,8 +69,8 @@ const initialPromoItems: PromoItem[] = [
 ];
 
 const bannerCategories = [
-  { title: "Upload MensWare Banner", id: "menswear" },
-  { title: "Upload WomensWare Banner", id: "womenswear" },
+  { title: "Upload menswear Banner", id: "menswear" },
+  { title: "Upload Womenswear Banner", id: "womenswear" },
   { title: "Upload Both Section Banner", id: "both-section" },
   { title: "Upload Streetware Banner", id: "streetware" },
   { title: "Upload Vintage Banner", id: "vintage" },
