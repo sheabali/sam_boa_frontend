@@ -13,9 +13,6 @@ const ExplorePage = () => {
       <SearchManagement />
 
       <div className="md:mt-10">
-        <h2 className="text-3xl lg:text-[60px] font-semibold text-center my-10">
-          Men
-        </h2>
         <Explore />
       </div>
     </div>

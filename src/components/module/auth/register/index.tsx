@@ -749,7 +749,7 @@ export default function VibeOnboarding() {
         return (
           <div className="space-y-6 px-4 sm:px-6">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
-              Seller Address
+              Address
             </h1>
             <div className="space-y-4">
               <div>

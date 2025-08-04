@@ -1,11 +1,7 @@
-import SearchManagement from "@/components/shared/searchBar/SearchManagement";
 import SaleBanner from "../home_page/SaleBanner";
 import Apparel from "./Apparel";
 import Bottoms from "./Bottoms";
 import Footwear from "./Footwear";
-import WomensApparel from "./woman/Apparel";
-import WBottoms from "./woman/Bottoms";
-import WFootwear from "./woman/Footwear";
 
 const Explore = () => {
   return (
@@ -22,7 +18,7 @@ const Explore = () => {
       </div>
       <SaleBanner />
       {/* Woman section */}
-      <div className="container">
+      {/* <div className="container">
         <div className="md:my-20">
           <SearchManagement />
         </div>
@@ -39,7 +35,7 @@ const Explore = () => {
         <div className="mb-10">
           <WFootwear />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

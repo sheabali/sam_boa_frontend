@@ -47,7 +47,7 @@ const data = {
       {
         title: "Messages",
         url: "/user/dashboard/messages",
-        icon: ShoppingCart,
+        icon: MessagesSquare,
       },
       {
         title: "Change Password",
