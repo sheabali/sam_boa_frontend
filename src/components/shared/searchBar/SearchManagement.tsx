@@ -19,29 +19,31 @@ type ServiceOption = { name: string; value: string };
 const SearchManagement = () => {
   const router = useRouter();
 
-  const [category, setCategory] = useState<ServiceOption[]>([]);
+  const [gender, setGender] = useState<ServiceOption[]>([]);
   const [size, setSize] = useState<ServiceOption[]>([]);
   const [brand, setBrand] = useState<ServiceOption[]>([]);
   const [color, setColor] = useState<ServiceOption[]>([]);
   const [condition, setCondition] = useState<ServiceOption[]>([]);
+  const [style, setStyle] = useState<ServiceOption[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   console.log("size", size.length);
 
   const [filters, setFilters] = useState({
-    category: "",
+    gender: "",
     size: "",
     brand: "",
     color: "",
     condition: "",
+    style: "",
   });
 
-  const [priceRange, setPriceRange] = useState<number[]>([100, 250]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 70]);
 
   useEffect(() => {
-    setCategory([
+    setGender([
       { name: "Mens", value: "mens" },
       { name: "Womens", value: "womens" },
-      { name: "Both", value: "both" },
+      { name: "Unisex", value: "unisex" },
     ]);
     setSize([
       { name: "Mens / UK 2", value: "Mens / UK 2" },
@@ -173,6 +175,14 @@ const SearchManagement = () => {
       { name: "Used Like Good", value: "used like good" },
       { name: "Medium", value: "medium" },
     ]);
+    setStyle([
+      { name: "Streetwear", value: "streetwear" },
+      { name: "Vintage", value: "vintage" },
+      { name: "Sportswear", value: "sportswear" },
+      { name: "Luxury", value: "luxury" },
+      { name: "Independent brands", value: "independent-brands" },
+      { name: "Old fashion", value: "old-fashion" },
+    ]);
   }, []);
 
   const handleChange = (key: string, value: string) => {
@@ -281,12 +291,13 @@ const SearchManagement = () => {
               </DrawerDescription>
             </DrawerHeader>
             <div className="grid grid-cols-1 gap-4 px-4 pb-6">
-              {renderDropdown("category", "Category", category)}
+              {renderDropdown("gender", "Gender", gender)}
               <PriceRangePopover value={priceRange} onChange={setPriceRange} />
               {renderColorDropdown()}
               {renderDropdown("size", "Size", size)}
               {renderDropdown("brand", "Brand", brand)}
               {renderDropdown("condition", "Condition", condition)}
+              {renderDropdown("style", "Style", style)}
             </div>
             <div className="px-4 pb-6">
               <Button
@@ -305,7 +316,7 @@ const SearchManagement = () => {
       {/* Desktop: Inline Filters */}
       <div className="bg-white mt-4 rounded-xl shadow-md px-4 py-3 lg:px-6 lg:py-4 w-full max-w-screen-xl mx-auto hidden lg:flex">
         <div className="flex items-center justify-between gap-2 lg:gap-4 w-full">
-          {renderDropdown("category", "Category", category)}
+          {renderDropdown("gender", "Gender", gender)}
           <span className="hidden md:inline-block h-5 w-px bg-gray-200" />
           {renderDropdown("size", "Size", size)}
           <span className="hidden md:inline-block h-5 w-px bg-gray-200" />
@@ -316,6 +327,7 @@ const SearchManagement = () => {
           {renderColorDropdown()}
           <span className="hidden md:inline-block h-5 w-px bg-gray-200" />
           {renderDropdown("condition", "Condition", condition)}
+          {renderDropdown("style", "Style", style)}
           <div className="ml-auto">
             <button
               onClick={handleSearch}
