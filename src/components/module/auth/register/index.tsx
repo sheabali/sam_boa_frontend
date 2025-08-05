@@ -11,8 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ghanaCities } from "@/constants/cityData";
-import { regions } from "@/constants/regions";
 import { sizes } from "@/constants/sizeData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
@@ -93,9 +91,9 @@ const formSchema = z.object({
   //   .refine((value) => ["telecel", "mtn", "airteltigo"].includes(value), {
   //     message: "Invalid mobile money provider",
   //   }),
-  city: z.string().min(1, "City is required"),
-  region: z.string().min(1, "Region is required"),
-  area: z.string().min(1, "Area is required"),
+  // city: z.string().min(1, "City is required"),
+  // region: z.string().min(1, "Region is required"),
+  // area: z.string().min(1, "Area is required"),
   shoeSize: z.string().min(1, "Shoe size is required"),
   topSize: z.string().min(1, "Top size is required"),
   trouserSize: z.string().min(1, "Trouser size is required"),
@@ -132,7 +130,7 @@ const steps = [
   "brands",
   "sizes",
   "register",
-  "address",
+  //"address",
   "make_account",
 ];
 
@@ -143,7 +141,7 @@ const stepFields: { [key: string]: (keyof FormData)[] } = {
   brands: ["selectedBrands"],
   sizes: ["shoeSize", "topSize", "trouserSize"],
   register: ["firstName", "lastName"], //"mobileNumber", "mobileMoneyName"],
-  address: ["region", "city", "area"], //"mobileNumber", "email"],
+  // address: ["region", "city", "area"], //"mobileNumber", "email"],
   make_account: ["email", "password"],
 };
 
@@ -232,9 +230,9 @@ export default function VibeOnboarding() {
       lastName: "",
       // mobileNumber: "",
       // mobileMoneyName: "",
-      city: "",
-      region: "",
-      area: "",
+      // city: "",
+      // region: "",
+      // area: "",
       shoeSize: "",
       topSize: "",
       trouserSize: "",
@@ -392,11 +390,11 @@ export default function VibeOnboarding() {
                 Select Interests
               </h1>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 rounded-full gap-4">
               {interests.map((interest) => (
                 <div
                   key={interest.id}
-                  className={`cursor-pointer transition-all ${
+                  className={`cursor-pointer  transition-all ${
                     formData.interests.includes(interest.id)
                       ? "ring-2 ring-red-800"
                       : ""
@@ -410,7 +408,7 @@ export default function VibeOnboarding() {
                         alt={interest.label}
                         width={700}
                         height={700}
-                        className=""
+                        className="rounded-full"
                       />
                     </div>
                     <p className="text-[12px] md:text-[18px] font-medium">
@@ -745,140 +743,140 @@ export default function VibeOnboarding() {
           </div>
         );
 
-      case "address":
-        return (
-          <div className="space-y-6 px-4 sm:px-6">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
-              Address
-            </h1>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="region">Region</Label>
-                <Controller
-                  name="region"
-                  control={control}
-                  render={({ field }) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-5 md:py-6 mt-2 rounded-2xl text-sm md:text-base">
-                        {" "}
-                        <SelectValue placeholder="Select Region" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {regions.map((region) => (
-                          <SelectItem key={region} value={region}>
-                            {region}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-                {errors.region && (
-                  <p className="text-red-500 text-sm" role="alert">
-                    {errors.region.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <Label htmlFor="city">City / Town</Label>
-                <Controller
-                  name="city"
-                  control={control}
-                  render={({ field }) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full py-5 md:py-6 mt-2 rounded-2xl text-sm md:text-base">
-                        <SelectValue placeholder="Select City or Town" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {ghanaCities.map((city) => (
-                          <SelectItem key={city} value={city}>
-                            {city}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-                {errors.city && (
-                  <p className="text-red-500 text-sm" role="alert">
-                    {errors.city.message}
-                  </p>
-                )}
-              </div>
+      // case "address":
+      //   return (
+      //     <div className="space-y-6 px-4 sm:px-6">
+      //       <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
+      //         Address
+      //       </h1>
+      //       <div className="space-y-4">
+      //         <div>
+      //           <Label htmlFor="region">Region</Label>
+      //           <Controller
+      //             name="region"
+      //             control={control}
+      //             render={({ field }) => (
+      //               <Select value={field.value} onValueChange={field.onChange}>
+      //                 <SelectTrigger className="w-full py-5 md:py-6 mt-2 rounded-2xl text-sm md:text-base">
+      //                   {" "}
+      //                   <SelectValue placeholder="Select Region" />
+      //                 </SelectTrigger>
+      //                 <SelectContent>
+      //                   {regions.map((region) => (
+      //                     <SelectItem key={region} value={region}>
+      //                       {region}
+      //                     </SelectItem>
+      //                   ))}
+      //                 </SelectContent>
+      //               </Select>
+      //             )}
+      //           />
+      //           {errors.region && (
+      //             <p className="text-red-500 text-sm" role="alert">
+      //               {errors.region.message}
+      //             </p>
+      //           )}
+      //         </div>
+      //         <div>
+      //           <Label htmlFor="city">City / Town</Label>
+      //           <Controller
+      //             name="city"
+      //             control={control}
+      //             render={({ field }) => (
+      //               <Select value={field.value} onValueChange={field.onChange}>
+      //                 <SelectTrigger className="w-full py-5 md:py-6 mt-2 rounded-2xl text-sm md:text-base">
+      //                   <SelectValue placeholder="Select City or Town" />
+      //                 </SelectTrigger>
+      //                 <SelectContent>
+      //                   {ghanaCities.map((city) => (
+      //                     <SelectItem key={city} value={city}>
+      //                       {city}
+      //                     </SelectItem>
+      //                   ))}
+      //                 </SelectContent>
+      //               </Select>
+      //             )}
+      //           />
+      //           {errors.city && (
+      //             <p className="text-red-500 text-sm" role="alert">
+      //               {errors.city.message}
+      //             </p>
+      //           )}
+      //         </div>
 
-              <div>
-                <Label htmlFor="area">Area</Label>
-                <Controller
-                  name="area"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      placeholder="Enter your area"
-                      className="py-5 md:py-6 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
-                    />
-                  )}
-                />
-                {errors.area && (
-                  <p className="text-red-500 text-sm" role="alert">
-                    {errors.area.message}
-                  </p>
-                )}
-              </div>
-              {/* <div>
-                <Label htmlFor="mobileNumber">
-                  Phone<span className="text-red-500">*</span>
-                </Label>
-                <Controller
-                  name="mobileNumber"
-                  control={control}
-                  render={({ field }) => (
-                    <PhoneInput
-                      {...field}
-                      country="gh"
-                      inputProps={{ id: "mobileNumber" }}
-                      containerClass="!w-full"
-                      inputClass="!w-full !h-10 sm:!h-12 !text-sm sm:!text-base !rounded-2xl !pl-12 !py-3 sm:!py-4 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
-                      buttonClass="!h-10 sm:!h-12 !rounded-l-2xl !border-r-0 !border-gray-300 hover:!border-primary focus:!border-primary"
-                      placeholder="Phone number"
-                    />
-                  )}
-                />
-                {errors.mobileNumber && (
-                  <p className="text-red-500 text-sm" role="alert">
-                    {errors.mobileNumber.message}
-                  </p>
-                )}
-              </div> */}
-              {/* <div>
-                <Label htmlFor="email">Email</Label>
-                <Controller
-                  name="email"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      placeholder="Enter your email"
-                      className="py-5 md:py-6 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
-                    />
-                  )}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm" role="alert">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div> */}
-            </div>
-            <Button
-              onClick={handleNext}
-              className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
-              disabled={isNextButtonDisabled || isSubmitting}
-            >
-              {currentStep === steps.length - 1 ? "Submit" : "Continue"}
-            </Button>
-          </div>
-        );
+      //         <div>
+      //           <Label htmlFor="area">Area</Label>
+      //           <Controller
+      //             name="area"
+      //             control={control}
+      //             render={({ field }) => (
+      //               <Input
+      //                 {...field}
+      //                 placeholder="Enter your area"
+      //                 className="py-5 md:py-6 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
+      //               />
+      //             )}
+      //           />
+      //           {errors.area && (
+      //             <p className="text-red-500 text-sm" role="alert">
+      //               {errors.area.message}
+      //             </p>
+      //           )}
+      //         </div>
+      //         {/* <div>
+      //           <Label htmlFor="mobileNumber">
+      //             Phone<span className="text-red-500">*</span>
+      //           </Label>
+      //           <Controller
+      //             name="mobileNumber"
+      //             control={control}
+      //             render={({ field }) => (
+      //               <PhoneInput
+      //                 {...field}
+      //                 country="gh"
+      //                 inputProps={{ id: "mobileNumber" }}
+      //                 containerClass="!w-full"
+      //                 inputClass="!w-full !h-10 sm:!h-12 !text-sm sm:!text-base !rounded-2xl !pl-12 !py-3 sm:!py-4 !border-gray-300 hover:!border-primary focus:!border-primary focus:!ring-2 focus:!ring-primary !outline-none"
+      //                 buttonClass="!h-10 sm:!h-12 !rounded-l-2xl !border-r-0 !border-gray-300 hover:!border-primary focus:!border-primary"
+      //                 placeholder="Phone number"
+      //               />
+      //             )}
+      //           />
+      //           {errors.mobileNumber && (
+      //             <p className="text-red-500 text-sm" role="alert">
+      //               {errors.mobileNumber.message}
+      //             </p>
+      //           )}
+      //         </div> */}
+      //         {/* <div>
+      //           <Label htmlFor="email">Email</Label>
+      //           <Controller
+      //             name="email"
+      //             control={control}
+      //             render={({ field }) => (
+      //               <Input
+      //                 {...field}
+      //                 placeholder="Enter your email"
+      //                 className="py-5 md:py-6 px-4 sm:px-6 rounded-2xl mt-1 text-sm sm:text-base"
+      //               />
+      //             )}
+      //           />
+      //           {errors.email && (
+      //             <p className="text-red-500 text-sm" role="alert">
+      //               {errors.email.message}
+      //             </p>
+      //           )}
+      //         </div> */}
+      //       </div>
+      //       <Button
+      //         onClick={handleNext}
+      //         className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"
+      //         disabled={isNextButtonDisabled || isSubmitting}
+      //       >
+      //         {currentStep === steps.length - 1 ? "Submit" : "Continue"}
+      //       </Button>
+      //     </div>
+      //   );
 
       case "make_account":
         return (
