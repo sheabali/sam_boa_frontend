@@ -146,26 +146,41 @@ const SearchManagement = () => {
     ]);
 
     setColor([
-      { name: "Red", value: "#FF0000" },
-      { name: "Maroon", value: "#800000" },
-      { name: "Light Red", value: "#FF4040" },
-      { name: "Crimson", value: "#DC143C" },
-      { name: "Blue", value: "#0000FF" },
-      { name: "Navy", value: "#000080" },
-      { name: "Sky Blue", value: "#87CEEB" },
-      { name: "Teal", value: "#008080" },
-      { name: "Green", value: "#008000" },
-      { name: "Lime", value: "#32CD32" },
-      { name: "Olive", value: "#808000" },
-      { name: "Yellow", value: "#FFFF00" },
-      { name: "Orange", value: "#FFA500" },
-      { name: "Purple", value: "#800080" },
-      { name: "Magenta", value: "#FF00FF" },
-      { name: "Pink", value: "#FFC0CB" },
-      { name: "Brown", value: "#A52A2A" },
-      { name: "Gray", value: "#808080" },
-      { name: "Multicolored", value: "multicolored" },
-      { name: "Other", value: "other" },
+      { name: "Red", value: "#FF2D00" },
+      { name: "Dark Red", value: "#7C0F1B" },
+      { name: "Deep Red", value: "#981C1B" },
+      { name: "Coral Red", value: "#F24E4D" },
+      { name: "Bright Red", value: "#FF2D00" },
+
+      { name: "Blue", value: "#112CFF" },
+      { name: "Primary Blue", value: "#1C2AFF" },
+      { name: "Dark Blue", value: "#1B1C9B" },
+      { name: "Navy Blue", value: "#131241" },
+      { name: "Indigo", value: "#130F59" },
+
+      { name: "Cyan", value: "#00C8F2" },
+      { name: "Neon Green", value: "#35F02F" },
+      { name: "Yellow", value: "#F5B82F" },
+      { name: "Amber", value: "#F5B82F" },
+      { name: "Sky Blue", value: "#00C8F2" },
+
+      { name: "Pink", value: "#E83294" },
+      { name: "Light Cyan", value: "#00C8F2" },
+      { name: "Lime Green", value: "#35F02F" },
+      { name: "Gold", value: "#F5B82F" },
+      { name: "Bright Yellow", value: "#F5B82F" },
+
+      { name: "Golden Yellow", value: "#F5B82F" },
+      { name: "Magenta", value: "#E83294" },
+      { name: "Bright Green", value: "#35F02F" },
+      { name: "Mustard", value: "#F5B82F" },
+      { name: "Azure", value: "#4BB2F5" },
+
+      { name: "Light Blue", value: "#4BB2F5" },
+      { name: "Sky Blue", value: "#4BB2F5" },
+      { name: "Aqua Blue", value: "#4BB2F5" },
+      { name: "Lawn Green", value: "#35F02F" },
+      { name: "Fresh Green", value: "#35F02F" },
     ]);
 
     setCondition([
@@ -230,7 +245,7 @@ const SearchManagement = () => {
       <select
         value={filters.color}
         onChange={(e) => handleChange("color", e.target.value)}
-        className="appearance-none bg-white px-3 py-2 pr-8 rounded-md text-sm w-[80%] focus:outline-none focus:ring-1 focus:ring-primary"
+        className="appearance-none bg-white px-3 py-2 pr-8 rounded-md text-sm w-full focus:outline-none focus:ring-1 focus:ring-primary"
         style={{
           backgroundImage:
             filters.color !== ""
@@ -243,7 +258,6 @@ const SearchManagement = () => {
         }}
       >
         <option className="py-2" value="">
-          {" "}
           Select Color
         </option>
         {color.map((opt) => (
@@ -263,7 +277,7 @@ const SearchManagement = () => {
 
       <ChevronDown
         size={16}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
       />
     </div>
   );

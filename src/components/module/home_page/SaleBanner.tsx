@@ -1,56 +1,89 @@
-import Image from "next/image";
+"use client";
 
-export default function SaleBanner() {
+import Image from "next/image";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+const promoSlides = [
+  {
+    title: "Enjoy up to 70% off!",
+    subtitle:
+      "Grab your limited-time discount and enjoy 70% off on all our products.",
+    image: "/image 75.png", // Add your actual images
+  },
+  {
+    title: "Flash Sale!",
+    subtitle: "Exclusive deals for a short time only.",
+    image: "/image 75.png",
+  },
+  {
+    title: "Free Shipping!",
+    subtitle: "On all orders over $50.",
+    image: "/image 75.png",
+  },
+  {
+    title: "New Arrivals!",
+    subtitle: "Shop the latest trends in fashion.",
+    image: "/image 75.png",
+  },
+];
+
+export default function PromoBannerSlider() {
   return (
-    <div className=" bg-gray-100 lg:mt-[150px]">
-      {/* Main Banner Section */}
-      <div className="relative bg-gradient-to-bl from-red-500 via-[#a82b2b] to-[#ec4141] bg-clip-border overflow-hidden">
-        <div className="container mx-auto px-6 pt-16 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            {/* Left Content */}
-            <div className="text-white space-y-6 z-10 relative">
-              <div className="space-y-2">
-                <p className="text-sm font-semibold tracking-wider uppercase">
+    <div className="w-full mt-10 bg-white">
+      <Swiper
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 5000 }}
+        loop={true}
+        modules={[Pagination, Autoplay]}
+        className="w-full"
+      >
+        {promoSlides.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <div className="flex flex-col lg:flex-row items-center justify-between bg-gradient-to-br from-[#ec4141] via-[#a82b2b] to-[#9c1f1f] px-6 lg:px-24 py-1 lg:py-1 text-white">
+              {/* Left Content */}
+              <div className="w-full lg:w-1/2 space-y-6">
+                <p className="text-sm font-bold uppercase tracking-wider">
                   SALE
                 </p>
-                <h1 className="text-2xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-                  Enjoy up to <span className="text-yellow-300">70% off!</span>
+                <h1 className="text-3xl lg:text-6xl font-extrabold">
+                  {slide.title.split("70%").map((part, i, arr) =>
+                    i === arr.length - 1 ? (
+                      <span key={i}>
+                        <span className="text-yellow-300">70%</span>
+                        {part}
+                      </span>
+                    ) : (
+                      part
+                    )
+                  )}
                 </h1>
+                <p className="text-base lg:text-lg opacity-90 max-w-md">
+                  {slide.subtitle}
+                </p>
+                <button className="bg-white text-black font-semibold py-2 px-6 rounded-md w-max">
+                  SHOP NOW
+                </button>
               </div>
-              <p className="text-sm lg:text-lg opacity-90 max-w-md">
-                Grab your limited-time discount and enjoy 70% off on all our
-                products.
-              </p>
-              <button className="btn  py-1 px-6 lg:py-5 lg:px-10 rounded-md font-semibold bg-white text-black">
-                SHOP NOW
-              </button>
-            </div>
 
-            {/* Right Image */}
-            <div className="relative lg:absolute lg:-right-80 lg:top-0  lg:bottom-0 lg:w-1/2">
-              <div className="relative h-90 lg:h-full">
-                <Image
-                  src="/image 75.png"
-                  alt="Stylish model with elegant outfit"
-                  width={400}
-                  height={100}
-                  //   fill
-                  className="object-cover object-center lg:object-right"
-                  priority
-                />
+              {/* Right Image */}
+              <div className="w-full lg:w-1/2 mt-10 lg:mt-0 relative flex justify-end">
+                <div className="relative w-[250px] h-[350px] lg:w-[400px] lg:h-[700px]">
+                  <Image
+                    src={slide.image}
+                    alt="Promo Image"
+                    fill
+                    className="object-cover rounded-lg"
+                    priority
+                  />
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Carousel Dots */}
-          {/* <div className="flex justify-center space-x-2 mt-12 lg:mt-16">
-            <div className="w-8 h-1 bg-white rounded-full"></div>
-            <div className="w-2 h-1 bg-white/50 rounded-full"></div>
-            <div className="w-2 h-1 bg-white/50 rounded-full"></div>
-            <div className="w-2 h-1 bg-white/50 rounded-full"></div>
-          </div> */}
-        </div>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }
