@@ -6,7 +6,7 @@ const page = () => {
     productName: "Classic Sneakers",
     description: "Comfortable and stylish sneakers perfect for everyday wear.",
     hashtag: "#sneakers #fashion #casual",
-    category: "both",
+    gender: "both",
     productType: "footwear",
     condition: "brand-new",
     brand: "Nike",

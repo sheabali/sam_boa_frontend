@@ -97,11 +97,11 @@ const formSchema = z.object({
   shoeSize: z.string().min(1, "Shoe size is required"),
   topSize: z.string().min(1, "Top size is required"),
   trouserSize: z.string().min(1, "Trouser size is required"),
-  category: z
+  gender: z
     .string()
-    .min(1, "Category is required")
+    .min(1, "gender is required")
     .refine((value) => ["menswear", "womenswear", "both"].includes(value), {
-      message: "Invalid category",
+      message: "Invalid gender",
     }),
   selectedBrands: z
     .array(z.string())
@@ -125,7 +125,7 @@ type FormData = z.infer<typeof formSchema>;
 
 // Define steps
 const steps = [
-  "category",
+  "gender",
   "interests",
   "brands",
   "sizes",
@@ -136,7 +136,7 @@ const steps = [
 
 // Define step-specific fields for validation
 const stepFields: { [key: string]: (keyof FormData)[] } = {
-  category: ["category"],
+  gender: ["gender"],
   interests: ["interests"],
   brands: ["selectedBrands"],
   sizes: ["shoeSize", "topSize", "trouserSize"],
@@ -145,8 +145,8 @@ const stepFields: { [key: string]: (keyof FormData)[] } = {
   make_account: ["email", "password"],
 };
 
-// Define categories
-const categories = [
+// Define genders
+const genders = [
   {
     id: "menswear",
     label: "Shop Menswear",
@@ -158,8 +158,8 @@ const categories = [
     image: "https://i.ibb.co/zhn1crwC/Rectangle-23853.png",
   },
   {
-    id: "both",
-    label: "Shop Both",
+    id: "unisex",
+    label: "unisex",
     image: "https://i.ibb.co/ycvbKsQV/Rectangle-23854.png",
   },
 ];
@@ -236,7 +236,7 @@ export default function VibeOnboarding() {
       shoeSize: "",
       topSize: "",
       trouserSize: "",
-      category: "",
+      gender: "",
       selectedBrands: [],
       interests: [],
     },
@@ -329,47 +329,45 @@ export default function VibeOnboarding() {
       !isValid && stepFields[stepName].some((field) => !formData[field]);
 
     switch (stepName) {
-      case "category":
+      case "gender":
         return (
           <div className="space-y-6">
             <div className="text-center space-y-2">
               <h1 className="text-2xl font-bold text-gray-900">
-                Select Category
+                Select gender
               </h1>
             </div>
             <div className="grid grid-cols-3 md:gap-4">
-              {categories.map((category) => (
+              {genders.map((gender) => (
                 <div
-                  key={category.id}
+                  key={gender.id}
                   className={`cursor-pointer transition-all ${
-                    formData.category === category.id
-                      ? "ring-2 ring-red-800"
-                      : ""
+                    formData.gender === gender.id ? "ring-2 ring-red-800" : ""
                   }`}
                   onClick={() =>
-                    setValue("category", category.id, { shouldValidate: true })
+                    setValue("gender", gender.id, { shouldValidate: true })
                   }
                 >
                   <CardContent className="p-4 text-center">
                     <div>
                       <Image
-                        src={category.image || "/placeholder.svg"}
-                        alt={category.label}
+                        src={gender.image || "/placeholder.svg"}
+                        alt={gender.label}
                         width={700}
                         height={500}
                         className="rounded-lg mb-2"
                       />
                     </div>
                     <p className="text-[12px] md:text-[18px] font-medium">
-                      {category.label}
+                      {gender.label}
                     </p>
                   </CardContent>
                 </div>
               ))}
             </div>
-            {errors.category && (
+            {errors.gender && (
               <p className="text-red-500 text-sm" role="alert">
-                {errors.category.message}
+                {errors.gender.message}
               </p>
             )}
             <Button

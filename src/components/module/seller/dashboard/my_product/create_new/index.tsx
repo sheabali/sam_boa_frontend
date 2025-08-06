@@ -35,7 +35,7 @@ const formSchema = z.object({
   productName: z.string().min(1, "Product name is required"),
   description: z.string().min(1, "Description is required"),
   hashtag: z.string().max(100, "Maximum 100 characters allowed for hashtags"),
-  category: z.string().min(1, "Category is required"),
+  gender: z.string().min(1, "Gender is required"),
   productType: z.string().min(1, "Product type is required"),
   condition: z.string().min(1, "Condition is required"),
   brand: z.string().min(1, "Brand is required"),
@@ -116,7 +116,7 @@ export default function ProductForm({
       productName: product?.productName || "",
       description: product?.description || "",
       hashtag: product?.hashtag || "",
-      category: product?.category || "",
+      gender: product?.gender || "",
       productType: product?.productType || "",
       condition: product?.condition || "",
       brand: product?.brand || "",
@@ -314,11 +314,11 @@ export default function ProductForm({
 
                   <FormField
                     control={form.control}
-                    name="category"
+                    name="gender"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm font-medium text-gray-700">
-                          Category
+                          Gender
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
@@ -327,9 +327,9 @@ export default function ProductForm({
                           <FormControl>
                             <SelectTrigger
                               className="w-full"
-                              aria-label="Select category"
+                              aria-label="Select gender"
                             >
-                              <SelectValue placeholder="Select category" />
+                              <SelectValue placeholder="Select gender" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>

@@ -9,9 +9,7 @@ const ExplorePage = () => {
         title="Explore All Products"
         subtitle="Explore the hottest styles, limited editions, and pre-loved fashion in real-time auctions."
       />
-
       <SearchManagement />
-
       <div className="md:mt-10">
         <Explore />
       </div>
