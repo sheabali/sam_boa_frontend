@@ -253,7 +253,7 @@ const SearchManagement = () => {
               : undefined,
           backgroundSize: filters.color !== "" ? "24px 24px" : "0 0",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "95% center",
+          backgroundPosition: "92% center",
           color: filters.color !== "" ? "#000" : "#555",
         }}
       >
