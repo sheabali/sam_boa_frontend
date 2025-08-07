@@ -20,17 +20,19 @@ const PriceRangePopover = ({ value, onChange }: Props) => {
   };
 
   return (
-    <Popover.Root open={open} onOpenChange={setOpen}>
+    <Popover.Root open={open} onOpenChange={setOpen} modal>
       <Popover.Trigger asChild>
-        <button className="appearance-none text-left px-3 py-2 pr-8 rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-sm relative  bg-white w-full sm:w-auto">
+        <button className="appearance-none text-left px-3 py-2 pr-8 rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-sm relative bg-white w-full sm:w-auto">
           Price
-          <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 " />
+          <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
         </button>
       </Popover.Trigger>
+
       <Popover.Portal>
         <Popover.Content
           side="bottom"
           align="start"
+          sideOffset={8}
           className="bg-white border p-4 rounded-lg shadow-lg w-[90vw] max-w-xs z-50"
         >
           <div className="flex flex-col gap-3 text-sm">
@@ -58,9 +60,9 @@ const PriceRangePopover = ({ value, onChange }: Props) => {
             </div>
 
             <Slider
-              min={100}
-              max={250}
-              step={1}
+              min={1}
+              max={70}
+              step={10}
               value={tempPrice}
               onValueChange={setTempPrice}
               className="mb-1"
