@@ -16,7 +16,9 @@ const Explore = () => {
           <Footwear />
         </div>
       </div>
-      <SaleBanner />
+      <div className="mb-20">
+        <SaleBanner />
+      </div>
       {/* Woman section */}
       {/* <div className="container">
         <div className="md:my-20">
