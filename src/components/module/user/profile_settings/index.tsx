@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { sizes } from "@/constants/sizeData";
 
 // Predefined options for dropdowns
 const categoryOptions = [
@@ -27,12 +28,35 @@ const categoryOptions = [
   "Shop Accessories",
 ];
 const interestOptions = [
+  "Streetwear ",
+  "Vintage",
   "Sportswear",
-  "Casual Wear",
-  "Formal Wear",
-  "Outdoor Gear",
+  "Luxury",
+  "Independent brands",
+  "Old fashion",
 ];
-const brandOptions = ["Nike", "Adidas", "Puma", "Under Armour"];
+const brandOptions = [
+  "Levi’s",
+  "Nike",
+  "Adidas",
+  "Zara",
+  "H&M",
+  "Forever 21",
+  "Shein",
+  "American Eagle Outfitters",
+  "Polo Ralph Lauren",
+  "Gap",
+  "Urban Outfitters",
+  "Topshop",
+  "Converse",
+  "Dr. Martens",
+  "Uniqlo",
+  "Patagonia",
+  "The North Face",
+  "Columbia Sportswear",
+  "Champion",
+  "ASOS",
+];
 
 // Data to be filled
 const user = {
@@ -311,13 +335,13 @@ export default function ProfileSettings() {
             control={control}
             errors={errors}
           />
-          <FormField
+          {/* <FormField
             id="mobileMoneyName"
             label="Registered Mobile Money Name"
             placeholder="Airtel Money"
             control={control}
             errors={errors}
-          />
+          /> */}
           <FormField
             id="email"
             label="Email"
@@ -356,6 +380,7 @@ export default function ProfileSettings() {
             placeholder="Shoe Size"
             control={control}
             errors={errors}
+            options={sizes}
           />
           <FormField
             id="topSize"
@@ -363,6 +388,7 @@ export default function ProfileSettings() {
             placeholder="Top Size"
             control={control}
             errors={errors}
+            options={sizes}
           />
           <FormField
             id="trouserOrSkirtSize"
@@ -370,6 +396,7 @@ export default function ProfileSettings() {
             placeholder="Trouser Or Skirt Size"
             control={control}
             errors={errors}
+            options={sizes}
           />
         </div>
 
