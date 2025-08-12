@@ -8,12 +8,15 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import {
+  CreditCard,
   FileLock2,
   FileText,
   HandCoins,
   Home,
   InfoIcon,
   LayoutDashboard,
+  Lock,
+  Megaphone,
   MessagesSquare,
   PackageCheck,
   Rss,
@@ -21,8 +24,8 @@ import {
   User,
   Users,
 } from "lucide-react";
-import Link from "next/link";
 import Logo from "../logo/Logo";
+import DashboardSHeader from "../sidebarHeader";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
@@ -144,17 +147,17 @@ const data = {
       {
         title: "Plans & Pricing",
         url: "/admin/dashboard/plans_pricing",
-        icon: InfoIcon,
+        icon: CreditCard,
       },
       {
         title: "Change Password",
         url: "/user/dashboard/change_password",
-        icon: User,
+        icon: Lock,
       },
       {
         title: "Promo & Banners",
         url: "/admin/dashboard/promo_banners",
-        icon: User,
+        icon: Megaphone,
       },
       {
         title: "Go Back To Home",
@@ -180,20 +183,8 @@ export default function AppSidebar({ role, ...props }: AppSidebarProps) {
       {...props}
     >
       <SidebarHeader>
-        <Link
-          href={"/"}
-          className="flex items-center w-full max-h-40 justify-center"
-        >
-          <Logo />
-        </Link>
-        <div className="mt-7 mb-[30px]">
-          <h2 className="text-[#424655] text-2xl lg:text-3xl text-center font-semibold">
-            Dashboard
-          </h2>
-          <p className="text-[#424655] text-2xl lg:text-base text-center font-semibold">
-            Hi, Sam. Welcome back!
-          </p>
-        </div>
+        <Logo />
+        <DashboardSHeader />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={sidebarData?.navMain} />

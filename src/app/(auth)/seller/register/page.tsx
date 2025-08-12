@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { ghanaCities } from "@/constants/cityData";
 import { regions } from "@/constants/regions";
 import { Label } from "@radix-ui/react-label";
@@ -43,6 +44,7 @@ interface FormData {
   instagram: string;
   twitter: string;
   snapchat: string;
+  bio: string;
   selectedImage: File | null;
 }
 
@@ -87,6 +89,7 @@ export default function VibeOnboarding() {
       instagram: "",
       twitter: "",
       snapchat: "",
+      bio: "",
       selectedImage: null,
     },
   });
@@ -296,7 +299,7 @@ export default function VibeOnboarding() {
         );
       case "social_links":
         return (
-          <div className="space-y-6 px-4 sm:px-6 max-w-md mx-auto bg-white rounded-xl shadow-md sm:shadow-lg">
+          <div className="space-y-6 px-4 sm:px-6 max-w-md mx-auto p-6 bg-white rounded-xl shadow-md sm:shadow-lg">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900">
               Social Links
             </h1>
@@ -429,6 +432,19 @@ export default function VibeOnboarding() {
                   />
                 </div>
               </div>
+
+              <div>
+                <Label htmlFor="bio" className="text-sm sm:text-base">
+                  Bio
+                </Label>
+                <Textarea
+                  id="bio"
+                  placeholder="Enter your bio"
+                  {...control.register("bio", { required: true })}
+                  className="mt-1 py-3 sm:py-4 px-4 sm:px-6 rounded-2xl text-sm sm:text-base"
+                />
+              </div>
+
               <Button
                 onClick={handleNext}
                 className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-4 rounded-2xl text-sm sm:text-base"

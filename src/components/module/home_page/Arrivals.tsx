@@ -109,9 +109,9 @@ export default function NewArrivals() {
 
   return (
     <div className="min-h-auto">
-      <div className="my-12 md:my-24 px-4 max-w-7xl mx-auto ">
+      <div className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center">
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
             New Arrivals
           </h1>

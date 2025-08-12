@@ -349,9 +349,9 @@ export default function SellerProfile() {
                     <SelectValue placeholder="Select Service Provider" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Telecel">Telecel</SelectItem>
                     <SelectItem value="MTN">MTN</SelectItem>
-                    <SelectItem value="Vodafone">Vodafone</SelectItem>
+                    <SelectItem value="AirtelTigo">AirtelTigo</SelectItem>
+                    <SelectItem value="Telecel">Telecel</SelectItem>
                   </SelectContent>
                 </Select>
               )}

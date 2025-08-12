@@ -5,27 +5,26 @@ export default function PlansPricingPage() {
   const basicPlanDefaults = {
     planName: "Basic",
     planType: "Free Plan",
-    facilities: "2 ITEMS POST",
-    price: "€0",
+    facilities: ["2 ITEMS POST"],
+    price: "₵0",
     duration: "Month",
   };
 
   const standardPlanDefaults = {
     planName: "Standard",
     planType: "Premium Plan",
-    facilities: "10 ITEMS POST, Analytics",
-    price: "€29",
+    facilities: ["10 ITEMS POST", "Analytics"],
+    price: "₵29",
     duration: "Month",
   };
 
   const unlimitedPlanDefaults = {
     planName: "Unlimited",
     planType: "Enterprise Plan",
-    facilities: "UNLIMITED ITEMS POST, Analytics, Priority Support",
-    price: "€99",
+    facilities: ["UNLIMITED ITEMS POST", "Analytics", "Priority Support"],
+    price: "₵99",
     duration: "Year",
   };
-
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8 ">
       <h1 className="text-2xl md:text-3xl font-bold mb-6">Plans & Pricing</h1>

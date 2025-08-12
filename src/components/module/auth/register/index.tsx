@@ -200,15 +200,26 @@ const interests = [
 
 // Define suggested brands
 const suggestedBrands = [
-  "Vans",
-  "Tommy Hilfiger",
-  "Stone",
-  "Fila",
-  "Yezzy",
-  "Golf Wang",
-  "Kenzo",
-  "Kappa",
-  "Lee",
+  "Levi’s",
+  "Nike",
+  "Adidas",
+  "Zara",
+  "H&M",
+  "Forever 21",
+  "Shein",
+  "American Eagle Outfitters",
+  "Polo Ralph Lauren",
+  "Gap",
+  "Urban Outfitters",
+  "Topshop",
+  "Converse",
+  "Dr. Martens",
+  "Uniqlo",
+  "Patagonia",
+  "The North Face",
+  "Columbia Sportswear",
+  "Champion",
+  "ASOS",
 ];
 
 export default function VibeOnboarding() {

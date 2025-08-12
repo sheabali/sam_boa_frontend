@@ -367,7 +367,8 @@ export default function ProductForm({
                           </FormControl>
                           <SelectContent>
                             <SelectItem value="footwear">Footwear</SelectItem>
-                            <SelectItem value="clothing">Clothing</SelectItem>
+                            <SelectItem value="tops ">Tops</SelectItem>
+                            <SelectItem value="bottoms">Bottoms</SelectItem>
                             <SelectItem value="accessories">
                               Accessories
                             </SelectItem>

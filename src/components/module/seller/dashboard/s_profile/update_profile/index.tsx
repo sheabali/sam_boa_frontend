@@ -37,6 +37,7 @@ const profileSchema = z.object({
   snapchatLink: z.string().url("Invalid URL").optional(),
   mobileNumber: z.string().min(10, "Invalid phone number"),
   serviceProvider: z.string().min(1, "Service Provider is required"),
+  bio: z.string().min(1, "Bio is required"),
   registeredName: z.string().min(1, "Registered Name is required"),
 });
 
@@ -57,6 +58,7 @@ const fakeUser = {
   mobileNumber: "233501234567",
   serviceProvider: "Telecel",
   registeredName: "Sheib Ali",
+  bio: "Allow 2 days for shipping. No return policy. Message me with any enquiries. Allow 2 days for shipping. No return policy. Message me with any enquiries. Allow 2 days for shipping. No return policy. Message me with any enquiries.",
   profileImage: "https://i.ibb.co/pCzqP9S/icon-7797704-640.png",
 };
 
@@ -158,6 +160,7 @@ export default function SProfileSettings() {
       snapchatLink: data.snapchatLink,
       mobileNumber: data.mobileNumber,
       serviceProvider: data.serviceProvider,
+      bio: data.bio,
       registeredName: data.registeredName,
     });
 
@@ -346,14 +349,22 @@ export default function SProfileSettings() {
                     <SelectValue placeholder="Select Service Provider" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Telecel">Telecel</SelectItem>
                     <SelectItem value="MTN">MTN</SelectItem>
-                    <SelectItem value="Vodafone">Vodafone</SelectItem>
+                    <SelectItem value="AirtelTigo">AirtelTigo</SelectItem>
+                    <SelectItem value="Telecel">Telecel</SelectItem>
                   </SelectContent>
                 </Select>
               )}
             />
           </div>
+          <FormField
+            label="Bio"
+            control={control}
+            errors={errors}
+            placeholder="Write your bio"
+            type="textarea"
+            id="bio"
+          />
           <FormField
             id="registeredName"
             label="Registered Name"

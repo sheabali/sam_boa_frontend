@@ -109,10 +109,10 @@ export default function Under70() {
 
   return (
     <div className="min-h-auto">
-      <div className="my-12 md:my-24 px-4 max-w-7xl mx-auto ">
+      <div className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
+        <div className="text-center ">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900">
             Under ₵70.00
           </h1>
           {/* <p className="text-gray-600 text-[12px] lg:text-lg">

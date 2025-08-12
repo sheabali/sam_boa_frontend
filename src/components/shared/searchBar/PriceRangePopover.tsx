@@ -60,9 +60,9 @@ const PriceRangePopover = ({ value, onChange }: Props) => {
             </div>
 
             <Slider
-              min={1}
-              max={70}
-              step={10}
+              min={0}
+              max={500}
+              step={5}
               value={tempPrice}
               onValueChange={setTempPrice}
               className="mb-1"

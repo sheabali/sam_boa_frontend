@@ -17,7 +17,7 @@ export default function DSallerProfilePage() {
       image:
         "https://i.ibb.co/tprWjmtN/5bcf0032b459e28bfa6d164a846c119d68094d8f.png",
       name: 'Nike Dunk Low "Panda"',
-      price: "€70.00",
+      price: "70.00",
       views: 32,
     },
     {
@@ -25,7 +25,7 @@ export default function DSallerProfilePage() {
       image:
         "https://i.ibb.co/jP0rSwpK/46c040f672d3a7f44ddc91a1cecc4797e92bfac6.png",
       name: "Vintage Cargo Pants",
-      price: "€70.00",
+      price: "70.00",
       views: 32,
     },
     {
@@ -33,7 +33,7 @@ export default function DSallerProfilePage() {
       image:
         "https://i.ibb.co/tprWjmtN/5bcf0032b459e28bfa6d164a846c119d68094d8f.png",
       name: "Yeezy Boost 350",
-      price: "€70.00",
+      price: "70.00",
       views: 32,
     },
   ];
@@ -127,7 +127,6 @@ export default function DSallerProfilePage() {
               alt="Instagram"
               width={32}
               height={32}
-              className="w-4 h-8"
             />
           </Link>
           <Link href="https://www.facebook.com/">
